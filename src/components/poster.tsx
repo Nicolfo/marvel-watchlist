@@ -1,14 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { artworkFor, generatedPalette, initialsFor } from "@/lib/artwork";
+import { artworkSrc, generatedPalette, initialsFor } from "@/lib/artwork";
+import { useArtworkEnabled } from "@/lib/artwork-context";
 import type { Title } from "@/lib/graph/schema";
 
 /**
- * A title's poster. Uses real TMDB artwork when it has been fetched, and
- * otherwise draws a designed poster from the title's own data. Also the
- * runtime fallback: if a remote image 404s, it degrades to the generated art
- * rather than a broken-image icon.
+ * A title's poster. Uses real TMDB artwork when the server can supply it, and
+ * otherwise draws a designed poster from the title's own data.
+ *
+ * The generated art is always rendered underneath rather than as an either/or,
+ * because artwork is now resolved per request: we cannot know at render time
+ * whether a poster exists. So the designed art shows immediately and the real
+ * poster fades in on top if one arrives - and a 404 simply leaves what is
+ * already there, with no flash and no broken-image icon.
  */
 export function Poster({
   title,
@@ -21,10 +26,9 @@ export function Poster({
   sizes?: string;
   priority?: boolean;
 }) {
-  const art = artworkFor(title.id);
-  const [failed, setFailed] = useState(false);
+  const enabled = useArtworkEnabled();
+  const [status, setStatus] = useState<"pending" | "loaded" | "failed">("pending");
   const palette = generatedPalette(title);
-  const showImage = Boolean(art?.posterUrl) && !failed;
 
   return (
     <div
@@ -36,22 +40,25 @@ export function Poster({
         containerType: "inline-size",
       }}
     >
-      {showImage ? (
+      <GeneratedPosterArt title={title} glow={palette.glow} />
+
+      {enabled && status !== "failed" ? (
         // Plain <img>: artwork is optional and remote, and this keeps the
         // standalone container free of an image-optimisation dependency.
         // eslint-disable-next-line @next/next/no-img-element
         <img
-          src={art!.posterUrl}
+          src={artworkSrc(title.id, "poster")}
           alt=""
           loading={priority ? "eager" : "lazy"}
           decoding="async"
           sizes={sizes}
-          onError={() => setFailed(true)}
-          className="absolute inset-0 h-full w-full object-cover"
+          onLoad={() => setStatus("loaded")}
+          onError={() => setStatus("failed")}
+          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
+            status === "loaded" ? "opacity-100" : "opacity-0"
+          }`}
         />
-      ) : (
-        <GeneratedPosterArt title={title} glow={palette.glow} />
-      )}
+      ) : null}
     </div>
   );
 }

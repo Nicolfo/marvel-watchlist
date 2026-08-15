@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo } from "react";
-import { artworkFor, generatedPalette } from "@/lib/artwork";
+import { useMemo, useState } from "react";
+import { artworkSrc, generatedPalette } from "@/lib/artwork";
+import { useArtworkEnabled } from "@/lib/artwork-context";
 import { getGraph } from "@/lib/graph/catalog";
 import {
   directPrerequisites,
@@ -17,7 +18,12 @@ import { Poster } from "./poster";
 import { StrictnessPicker } from "./strictness-picker";
 import { Badge, EdgeBadge, KIND_LABELS, ProgressBar, TitleMeta } from "./ui";
 
-export function TitleDetail({ id }: { id: string }) {
+/**
+ * `overview` is resolved on the server and passed in, rather than looked up
+ * here: the synopsis comes from the same TMDB call as the artwork, and that
+ * call needs an API key the browser must never see.
+ */
+export function TitleDetail({ id, overview }: { id: string; overview?: string }) {
   const graph = getGraph();
   const { ready, watched, strictness, toggle, catchUpTo, markUnwatched } = useWatchlist();
   const title = graph.byId.get(id);
@@ -49,7 +55,6 @@ export function TitleDetail({ id }: { id: string }) {
   const direct = directPrerequisites(graph, title.id);
   const unlocks = unlockedBy(graph, title.id);
   const released = isReleased(title);
-  const art = artworkFor(title.id);
   const palette = generatedPalette(title);
 
   return (
@@ -61,25 +66,14 @@ export function TitleDetail({ id }: { id: string }) {
       </nav>
 
       <header className="relative overflow-hidden rounded-2xl border border-edge">
-        {art?.backdropUrl ? (
-          <>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={art.backdropUrl}
-              alt=""
-              className="absolute inset-0 h-full w-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/90 to-ink/50" aria-hidden />
-          </>
-        ) : (
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage: `linear-gradient(120deg, ${palette.from}, ${palette.via} 60%, ${palette.to})`,
-            }}
-            aria-hidden
-          />
-        )}
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `linear-gradient(120deg, ${palette.from}, ${palette.via} 60%, ${palette.to})`,
+          }}
+          aria-hidden
+        />
+        <Backdrop id={title.id} />
         <div className="absolute inset-0 bg-black/45" aria-hidden />
 
         <div className="relative flex flex-col gap-6 p-5 sm:flex-row sm:p-6">
@@ -103,8 +97,8 @@ export function TitleDetail({ id }: { id: string }) {
               <TitleMeta title={title} />
             </div>
 
-            {art?.overview ? (
-              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">{art.overview}</p>
+            {overview ? (
+              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">{overview}</p>
             ) : null}
             {title.note ? <p className="mt-3 max-w-2xl text-sm text-muted">{title.note}</p> : null}
 
@@ -303,5 +297,37 @@ export function TitleDetail({ id }: { id: string }) {
         </p>
       </section>
     </div>
+  );
+}
+
+/**
+ * The hero backdrop, layered over the gradient rather than replacing it.
+ * Artwork is resolved per request now, so whether one exists is only known
+ * once the image either loads or 404s - and either way the gradient underneath
+ * is already a finished-looking header.
+ */
+function Backdrop({ id }: { id: string }) {
+  const enabled = useArtworkEnabled();
+  const [status, setStatus] = useState<"pending" | "loaded" | "failed">("pending");
+
+  if (!enabled || status === "failed") return null;
+
+  return (
+    <>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={artworkSrc(id, "backdrop")}
+        alt=""
+        decoding="async"
+        onLoad={() => setStatus("loaded")}
+        onError={() => setStatus("failed")}
+        className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
+          status === "loaded" ? "opacity-100" : "opacity-0"
+        }`}
+      />
+      {status === "loaded" ? (
+        <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/90 to-ink/50" aria-hidden />
+      ) : null}
+    </>
   );
 }

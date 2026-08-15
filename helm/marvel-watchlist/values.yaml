@@ -100,7 +100,25 @@ database:
   existingSecret: ""
   existingSecretKey: DATABASE_URL
 
-# Extra environment variables, as a plain map.
+# Poster and backdrop artwork from TMDB (https://www.themoviedb.org).
+#
+# Optional. Without it the app draws its own designed poster art, so it stays
+# fully functional and offline. With it, the *server* resolves artwork per
+# request and redirects browsers to TMDB's public image CDN - the credential
+# never leaves the pod, and turning artwork on is a `helm upgrade` rather than
+# an image rebuild.
+tmdb:
+  # A free v3 API key (https://www.themoviedb.org/settings/api), or a v4 read
+  # access token. Prefer the v4 token: it travels in a header instead of the
+  # query string, so it cannot end up in a URL or a log line.
+  apiKey: ""
+  # ...or point at a Secret you manage yourself (takes precedence over apiKey).
+  # Use this in Git-tracked values: `apiKey` puts the credential in plain text.
+  existingSecret: ""
+  existingSecretKey: TMDB_API_KEY
+
+# Extra environment variables, as a plain map. These render as literal values in
+# the pod spec, so never put a credential here - use `tmdb` or `database` above.
 env: {}
 
 nodeSelector: {}
