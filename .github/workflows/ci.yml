@@ -5,6 +5,16 @@ on:
     branches: ["**"]
     tags: ["v*"]
   pull_request:
+  # Publish a version from the Actions UI, for when you cannot push a v* tag.
+  # Run the workflow against the ref you want to release and give it a version;
+  # leave the version blank to build without publishing.
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to publish, e.g. 0.1.0 (blank = build only, publish nothing)"
+        required: false
+        default: ""
+        type: string
 
 jobs:
   build:
@@ -72,6 +82,26 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      # Validates the manually supplied version and derives the X.Y alias, so a
+      # dispatch publishes exactly what a v* tag would. The input goes through
+      # an env var rather than being interpolated into the script, so it cannot
+      # inject shell.
+      - name: Validate dispatched version
+        id: dispatch
+        if: github.event_name == 'workflow_dispatch' && inputs.version != ''
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          if ! printf '%s' "$VERSION" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$'; then
+            echo "::error::'$VERSION' is not a semver version like 1.2.3 or 1.2.3-rc.1"
+            exit 1
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          # Only stable releases get the floating X.Y alias.
+          if printf '%s' "$VERSION" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "minor=${VERSION%.*}" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Derive image tags
         id: meta
         uses: docker/metadata-action@v5
@@ -88,13 +118,16 @@ jobs:
             type=sha,format=short
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
+            type=raw,value=${{ steps.dispatch.outputs.version }},enable=${{ steps.dispatch.outputs.version != '' }}
+            type=raw,value=${{ steps.dispatch.outputs.minor }},enable=${{ steps.dispatch.outputs.minor != '' }}
 
       - name: Build and publish image
         uses: docker/build-push-action@v6
         with:
           context: .
           # Pull requests build only - never publish from an unmerged fork.
-          push: ${{ github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')) }}
+          # A dispatch publishes only when it supplied a version that validated.
+          push: ${{ (github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v'))) || steps.dispatch.outputs.version != '' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
