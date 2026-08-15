@@ -3,7 +3,16 @@ import { getGraph, graphData, phaseOrder } from "./graph/catalog";
 import type { Title } from "./graph/schema";
 import { hasExactImdbLink, imdbUrl, providersFor, whereToWatchUrl } from "./streaming";
 import { generatedPalette, initialsFor } from "./artwork";
-import { mediaTypeFor, pickBestMatch, searchUrl, type TmdbResult } from "../../scripts/tmdb";
+import {
+  detailsUrl,
+  isTmdbImageUrl,
+  mediaTypeFor,
+  pickBestMatch,
+  redact,
+  searchUrl,
+  tmdbAuth,
+  type TmdbResult,
+} from "./tmdb";
 
 const graph = getGraph();
 const title = (id: string): Title => graph.byId.get(id)!;
@@ -83,12 +92,14 @@ describe("generated artwork", () => {
 describe("TMDB matching", () => {
   const iron = title("iron-man");
 
+  const v3 = tmdbAuth("KEY");
+
   it("queries the right endpoint per kind", () => {
     expect(mediaTypeFor(iron)).toBe("movie");
     expect(mediaTypeFor(title("loki"))).toBe("tv");
     expect(mediaTypeFor(title("what-if"))).toBe("tv");
-    expect(searchUrl(iron, "KEY")).toContain("/search/movie?");
-    expect(searchUrl(iron, "KEY")).toContain("primary_release_year=2008");
+    expect(searchUrl(iron, v3)).toContain("/search/movie?");
+    expect(searchUrl(iron, v3)).toContain("primary_release_year=2008");
   });
 
   it("prefers an exact name and year match", () => {
@@ -114,6 +125,37 @@ describe("TMDB matching", () => {
     const loki = title("loki");
     const results: TmdbResult[] = [{ id: 7, name: "Loki", first_air_date: "2021-06-09" }];
     expect(pickBestMatch(loki, results)?.id).toBe(7);
+  });
+});
+
+describe("tmdb credentials", () => {
+  const iron = title("iron-man");
+  const token = tmdbAuth("eyJhbGciOiJIUzI1NiJ9.token");
+  const key = tmdbAuth("s3cret");
+
+  it("keeps a v4 read access token out of the URL entirely", () => {
+    expect(searchUrl(iron, token)).not.toContain("token");
+    expect(detailsUrl(1726, "movie", token)).not.toContain("token");
+    expect(token.headers.Authorization).toBe("Bearer eyJhbGciOiJIUzI1NiJ9.token");
+  });
+
+  it("falls back to the query parameter a v3 key requires", () => {
+    expect(searchUrl(iron, key)).toContain("api_key=s3cret");
+    expect(key.headers).toEqual({});
+  });
+
+  it("redacts the credential from anything loggable", () => {
+    expect(redact(`404 for ${searchUrl(iron, key)}`, key)).not.toContain("s3cret");
+    expect(redact("404 for /search/movie", token)).toBe("404 for /search/movie");
+  });
+});
+
+describe("isTmdbImageUrl", () => {
+  it("accepts the image CDN and nothing else", () => {
+    expect(isTmdbImageUrl("https://image.tmdb.org/t/p/w500/abc.jpg")).toBe(true);
+    expect(isTmdbImageUrl("https://evil.example/x.jpg")).toBe(false);
+    // No open redirect via a lookalike host.
+    expect(isTmdbImageUrl("https://image.tmdb.org.evil.example/t/p/x.jpg")).toBe(false);
   });
 });
 

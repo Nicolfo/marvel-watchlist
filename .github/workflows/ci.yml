@@ -58,7 +58,12 @@ jobs:
             --set ingress.enabled=true \
             --set autoscaling.enabled=true \
             --set database.enabled=true \
-            --set database.url=postgresql://u:p@db:5432/marvel > /dev/null
+            --set database.url=postgresql://u:p@db:5432/marvel \
+            --set tmdb.apiKey=dummy > /dev/null
+      - name: Render chart (TMDB via an existing Secret)
+        run: |
+          helm template rel helm/marvel-watchlist \
+            --set tmdb.existingSecret=tmdb > /dev/null
 
   # Builds the image on every commit, and publishes it to GHCR only from main
   # and version tags. Gated on build+chart so a failing test can never produce

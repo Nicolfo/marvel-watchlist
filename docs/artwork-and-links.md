@@ -16,7 +16,9 @@ IMDb page.
 
 ## Three tiers of artwork
 
-1. **Real TMDB poster/backdrop** — once `npm run artwork:fetch` has been run.
+1. **Real TMDB poster/backdrop** — either baked in by `npm run artwork:fetch`,
+   or resolved at request time from a `TMDB_API_KEY` in the server's
+   environment. See [Two ways to get real artwork](#two-ways-to-get-real-artwork).
 2. **Generated poster** — a deterministic designed treatment derived from the
    title itself: hue from a hash of its id, palette family from its phase, big
    typographic initials. This is the default, so a fresh clone with no API key
@@ -27,6 +29,51 @@ IMDb page.
 Because phases map to hue bands, the grid reads as eras at a glance even with
 no real artwork: Phase One is crimson, Phase Two amber, Phase Three violet, and
 so on.
+
+Tier 2 is always drawn *underneath* tier 1 rather than as an either/or. Runtime
+resolution means the app cannot know at render time whether a poster exists, so
+the designed art paints immediately and a real poster fades in over it. A title
+with no match simply keeps what is already on screen.
+
+## Two ways to get real artwork
+
+|                | `artwork:fetch` (build time)     | `TMDB_API_KEY` (runtime)             |
+| -------------- | -------------------------------- | ------------------------------------ |
+| Where the key lives | Your shell, once            | The server's environment             |
+| To enable      | Rebuild and republish the image  | Set a value, restart the pod         |
+| Offline builds | Yes — URLs are committed         | No — needs egress to TMDB            |
+| First page load| Instant                          | Generated art, then posters fade in  |
+
+They compose: baked-in entries always win and cost no network call, so a
+populated `data/artwork.json` keeps working untouched and a runtime key only
+fills the gaps.
+
+### Runtime resolution
+
+Set `TMDB_API_KEY` on the server (in Kubernetes, `tmdb.apiKey` or
+`tmdb.existingSecret` in the Helm chart) and posters appear on the next restart
+— no image rebuild.
+
+**The key never reaches a browser.** Only `src/lib/artwork-server.ts` reads it,
+and that module throws if it is ever bundled into client code. Clients ask
+`/api/artwork/<id>/<poster|backdrop>`, and the server answers with a **redirect**
+to `image.tmdb.org`, whose images need no credential. So the pod does the
+keyed lookup and TMDB's CDN serves the bytes.
+
+Details worth knowing:
+
+- **Caching.** Resolved entries are held in each pod's memory for 24h, misses
+  for 1h, errors for 5 minutes. It is per-pod and lost on restart, which is
+  why the first view after a rollout briefly shows generated art.
+- **Politeness.** Concurrent lookups for the same title are deduplicated and at
+  most 8 TMDB requests are in flight at once, so a cold 86-poster grid does not
+  burst through the rate limit.
+- **Prefer a v4 read access token** over a v3 API key. A v4 token is sent in an
+  `Authorization` header; a v3 key can only go in the query string, which makes
+  the URL itself secret. Anything loggable is passed through `redact()` either
+  way, but not putting the credential in the URL is the stronger guarantee.
+- **The redirect target is checked** against the TMDB image CDN prefix, so a
+  malformed `data/artwork.json` cannot turn the endpoint into an open redirect.
 
 ## Fetching real artwork
 
@@ -53,9 +100,9 @@ IMDb ids). The script:
 populated one is your call — committing it makes builds reproducible and
 offline; leaving it empty keeps the repo free of third-party URLs.
 
-> The matching rules in `scripts/tmdb.ts` are unit-tested against stub payloads.
-> The live API calls in `scripts/fetch-artwork.ts` have not been exercised
-> against TMDB from this repo — run the `--only=… --dry-run` command above first.
+> The matching rules live in `src/lib/tmdb.ts` (re-exported by `scripts/tmdb.ts`)
+> so the script and the runtime resolver score candidates identically, and are
+> unit-tested against stub payloads.
 
 ## IMDb links
 

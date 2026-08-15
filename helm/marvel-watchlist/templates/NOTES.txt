@@ -26,6 +26,15 @@ Notes:
     watchlist lives in their own browser, so replicas need no shared storage.
   * Shipping a data update means building a new image from an updated
     data/marvel-graph.json and rolling the deployment.
+{{- if include "marvel-watchlist.tmdbEnabled" . }}
+  * TMDB artwork is ON, from secret "{{ include "marvel-watchlist.tmdbSecretName" . }}".
+    Posters resolve on first view and are cached in each pod for 24h, so the
+    first load after a restart falls back to the generated art briefly.
+{{- else }}
+  * TMDB artwork is OFF, so every title uses the built-in generated poster art.
+    Turn it on with `--set tmdb.apiKey=...` (or tmdb.existingSecret) - no image
+    rebuild needed, the key is read at runtime.
+{{- end }}
 {{- if .Values.database.enabled }}
   * DATABASE_URL is wired up from secret "{{ include "marvel-watchlist.databaseSecretName" . }}".
     Note that server-side watchlists are not implemented yet - /api/watchlist

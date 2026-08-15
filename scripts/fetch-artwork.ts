@@ -19,8 +19,10 @@ import {
   mediaTypeFor,
   pickBestMatch,
   posterUrl,
+  redact,
   resultName,
   searchUrl,
+  tmdbAuth,
   type TmdbResult,
 } from "./tmdb";
 
@@ -39,16 +41,21 @@ if (!apiKey) {
   process.exit(1);
 }
 
+const auth = tmdbAuth(apiKey);
 const sleep = (ms: number) => new Promise((done) => setTimeout(done, ms));
 
 async function getJson<T>(url: string): Promise<T> {
-  const response = await fetch(url);
+  const response = await fetch(url, { headers: auth.headers });
   if (response.status === 429) {
     // TMDB rate limit: back off once and retry.
     await sleep(2000);
     return getJson<T>(url);
   }
-  if (!response.ok) throw new Error(`${response.status} ${response.statusText} for ${url}`);
+  // With a v3 key the URL carries the credential, so redact before it can end
+  // up in a terminal scrollback or a CI log.
+  if (!response.ok) {
+    throw new Error(redact(`${response.status} ${response.statusText} for ${url}`, auth));
+  }
   return (await response.json()) as T;
 }
 
@@ -68,7 +75,7 @@ async function main() {
   for (const title of targets) {
     const type = mediaTypeFor(title);
     try {
-      const search = await getJson<{ results: TmdbResult[] }>(searchUrl(title, apiKey!));
+      const search = await getJson<{ results: TmdbResult[] }>(searchUrl(title, auth));
       const match = pickBestMatch(title, search.results ?? []);
 
       if (!match) {
@@ -77,7 +84,7 @@ async function main() {
         continue;
       }
 
-      const details = await getJson<{ imdb_id?: string }>(detailsUrl(match.id, type, apiKey!));
+      const details = await getJson<{ imdb_id?: string }>(detailsUrl(match.id, type, auth));
 
       items[title.id] = {
         tmdbId: match.id,
@@ -91,7 +98,8 @@ async function main() {
       await sleep(120); // stay well inside TMDB's rate limit
     } catch (error) {
       unmatched.push(title.id);
-      console.warn(`!  ${title.id}: ${error instanceof Error ? error.message : error}`);
+      const message = error instanceof Error ? error.message : String(error);
+      console.warn(`!  ${title.id}: ${redact(message, auth)}`);
     }
   }
 
