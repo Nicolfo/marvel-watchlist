@@ -1,0 +1,115 @@
+# Default values for marvel-watchlist.
+
+replicaCount: 2
+
+image:
+  repository: ghcr.io/nicolfo/marvel-watchlist
+  pullPolicy: IfNotPresent
+  # Defaults to the chart's appVersion.
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  automount: false
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1001
+  runAsGroup: 1001
+  fsGroup: 1001
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  capabilities:
+    drop:
+      - ALL
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 3000
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: marvel-watchlist.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+livenessProbe:
+  httpGet:
+    path: /api/health
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 20
+  timeoutSeconds: 3
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /api/health
+    port: http
+  initialDelaySeconds: 3
+  periodSeconds: 10
+  timeoutSeconds: 3
+  failureThreshold: 3
+
+autoscaling:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 6
+  targetCPUUtilizationPercentage: 75
+  targetMemoryUtilizationPercentage: ""
+
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1
+
+# The app is stateless: the catalog is baked into the image and watchlists live
+# in each visitor's browser. Everything below is only needed once accounts and
+# server-side sync are enabled.
+database:
+  enabled: false
+  # Provide the connection string directly...
+  url: ""
+  # ...or point at a Secret you manage yourself (takes precedence over `url`).
+  existingSecret: ""
+  existingSecretKey: DATABASE_URL
+
+# Extra environment variables, as a plain map.
+env: {}
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+# Spread replicas across nodes so a single node loss cannot take the app down.
+topologySpreadConstraints:
+  - maxSkew: 1
+    topologyKey: kubernetes.io/hostname
+    whenUnsatisfiable: ScheduleAnyway
+    labelSelectorFromChart: true

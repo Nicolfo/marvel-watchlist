@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #05070d;
+  --color-panel: #0d1220;
+  --color-panel-2: #131a2c;
+  --color-edge: #23304d;
+  --color-text: #e8ecf6;
+  --color-muted: #8c97b3;
+  --color-accent: #e23636;
+  --color-accent-soft: #ff6b6b;
+
+  --color-must: #f4544f;
+  --color-should: #4f8ef4;
+  --color-could: #3fbf87;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  background: var(--color-ink);
+  color: var(--color-text);
+}
+
+body {
+  background-image:
+    radial-gradient(1200px 600px at 15% -10%, rgba(226, 54, 54, 0.16), transparent 60%),
+    radial-gradient(900px 500px at 95% 0%, rgba(79, 142, 244, 0.12), transparent 55%);
+  background-attachment: fixed;
+  min-height: 100dvh;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: white;
+}
+
+@utility panel {
+  background-color: color-mix(in oklab, var(--color-panel) 82%, transparent);
+  border: 1px solid var(--color-edge);
+  backdrop-filter: blur(8px);
+}
+
+/* Poster tiles lift slightly and reveal their action bar on hover. */
+@utility tile {
+  transition:
+    transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 220ms ease,
+    border-color 220ms ease;
+}
+
+@utility tile-hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 18px 40px -18px rgba(0, 0, 0, 0.9),
+    0 0 0 1px color-mix(in oklab, var(--color-accent-soft) 35%, transparent);
+}
+
+.group:hover .tile,
+.group:focus-within .tile {
+  transform: translateY(-4px);
+  box-shadow:
+    0 18px 40px -18px rgba(0, 0, 0, 0.9),
+    0 0 0 1px color-mix(in oklab, var(--color-accent-soft) 35%, transparent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent-soft);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Sticky filter bar needs an opaque-enough backing to stay readable. */
+@utility sticky-bar {
+  background-color: color-mix(in oklab, var(--color-ink) 88%, transparent);
+  backdrop-filter: blur(14px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  .group:hover .tile,
+  .group:focus-within .tile {
+    transform: none;
+  }
+}
