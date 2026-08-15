@@ -1,14 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { TitleDetail } from "@/components/title-detail";
-import { graphData, getGraph } from "@/lib/graph/catalog";
-
-/** The catalog is fixed at build time, so every detail page is prerendered. */
-export function generateStaticParams() {
-  return graphData.titles.map((title) => ({ id: title.id }));
-}
-
-export const dynamicParams = false;
+import { resolveArtwork } from "@/lib/artwork-server";
+import { getGraph } from "@/lib/graph/catalog";
 
 export async function generateMetadata({
   params,
@@ -27,5 +21,9 @@ export async function generateMetadata({
 export default async function TitlePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   if (!getGraph().byId.has(id)) notFound();
-  return <TitleDetail id={id} />;
+  // Resolved here so the synopsis renders in the HTML, and so the TMDB
+  // credential stays on the server. Cached, so this is a no-op after the first
+  // view of a title.
+  const art = await resolveArtwork(id);
+  return <TitleDetail id={id} overview={art?.overview} />;
 }

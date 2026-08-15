@@ -4,12 +4,18 @@ import type { Title } from "./graph/schema";
 /**
  * Artwork resolution.
  *
- * Tier 1: a real poster from TMDB, if `npm run artwork:fetch` has been run.
+ * Tier 1: a real poster from TMDB - either baked into the image by
+ *         `npm run artwork:fetch`, or resolved at request time from a
+ *         TMDB_API_KEY in the server's environment.
  * Tier 2: a generated poster derived from the title itself.
  *
  * Tier 2 is not a grey placeholder box - it is a deterministic, designed
  * treatment (hue from the title id, palette family from the phase), so a clone
  * with no API key still looks finished rather than broken.
+ *
+ * This module is safe to import from client code: it holds only the baked-in
+ * file and pure drawing helpers. The runtime lookup - and the API key it needs
+ * - lives in `artwork-server.ts`, which the browser never sees.
  */
 
 export interface ArtworkEntry {
@@ -33,6 +39,15 @@ export const HAS_REAL_ARTWORK = Object.keys(file.items ?? {}).length > 0;
 
 export function artworkFor(id: string): ArtworkEntry | undefined {
   return file.items?.[id];
+}
+
+/**
+ * Where a browser asks for a title's artwork. The server decides behind this
+ * URL whether that means baked-in artwork, a live TMDB lookup, or a 404 that
+ * leaves the generated art in place.
+ */
+export function artworkSrc(id: string, variant: "poster" | "backdrop"): string {
+  return `/api/artwork/${encodeURIComponent(id)}/${variant}`;
 }
 
 /** Stable 32-bit hash so a title always renders the same colours. */

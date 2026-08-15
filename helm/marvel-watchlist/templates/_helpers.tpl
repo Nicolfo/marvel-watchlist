@@ -51,3 +51,17 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- printf "%s-db" (include "marvel-watchlist.fullname" .) }}
 {{- end }}
 {{- end }}
+
+{{/* Name of the Secret holding TMDB_API_KEY, if any. */}}
+{{- define "marvel-watchlist.tmdbSecretName" -}}
+{{- if .Values.tmdb.existingSecret }}
+{{- .Values.tmdb.existingSecret }}
+{{- else }}
+{{- printf "%s-tmdb" (include "marvel-watchlist.fullname" .) }}
+{{- end }}
+{{- end }}
+
+{{/* Whether a TMDB credential is configured by either route. */}}
+{{- define "marvel-watchlist.tmdbEnabled" -}}
+{{- if or .Values.tmdb.apiKey .Values.tmdb.existingSecret }}true{{ end }}
+{{- end }}
