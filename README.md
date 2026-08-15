@@ -69,10 +69,20 @@ IMDb has no image API and its posters may not be hotlinked, so **artwork comes
 from TMDB** — whose free API also exposes each title's IMDb id, giving posters
 and exact IMDb links from one lookup. IMDb is used for linking.
 
+There are two ways to supply a key, and they compose:
+
 ```bash
+# Build time - bakes URLs into data/artwork.json, so builds stay offline
 TMDB_API_KEY=xxxxx npm run artwork:fetch                      # real posters + IMDb ids
 TMDB_API_KEY=xxxxx npm run artwork:fetch -- --only=loki --dry-run
+
+# Runtime - the server resolves artwork per request, no image rebuild
+TMDB_API_KEY=xxxxx npm start
 ```
+
+At runtime the key is read **only on the server**. Browsers request
+`/api/artwork/<id>/poster` and get redirected to TMDB's public image CDN, which
+needs no credential — so the key never reaches a client.
 
 Without a key the app draws **generated posters** from each title's own data
 (hue from the id, palette from the phase), so it looks finished offline and with
@@ -179,6 +189,22 @@ helm install marvel-watchlist ./helm/marvel-watchlist \
 helm test marvel-watchlist
 ```
 
+With real TMDB artwork (resolved at runtime, so no image rebuild):
+
+```bash
+# Chart-managed Secret...
+helm upgrade --install marvel-watchlist ./helm/marvel-watchlist \
+  --set tmdb.apiKey=xxxxx
+
+# ...or a Secret you manage yourself, to keep the key out of Git-tracked values
+kubectl create secret generic tmdb --from-literal=TMDB_API_KEY=xxxxx
+helm upgrade --install marvel-watchlist ./helm/marvel-watchlist \
+  --set tmdb.existingSecret=tmdb
+```
+
+Do **not** put the key in the plain `env:` map — that renders it as a literal
+value in the pod spec, readable by anyone who can `kubectl get pod -o yaml`.
+
 With an ingress:
 
 ```bash
@@ -191,7 +217,7 @@ helm install marvel-watchlist ./helm/marvel-watchlist \
 ```
 
 The chart ships a Deployment, Service, ServiceAccount, PodDisruptionBudget,
-optional Ingress / HPA / DATABASE_URL Secret, and a `helm test` pod that curls
+optional Ingress / HPA / TMDB_API_KEY / DATABASE_URL Secrets, and a `helm test` pod that curls
 `/api/health`. Defaults: 2 replicas, non-root, read-only root filesystem,
 dropped capabilities, liveness/readiness probes on `/api/health`, and topology
 spread across nodes. The app is stateless, so replicas need no shared storage.
