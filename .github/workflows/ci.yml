@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Catches typo'd ids, duplicate/self edges and dependency cycles in
+      # data/marvel-graph.json before anything else runs.
+      - name: Validate dataset
+        run: npm run graph:validate
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Test
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+  chart:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: azure/setup-helm@v4
+      - name: Lint chart
+        run: helm lint helm/marvel-watchlist
+      - name: Render chart (defaults)
+        run: helm template rel helm/marvel-watchlist > /dev/null
+      - name: Render chart (all features on)
+        run: |
+          helm template rel helm/marvel-watchlist \
+            --set ingress.enabled=true \
+            --set autoscaling.enabled=true \
+            --set database.enabled=true \
+            --set database.url=postgresql://u:p@db:5432/marvel > /dev/null
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Build image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          tags: marvel-watchlist:ci

@@ -1,0 +1,48 @@
+{
+  "name": "marvel-watchlist",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Explore every Marvel Studios film and series in a suggested order, driven by a story-dependency graph.",
+  "scripts": {
+    "dev": "next dev",
+    "prebuild": "npm run graph:validate",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "graph:validate": "tsx scripts/validate-graph.ts",
+    "graph:stats": "tsx scripts/graph-stats.ts",
+    "graph:export:cypher": "tsx scripts/export-cypher.ts",
+    "graph:export:sql": "tsx scripts/export-sql.ts",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate deploy",
+    "db:seed": "tsx prisma/seed.ts"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
+  "dependencies": {
+    "next": "^16.3.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "zod": "^4.1.5"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.13",
+    "@types/node": "^22.15.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "tailwindcss": "^4.1.13",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0",
+    "vitest": "^3.2.0"
+  },
+  "optionalDependencies": {
+    "@prisma/client": "^6.16.0",
+    "prisma": "^6.16.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

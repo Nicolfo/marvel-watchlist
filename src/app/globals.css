@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #05070d;
+  --color-panel: #0d1220;
+  --color-panel-2: #131a2c;
+  --color-edge: #23304d;
+  --color-text: #e8ecf6;
+  --color-muted: #8c97b3;
+  --color-accent: #e23636;
+  --color-accent-soft: #ff6b6b;
+
+  --color-must: #f4544f;
+  --color-should: #4f8ef4;
+  --color-could: #3fbf87;
+
+  --font-display: var(--font-sans);
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  background: var(--color-ink);
+  color: var(--color-text);
+}
+
+body {
+  background-image:
+    radial-gradient(1200px 600px at 15% -10%, rgba(226, 54, 54, 0.16), transparent 60%),
+    radial-gradient(900px 500px at 95% 0%, rgba(79, 142, 244, 0.12), transparent 55%);
+  background-attachment: fixed;
+  min-height: 100dvh;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: white;
+}
+
+@utility panel {
+  background-color: color-mix(in oklab, var(--color-panel) 82%, transparent);
+  border: 1px solid var(--color-edge);
+  backdrop-filter: blur(8px);
+}
+
+/* Keyboard focus stays visible everywhere without decorating mouse clicks. */
+:focus-visible {
+  outline: 2px solid var(--color-accent-soft);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
