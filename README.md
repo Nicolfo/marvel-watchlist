@@ -136,12 +136,41 @@ against `/api/health`.
 not required** — the app ignores it until accounts exist; it is there for
 `npm run db:seed` and local work on the logged-in mode.
 
+### Published images
+
+CI publishes to **`ghcr.io/nicolfo/marvel-watchlist`** from `main` and from
+version tags. Pull requests build the image but never publish it, and the job is
+gated on the test and chart jobs, so a failing test cannot produce a published
+image.
+
+| Trigger | Tags pushed |
+| --- | --- |
+| push to `main` | `latest`, `main`, `sha-<short>` |
+| push tag `v1.2.3` | `1.2.3`, `1.2`, `sha-<short>` |
+| pull request | *(none — build only)* |
+
+Cutting a release is therefore a git tag:
+
+```bash
+git tag v0.1.0 && git push origin v0.1.0   # publishes :0.1.0 and :0.1
+```
+
+Bump `version`/`appVersion` in `helm/marvel-watchlist/Chart.yaml` to match, so
+the chart's default tag resolves to an image that exists.
+
+> **Until you cut the first `v*` tag**, only `latest`/`main`/`sha-*` exist, so
+> the chart's default (`appVersion`, currently `0.1.0`) will not pull. Use
+> `--set image.tag=latest` or a `sha-` tag in the meantime.
+
+> **The repo is private**, so the GHCR package is private too. A cluster needs
+> a pull secret: create one, then pass `--set imagePullSecrets[0].name=ghcr`.
+> Making the package public in the repo's Packages settings removes the need.
+
 ### Kubernetes (Helm)
 
 ```bash
 helm install marvel-watchlist ./helm/marvel-watchlist \
-  --set image.repository=ghcr.io/nicolfo/marvel-watchlist \
-  --set image.tag=0.1.0
+  --set image.tag=latest        # or 0.1.0 once v0.1.0 is tagged
 
 helm test marvel-watchlist
 ```
