@@ -1,0 +1,17 @@
+apiVersion: v2
+name: marvel-watchlist
+description: Explore every Marvel film and series in a suggested order, driven by a story-dependency graph.
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+keywords:
+  - marvel
+  - watchlist
+  - nextjs
+home: https://github.com/nicolfo/marvel-watchlist
+sources:
+  - https://github.com/nicolfo/marvel-watchlist
+maintainers:
+  - name: nicolfo
+annotations:
+  category: Entertainment

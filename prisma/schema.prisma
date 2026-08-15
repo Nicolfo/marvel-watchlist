@@ -1,0 +1,86 @@
+// Optional persistence layer.
+//
+// The app runs with NO database at all: the catalog is bundled as JSON and the
+// watchlist lives in localStorage. This schema exists for the "sign in and
+// sync" future - see docs/adr-001-storage.md for why this is Postgres and not
+// a graph database.
+//
+//   npx prisma migrate dev --name init
+//   npm run db:seed
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// Which version of data/marvel-graph.json is currently loaded.
+model Dataset {
+  version   String   @id
+  updatedAt DateTime
+  sourceUrl String
+  loadedAt  DateTime @default(now())
+}
+
+model Title {
+  id             String   @id
+  title          String
+  year           Int
+  releaseDate    DateTime? @db.Date
+  kind           String
+  phase          String
+  saga           String
+  seasons        Int?
+  runtimeMinutes Int?
+  orderGroup     Int      @default(0)
+  note           String?
+
+  dependsOn  Dependency[] @relation("dependant")
+  requiredBy Dependency[] @relation("prerequisite")
+  entries    WatchEntry[]
+
+  @@index([phase])
+  @@index([releaseDate])
+}
+
+/// A story dependency: watch `from` before `to`.
+model Dependency {
+  id          Int     @id @default(autoincrement())
+  fromId      String
+  toId        String
+  /// "must" | "should" | "could"
+  type        String
+  provisional Boolean @default(false)
+  note        String?
+
+  from Title @relation("prerequisite", fields: [fromId], references: [id], onDelete: Cascade)
+  to   Title @relation("dependant", fields: [toId], references: [id], onDelete: Cascade)
+
+  @@unique([fromId, toId])
+  @@index([toId])
+}
+
+model User {
+  id         String       @id @default(cuid())
+  email      String       @unique
+  name       String?
+  /// "must" | "should" | "could"
+  strictness String       @default("should")
+  createdAt  DateTime     @default(now())
+  entries    WatchEntry[]
+}
+
+model WatchEntry {
+  userId    String
+  titleId   String
+  watchedAt DateTime @default(now())
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title Title @relation(fields: [titleId], references: [id], onDelete: Cascade)
+
+  @@id([userId, titleId])
+  @@index([userId])
+}

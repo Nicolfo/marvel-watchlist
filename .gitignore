@@ -1,0 +1,20 @@
+node_modules/
+.next/
+out/
+build/
+dist/
+coverage/
+
+*.log
+npm-debug.log*
+.DS_Store
+
+.env
+.env.local
+.env.*.local
+
+next-env.d.ts
+tsconfig.tsbuildinfo
+
+# generated exports
+/generated/
