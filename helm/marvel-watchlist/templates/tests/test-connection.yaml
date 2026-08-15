@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "marvel-watchlist.fullname" . }}-test-health"
+  labels:
+    {{- include "marvel-watchlist.labels" . | nindent 4 }}
+  annotations:
+    helm.sh/hook: test
+    helm.sh/hook-delete-policy: hook-succeeded
+spec:
+  restartPolicy: Never
+  containers:
+    - name: health
+      image: curlimages/curl:8.11.0
+      args:
+        - --fail
+        - --show-error
+        - --silent
+        - "http://{{ include "marvel-watchlist.fullname" . }}:{{ .Values.service.port }}/api/health"

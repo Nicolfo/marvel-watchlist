@@ -1,0 +1,33 @@
+{{ .Chart.Name }} {{ .Chart.AppVersion }} is deployed as "{{ .Release.Name }}".
+
+Reach it:
+{{- if .Values.ingress.enabled }}
+{{- range $host := .Values.ingress.hosts }}
+  {{- range .paths }}
+  http{{ if $.Values.ingress.tls }}s{{ end }}://{{ $host.host }}{{ .path }}
+  {{- end }}
+{{- end }}
+{{- else if contains "NodePort" .Values.service.type }}
+  export NODE_PORT=$(kubectl get svc {{ include "marvel-watchlist.fullname" . }} -n {{ .Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}")
+  export NODE_IP=$(kubectl get nodes -o jsonpath="{.items[0].status.addresses[0].address}")
+  echo http://$NODE_IP:$NODE_PORT
+{{- else if contains "LoadBalancer" .Values.service.type }}
+  kubectl get svc {{ include "marvel-watchlist.fullname" . }} -n {{ .Release.Namespace }} -w
+{{- else }}
+  kubectl port-forward -n {{ .Release.Namespace }} svc/{{ include "marvel-watchlist.fullname" . }} 8080:{{ .Values.service.port }}
+  # then open http://localhost:8080
+{{- end }}
+
+Verify:
+  helm test {{ .Release.Name }} -n {{ .Release.Namespace }}
+
+Notes:
+  * The app is stateless. The catalog is baked into the image and each visitor's
+    watchlist lives in their own browser, so replicas need no shared storage.
+  * Shipping a data update means building a new image from an updated
+    data/marvel-graph.json and rolling the deployment.
+{{- if .Values.database.enabled }}
+  * DATABASE_URL is wired up from secret "{{ include "marvel-watchlist.databaseSecretName" . }}".
+    Note that server-side watchlists are not implemented yet - /api/watchlist
+    returns 501 until auth lands.
+{{- end }}
