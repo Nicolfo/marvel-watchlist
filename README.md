@@ -162,9 +162,13 @@ the chart's default tag resolves to an image that exists.
 > the chart's default (`appVersion`, currently `0.1.0`) will not pull. Use
 > `--set image.tag=latest` or a `sha-` tag in the meantime.
 
-> **The repo is private**, so the GHCR package is private too. A cluster needs
-> a pull secret: create one, then pass `--set imagePullSecrets[0].name=ghcr`.
-> Making the package public in the repo's Packages settings removes the need.
+> **Package visibility is separate from repo visibility.** A new GHCR package
+> inherits the repo's visibility on first publish, but making the repo public
+> later does *not* flip the package — change it under
+> *Repo → Packages → marvel-watchlist → Package settings → Change visibility*.
+> While the package is private a cluster needs a pull secret: create one, then
+> pass `--set imagePullSecrets[0].name=ghcr`. Once it is public, `helm install`
+> works with no secret at all.
 
 ### Kubernetes (Helm)
 
