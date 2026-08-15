@@ -31,6 +31,12 @@ Endgame*?" is a graph traversal rather than a guess.
   tracking, no server. JSON export/import to move it between browsers.
 - **Upcoming titles** — release dates are compared at render time, so an
   unreleased film flips to released on its own.
+- **Poster grid or list view**, with phase-coded artwork, a hero panel showing
+  what to watch next, and a sticky filter bar.
+- **IMDb links on every title**, plus streaming links — platform chips and a
+  region-aware "where to watch" resolver.
+- **Artwork** — real posters from TMDB when a key is configured, and designed
+  generated posters otherwise, so a fresh clone looks finished with zero setup.
 
 ## Quick start
 
@@ -54,6 +60,28 @@ order is computed. Full guide: **[docs/updating-the-graph.md](docs/updating-the-
 
 The validator rejects unknown ids, duplicate/self edges and **dependency
 cycles** before a build can ship, so bad data cannot reach a release.
+
+### Posters, IMDb and streaming
+
+Full detail: **[docs/artwork-and-links.md](docs/artwork-and-links.md)**.
+
+IMDb has no image API and its posters may not be hotlinked, so **artwork comes
+from TMDB** — whose free API also exposes each title's IMDb id, giving posters
+and exact IMDb links from one lookup. IMDb is used for linking.
+
+```bash
+TMDB_API_KEY=xxxxx npm run artwork:fetch                      # real posters + IMDb ids
+TMDB_API_KEY=xxxxx npm run artwork:fetch -- --only=loki --dry-run
+```
+
+Without a key the app draws **generated posters** from each title's own data
+(hue from the id, palette from the phase), so it looks finished offline and with
+no third-party accounts. Titles TMDB cannot confidently match are reported and
+skipped rather than mismatched.
+
+Streaming availability is regional and volatile, so platform chips are hints and
+every title also carries a region-aware **JustWatch** link as the authoritative
+answer.
 
 Exporters are included for other stores:
 

@@ -29,11 +29,16 @@ export function edgeTypeMeta(type: string) {
   return EDGE_TYPE_META.find((meta) => meta.id === type);
 }
 
-/** Phases in the order they should be presented, derived from the data. */
+/**
+ * Phases in the order they should be presented, derived from the data. Uses the
+ * same key as the suggested order (order group, then earliest release) so the
+ * MCU spine leads and side material trails, rather than the 1992 X-Men cartoon
+ * putting Animation first.
+ */
 export function phaseOrder(): string[] {
   const seen = new Map<string, string>();
   for (const title of graphData.titles) {
-    const key = title.releaseDate ?? "9999-99-99";
+    const key = `${title.orderGroup ?? 0}|${title.releaseDate ?? "9999-99-99"}`;
     const current = seen.get(title.phase);
     if (!current || key < current) seen.set(title.phase, key);
   }

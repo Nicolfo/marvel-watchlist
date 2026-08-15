@@ -100,6 +100,32 @@ export default function AboutPage() {
       </section>
 
       <section className="panel rounded-2xl p-6">
+        <h2 className="text-lg font-semibold">Posters, IMDb and streaming links</h2>
+        <p className="mt-3 text-sm leading-relaxed text-muted">
+          Every title links to <strong className="text-text">IMDb</strong> — directly where we hold
+          a verified id, and to an IMDb search otherwise, so the link always lands somewhere
+          useful. Artwork, however, does <em>not</em> come from IMDb: it publishes no image API and
+          its posters may not be hotlinked. Posters come from{" "}
+          <a
+            href="https://www.themoviedb.org/"
+            target="_blank"
+            rel="noreferrer noopener"
+            className="text-accent-soft underline underline-offset-2"
+          >
+            TMDB
+          </a>
+          , whose free API permits this use and also exposes each title&rsquo;s IMDb id. When no
+          TMDB key is configured, the app draws its own poster art from the title&rsquo;s data —
+          the colour tells you which phase it belongs to.
+        </p>
+        <p className="mt-3 text-sm leading-relaxed text-muted">
+          Streaming rights are regional and change constantly, so the platform chips are a hint
+          rather than a promise. The <strong className="text-text">Where to watch</strong> link on
+          every title resolves availability for your country, and is the answer to trust.
+        </p>
+      </section>
+
+      <section className="panel rounded-2xl p-6">
         <h2 className="text-lg font-semibold">Your watchlist</h2>
         <p className="mt-3 text-sm leading-relaxed text-muted">
           Everything you tick off is stored in your browser&rsquo;s{" "}

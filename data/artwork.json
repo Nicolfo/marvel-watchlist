@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": null,
+  "source": {
+    "name": "The Movie Database (TMDB)",
+    "url": "https://www.themoviedb.org/",
+    "note": "Populate with `npm run artwork:fetch` (needs a free TMDB API key in TMDB_API_KEY). Until then the app renders its own generated poster art, so it works fully offline and with no third-party keys. IMDb has no image API and its posters may not be hotlinked, which is why artwork comes from TMDB - keyed by the same IMDb id."
+  },
+  "items": {}
+}
