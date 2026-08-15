@@ -15,6 +15,7 @@
     "graph:stats": "tsx scripts/graph-stats.ts",
     "graph:export:cypher": "tsx scripts/export-cypher.ts",
     "graph:export:sql": "tsx scripts/export-sql.ts",
+    "artwork:fetch": "tsx scripts/fetch-artwork.ts",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate deploy",
     "db:seed": "tsx prisma/seed.ts"

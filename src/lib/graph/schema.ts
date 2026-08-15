@@ -47,6 +47,21 @@ export const titleSchema = z.object({
    * otherwise lead the list purely by being old.
    */
   orderGroup: z.number().int().min(0).optional(),
+  /**
+   * IMDb title id ("tt0371746"). Optional: when absent the UI falls back to an
+   * IMDb search link, which always lands somewhere useful. `npm run
+   * artwork:fetch` can fill these in from TMDB.
+   */
+  imdbId: z
+    .string()
+    .regex(/^tt\d{7,9}$/, "must be an IMDb title id like tt0371746")
+    .optional(),
+  /**
+   * Streaming platforms known to carry the title. Availability is regional and
+   * changes constantly, so this is a hint - the UI always also offers a
+   * region-aware JustWatch link as the authoritative answer.
+   */
+  providers: z.array(z.string().min(1)).optional(),
   note: z.string().optional(),
 });
 

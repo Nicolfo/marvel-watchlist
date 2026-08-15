@@ -3,25 +3,23 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { getGraph } from "@/lib/graph/catalog";
-import {
-  isReleased,
-  missingPrerequisites,
-  nextUp,
-  suggestedOrder,
-} from "@/lib/graph/engine";
+import { isReleased, missingPrerequisites, nextUp, suggestedOrder } from "@/lib/graph/engine";
 import type { Title } from "@/lib/graph/schema";
 import { useWatchlist } from "@/lib/watchlist/provider";
+import { ImdbLink, WatchLinks } from "./links";
+import { Poster } from "./poster";
 import { StrictnessPicker } from "./strictness-picker";
-import { PhaseHeading, TitleCard, type TitleCardData } from "./title-card";
+import { PhaseHeading, TitleCard, TitleTile, type TitleCardData } from "./title-card";
 import { Badge, KIND_LABELS, ProgressBar } from "./ui";
 
 type Filter = "all" | "unwatched" | "ready" | "watched";
 type Grouping = "order" | "phase";
+type View = "grid" | "list";
 
 const FILTERS: Array<{ id: Filter; label: string }> = [
   { id: "all", label: "All" },
   { id: "unwatched", label: "Not watched" },
-  { id: "ready", label: "Ready to watch" },
+  { id: "ready", label: "Ready" },
   { id: "watched", label: "Watched" },
 ];
 
@@ -30,13 +28,13 @@ export function Explorer() {
   const { ready, watched, strictness, progress } = useWatchlist();
   const [filter, setFilter] = useState<Filter>("all");
   const [grouping, setGrouping] = useState<Grouping>("order");
+  const [view, setView] = useState<View>("grid");
   const [query, setQuery] = useState("");
   const [includeUpcoming, setIncludeUpcoming] = useState(true);
+  const [showSettings, setShowSettings] = useState(false);
 
   const order = useMemo(() => suggestedOrder(graph, strictness), [graph, strictness]);
 
-  // One pass over the order gives every card its rank and its "what's still
-  // missing" count, so the list stays in sync with the strictness setting.
   const rows = useMemo<TitleCardData[]>(
     () =>
       order.map((title, index) => ({
@@ -79,56 +77,18 @@ export function Explorer() {
 
   return (
     <div className="space-y-6">
-      <section className="panel rounded-2xl p-5 sm:p-6">
-        <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
-          <div className="max-w-xl">
-            <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
-              Every Marvel film and series, in an order that actually works
-            </h1>
-            <p className="mt-2 text-sm text-muted">
-              The list below is a topological sort of a story-dependency graph, so nothing ever
-              appears before the titles it builds on. Tick things off as you watch them — your
-              watchlist stays in this browser.
-            </p>
-          </div>
+      <Hero next={next} ready={ready} progress={progress} />
 
-          <div className="w-full shrink-0 sm:w-56">
-            <div className="mb-1 flex items-baseline justify-between text-sm">
-              <span className="text-muted">Progress</span>
-              <span className="tabular-nums font-medium">{ready ? `${progress.percent}%` : "—"}</span>
-            </div>
-            <ProgressBar value={ready ? progress.watched : 0} total={progress.total} />
-            <p className="mt-2 text-xs text-muted">
-              {ready ? `${progress.watched} of ${progress.total} titles watched` : "Loading…"}
-            </p>
-          </div>
-        </div>
-
-        {ready && next ? (
-          <div className="mt-6 flex flex-wrap items-center gap-3 rounded-xl border border-edge bg-panel-2/60 px-4 py-3">
-            <span className="text-xs uppercase tracking-wide text-muted">Next up</span>
-            <Link href={`/title/${next.id}`} className="font-medium hover:text-accent-soft">
-              {next.title}
-            </Link>
-            <Badge className="text-could">No prerequisites left</Badge>
-          </div>
-        ) : null}
-
-        <div className="mt-6 border-t border-edge pt-5">
-          <StrictnessPicker />
-        </div>
-      </section>
-
-      <section className="panel rounded-2xl p-4 sm:p-5">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex flex-wrap items-center gap-1">
+      <section className="sticky-bar sticky top-0 z-20 -mx-4 border-y border-edge px-4 py-3 sm:-mx-6 sm:px-6">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
+          <div className="flex shrink-0 items-center gap-1 overflow-x-auto rounded-lg border border-edge p-0.5">
             {FILTERS.map((entry) => (
               <button
                 key={entry.id}
                 type="button"
                 onClick={() => setFilter(entry.id)}
                 aria-pressed={filter === entry.id}
-                className={`rounded-lg px-3 py-1.5 text-sm transition-colors ${
+                className={`shrink-0 rounded-md px-2.5 py-1 text-sm transition-colors ${
                   filter === entry.id
                     ? "bg-panel-2 text-text"
                     : "text-muted hover:bg-panel-2/60 hover:text-text"
@@ -139,43 +99,81 @@ export function Explorer() {
             ))}
           </div>
 
-          <div className="flex flex-wrap items-center gap-3">
-            <label className="flex items-center gap-2 text-sm text-muted">
-              <input
-                type="checkbox"
-                checked={includeUpcoming}
-                onChange={(event) => setIncludeUpcoming(event.target.checked)}
-                className="h-4 w-4 accent-[var(--color-accent)]"
-              />
-              Show upcoming
-            </label>
+          {/* Full width on its own row on phones; shares the bar from sm up. */}
+          <input
+            type="search"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="Search titles…"
+            aria-label="Search titles"
+            className="order-last w-full min-w-0 rounded-lg border border-edge bg-panel px-3 py-1.5 text-sm placeholder:text-muted sm:order-none sm:w-auto sm:flex-1 sm:max-w-xs"
+          />
 
-            <label className="flex items-center gap-2 text-sm text-muted">
-              Group by
-              <select
-                value={grouping}
-                onChange={(event) => setGrouping(event.target.value as Grouping)}
-                className="rounded-lg border border-edge bg-panel px-2 py-1.5 text-sm text-text"
-              >
-                <option value="order">Suggested order</option>
-                <option value="phase">Phase</option>
-              </select>
-            </label>
+          <div className="ml-auto flex items-center gap-2">
+            <div className="flex items-center gap-0.5 rounded-lg border border-edge p-0.5">
+              <ViewButton current={view} value="grid" onSelect={setView} label="Grid view">
+                <svg viewBox="0 0 16 16" className="h-4 w-4" fill="currentColor" aria-hidden>
+                  <rect x="1" y="1" width="6" height="6" rx="1.5" />
+                  <rect x="9" y="1" width="6" height="6" rx="1.5" />
+                  <rect x="1" y="9" width="6" height="6" rx="1.5" />
+                  <rect x="9" y="9" width="6" height="6" rx="1.5" />
+                </svg>
+              </ViewButton>
+              <ViewButton current={view} value="list" onSelect={setView} label="List view">
+                <svg viewBox="0 0 16 16" className="h-4 w-4" fill="currentColor" aria-hidden>
+                  <rect x="1" y="2" width="14" height="2.5" rx="1.25" />
+                  <rect x="1" y="6.75" width="14" height="2.5" rx="1.25" />
+                  <rect x="1" y="11.5" width="14" height="2.5" rx="1.25" />
+                </svg>
+              </ViewButton>
+            </div>
 
-            <input
-              type="search"
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder="Search titles…"
-              aria-label="Search titles"
-              className="w-full rounded-lg border border-edge bg-panel px-3 py-1.5 text-sm placeholder:text-muted sm:w-52"
-            />
+            <button
+              type="button"
+              onClick={() => setShowSettings((open) => !open)}
+              aria-expanded={showSettings}
+              className={`rounded-lg border px-3 py-1.5 text-sm transition-colors ${
+                showSettings
+                  ? "border-accent-soft text-text"
+                  : "border-edge text-muted hover:text-text"
+              }`}
+            >
+              Options
+            </button>
           </div>
         </div>
+
+        {showSettings ? (
+          <div className="mt-3 flex flex-col gap-4 border-t border-edge pt-3 lg:flex-row lg:items-start lg:justify-between">
+            <StrictnessPicker />
+            <div className="flex flex-wrap items-center gap-4">
+              <label className="flex items-center gap-2 text-sm text-muted">
+                <input
+                  type="checkbox"
+                  checked={includeUpcoming}
+                  onChange={(event) => setIncludeUpcoming(event.target.checked)}
+                  className="h-4 w-4 accent-[var(--color-accent)]"
+                />
+                Show upcoming
+              </label>
+              <label className="flex items-center gap-2 text-sm text-muted">
+                Group by
+                <select
+                  value={grouping}
+                  onChange={(event) => setGrouping(event.target.value as Grouping)}
+                  className="rounded-lg border border-edge bg-panel px-2 py-1.5 text-sm text-text"
+                >
+                  <option value="order">Suggested order</option>
+                  <option value="phase">Phase</option>
+                </select>
+              </label>
+            </div>
+          </div>
+        ) : null}
       </section>
 
       {visible.length === 0 ? (
-        <p className="panel rounded-2xl p-8 text-center text-sm text-muted">
+        <p className="panel rounded-2xl p-10 text-center text-sm text-muted">
           Nothing matches those filters.
         </p>
       ) : (
@@ -188,20 +186,133 @@ export function Explorer() {
                 total={group.rows.length}
               />
             ) : null}
-            <ul className="space-y-2">
-              {group.rows.map((row) => (
-                <TitleCard key={row.title.id} data={row} />
-              ))}
-            </ul>
+            {view === "grid" ? (
+              <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+                {group.rows.map((row, index) => (
+                  <TitleTile key={row.title.id} data={row} priority={index < 6} />
+                ))}
+              </ul>
+            ) : (
+              <ul className="space-y-2">
+                {group.rows.map((row) => (
+                  <TitleCard key={row.title.id} data={row} />
+                ))}
+              </ul>
+            )}
           </div>
         ))
       )}
 
       <p className="text-center text-xs text-muted">
-        Showing {visible.length} of {rows.length} titles.
+        Showing {visible.length} of {rows.length} titles · order recomputed live from{" "}
+        {graph.data.edges.length} dependencies.
       </p>
     </div>
   );
 }
 
-export type { Title };
+function ViewButton({
+  current,
+  value,
+  onSelect,
+  label,
+  children,
+}: {
+  current: View;
+  value: View;
+  onSelect: (view: View) => void;
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={() => onSelect(value)}
+      aria-pressed={current === value}
+      aria-label={label}
+      title={label}
+      className={`grid h-7 w-7 place-items-center rounded-md transition-colors ${
+        current === value ? "bg-panel-2 text-text" : "text-muted hover:text-text"
+      }`}
+    >
+      {children}
+    </button>
+  );
+}
+
+function Hero({
+  next,
+  ready,
+  progress,
+}: {
+  next: Title | null;
+  ready: boolean;
+  progress: { watched: number; total: number; percent: number };
+}) {
+  return (
+    <section className="relative overflow-hidden rounded-2xl border border-edge">
+      <div
+        className="absolute inset-0 bg-gradient-to-br from-accent/25 via-panel to-should/15"
+        aria-hidden
+      />
+      <div className="relative grid gap-6 p-6 sm:p-8 lg:grid-cols-[1fr_auto] lg:items-center">
+        <div className="max-w-2xl">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent-soft">
+            The Marvel Cinematic Universe, untangled
+          </p>
+          <h1 className="mt-3 text-3xl font-bold leading-[1.1] tracking-tight sm:text-4xl lg:text-5xl">
+            Every film and series,
+            <br />
+            in an order that actually works
+          </h1>
+          <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted">
+            This isn&rsquo;t a flat list. It&rsquo;s a story-dependency graph, sorted so nothing
+            ever appears before the titles it builds on. Open any title to see exactly what
+            you&rsquo;re missing — and where to stream it.
+          </p>
+
+          <div className="mt-6 flex flex-wrap items-center gap-3">
+            <div className="w-full max-w-xs">
+              <div className="mb-1.5 flex items-baseline justify-between text-xs">
+                <span className="text-muted">Your progress</span>
+                <span className="tabular-nums font-medium">
+                  {ready ? `${progress.watched}/${progress.total} · ${progress.percent}%` : "—"}
+                </span>
+              </div>
+              <ProgressBar value={ready ? progress.watched : 0} total={progress.total} />
+            </div>
+          </div>
+        </div>
+
+        {ready && next ? (
+          <div className="w-full max-w-xs rounded-xl border border-edge bg-black/40 p-4 backdrop-blur lg:w-72">
+            <p className="text-xs font-semibold uppercase tracking-wider text-muted">Next up</p>
+            <div className="mt-3 flex gap-3">
+              <Link href={`/title/${next.id}`} className="shrink-0">
+                <Poster title={next} className="h-28 w-[74px]" sizes="74px" priority />
+              </Link>
+              <div className="min-w-0">
+                <Link
+                  href={`/title/${next.id}`}
+                  className="block text-sm font-semibold leading-tight hover:text-accent-soft"
+                >
+                  {next.title}
+                </Link>
+                <p className="mt-0.5 text-xs text-muted">
+                  {KIND_LABELS[next.kind]} · {next.year}
+                </p>
+                <div className="mt-2">
+                  <Badge className="text-could">No prerequisites left</Badge>
+                </div>
+              </div>
+            </div>
+            <div className="mt-3 flex flex-wrap items-center gap-1.5">
+              <ImdbLink title={next} compact />
+              <WatchLinks title={next} />
+            </div>
+          </div>
+        ) : null}
+      </div>
+    </section>
+  );
+}
