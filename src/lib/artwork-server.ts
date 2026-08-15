@@ -143,6 +143,11 @@ async function lookup(id: string, auth: TmdbAuth): Promise<ArtworkEntry | null> 
  * consulted for the titles it does not cover.
  */
 export async function resolveArtwork(id: string): Promise<ArtworkEntry | null> {
+  // The id arrives straight off a URL, and every miss is remembered. Without
+  // this check the cache is a map keyed by caller-supplied strings that only
+  // ever grows, so a stream of junk ids is a memory-exhaustion vector.
+  if (!getGraph().byId.has(id)) return null;
+
   const seeded = artworkFor(id);
   if (seeded) return seeded;
 
