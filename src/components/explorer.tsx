@@ -274,14 +274,14 @@ function Hero({
           <p className="mt-4 hidden max-w-xl text-sm leading-relaxed text-muted sm:block">
             This isn&rsquo;t a flat list. It&rsquo;s a story-dependency graph, sorted so nothing
             ever appears before the titles it builds on. Open any title to see exactly what
-            you&rsquo;re missing — and where to stream it.
+            you&rsquo;re missing, and where to stream it.
           </p>
 
           <div className="mt-4 w-full max-w-xs sm:mt-6">
             <div className="mb-1.5 flex items-baseline justify-between text-xs">
               <span className="text-muted">Your progress</span>
               <span className="tabular-nums font-medium">
-                {ready ? `${progress.watched}/${progress.total} · ${progress.percent}%` : "—"}
+                {ready ? `${progress.watched}/${progress.total} · ${progress.percent}%` : "..."}
               </span>
             </div>
             <ProgressBar value={ready ? progress.watched : 0} total={progress.total} />
