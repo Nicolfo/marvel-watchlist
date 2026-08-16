@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   // link unfurlers both ignore.
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${SITE_NAME} — every Marvel film and series in a suggested order`,
+    default: `${SITE_NAME}: every Marvel film and series in a suggested order`,
     template: `%s · ${SITE_NAME}`,
   },
   description: SITE_DESCRIPTION,
@@ -37,14 +37,14 @@ export const metadata: Metadata = {
     type: "website",
     siteName: SITE_NAME,
     url: "/",
-    title: `${SITE_NAME} — every Marvel film and series in a suggested order`,
+    title: `${SITE_NAME}: every Marvel film and series in a suggested order`,
     description: SITE_DESCRIPTION,
     images: [{ url: "/og.png", width: 1200, height: 630, alt: SITE_NAME }],
     locale: "en",
   },
   twitter: {
     card: "summary_large_image",
-    title: `${SITE_NAME} — every Marvel film and series in a suggested order`,
+    title: `${SITE_NAME}: every Marvel film and series in a suggested order`,
     description: SITE_DESCRIPTION,
     images: ["/og.png"],
   },

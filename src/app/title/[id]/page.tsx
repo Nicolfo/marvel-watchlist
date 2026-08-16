@@ -18,7 +18,7 @@ export const dynamicParams = false;
 function describe(title: Title): string {
   const prerequisites = directPrerequisites(getGraph(), title.id).length;
   return prerequisites === 0
-    ? `${title.title} (${title.year}) needs nothing before it — a valid entry point into the Marvel Cinematic Universe. See what watching it unlocks.`
+    ? `${title.title} (${title.year}) needs nothing before it, a valid entry point into the Marvel Cinematic Universe. See what watching it unlocks.`
     : `What to watch before ${title.title} (${title.year}), in order, and what it unlocks. ${prerequisites} title${prerequisites > 1 ? "s" : ""} lead directly into it.`;
 }
 
@@ -35,7 +35,7 @@ export async function generateMetadata({
   const path = `/title/${title.id}`;
 
   return {
-    title: `${title.title} (${title.year}) — what to watch first`,
+    title: `${title.title} (${title.year}): what to watch first`,
     description,
     // Without this every title page would inherit the site-wide canonical of
     // "/" and Google would treat all 86 as duplicates of the home page.

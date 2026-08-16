@@ -42,7 +42,7 @@ export function WatchlistManager() {
         <h1 className="text-2xl font-semibold tracking-tight">My watchlist</h1>
         <p className="mt-2 text-sm text-muted">
           Stored in this browser via <code className="text-text">localStorage</code> (backend:{" "}
-          <span className="text-text">{backend}</span>). No account, nothing leaves your device —
+          <span className="text-text">{backend}</span>). No account, nothing leaves your device.
           export it below if you want to move it.
         </p>
 
