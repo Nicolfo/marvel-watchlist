@@ -121,7 +121,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         >
           &ldquo;A smarter MCU watch order&rdquo; by Rocked03
         </a>
-        . Fan project — not affiliated with Marvel or The Walt Disney Company.
+        . Fan project, not affiliated with Marvel or The Walt Disney Company.
       </footer>
 
       <Drawer open={open} onClose={() => setOpen(false)} pathname={pathname} panelRef={panelRef} />
@@ -206,7 +206,7 @@ function Drawer({
           <div className="mb-1.5 flex items-baseline justify-between text-xs">
             <span className="text-muted">Watched</span>
             <span className="tabular-nums">
-              {ready ? `${progress.watched}/${progress.total}` : "—"}
+              {ready ? `${progress.watched}/${progress.total}` : "..."}
             </span>
           </div>
           <ProgressBar value={ready ? progress.watched : 0} total={progress.total} />
@@ -246,7 +246,7 @@ function ProgressPill() {
         />
       </svg>
       <span className="text-xs tabular-nums text-muted">
-        {ready ? `${progress.watched}/${progress.total}` : "—"}
+        {ready ? `${progress.watched}/${progress.total}` : "..."}
       </span>
     </Link>
   );

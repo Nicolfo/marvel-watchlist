@@ -168,7 +168,7 @@ export function TitleDetail({ id }: { id: string }) {
                 onClick={() => catchUpTo(title.id)}
                 className="min-h-11 rounded-lg border border-edge bg-black/40 px-4 py-2 text-sm font-medium text-text transition-colors hover:border-accent-soft"
               >
-                I&rsquo;ve seen all of it — tick {missing.length} prerequisite
+                I&rsquo;ve seen all of it: tick {missing.length} prerequisite
                 {missing.length > 1 ? "s" : ""} + this
               </button>
             ) : null}
@@ -207,7 +207,7 @@ export function TitleDetail({ id }: { id: string }) {
         {missing.length === 0 ? (
           <p className="mt-4 text-sm text-muted">
             {steps.length === 0
-              ? "Nothing points into this one — it's a valid entry point into the franchise."
+              ? "Nothing points into this one. It's a valid entry point into the franchise."
               : "Every prerequisite is ticked off. Go watch it."}
           </p>
         ) : (
@@ -268,7 +268,7 @@ export function TitleDetail({ id }: { id: string }) {
             Points into this
           </h2>
           {direct.length === 0 ? (
-            <p className="mt-3 text-sm text-muted">Nothing — this is an entry point.</p>
+            <p className="mt-3 text-sm text-muted">Nothing. This is an entry point.</p>
           ) : (
             <ul className="mt-3 space-y-2">
               {direct.map((edge) => {
@@ -297,7 +297,7 @@ export function TitleDetail({ id }: { id: string }) {
             Watching this unlocks
           </h2>
           {unlocks.length === 0 ? (
-            <p className="mt-3 text-sm text-muted">Nothing depends on it — yet.</p>
+            <p className="mt-3 text-sm text-muted">Nothing depends on it yet.</p>
           ) : (
             <ul className="mt-3 space-y-2">
               {unlocks.map((edge) => {
@@ -328,7 +328,7 @@ export function TitleDetail({ id }: { id: string }) {
           <StrictnessPicker />
         </div>
         <p className="mt-3 text-xs text-muted">
-          {KIND_LABELS[title.kind]} · streaming availability is regional and changes often — the
+          {KIND_LABELS[title.kind]} · streaming availability is regional and changes often, so the
           &ldquo;where to watch&rdquo; link resolves it for your country. Dependency data is a
           transcription of the community watch-order chart, see{" "}
           <Link href="/about" className="text-accent-soft underline underline-offset-2">
