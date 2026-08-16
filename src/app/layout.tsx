@@ -1,16 +1,15 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import { artworkEnabled } from "@/lib/artwork-server";
 import { ArtworkProvider } from "@/lib/artwork-context";
 import { WatchlistProvider } from "@/lib/watchlist/provider";
 import { AppShell } from "@/components/app-shell";
 
 /**
- * TMDB_API_KEY is read at request time, so the shell cannot be prerendered at
- * build time - that is the whole point of resolving artwork at runtime: setting
- * the key must take effect on a pod restart, not on an image rebuild.
+ * Deliberately not `force-dynamic`. The shell reads nothing request-scoped, so
+ * every page under it prerenders; the one runtime-dependent bit - whether a
+ * TMDB key is configured - is fetched by ArtworkProvider from
+ * /api/artwork/status instead of being rendered in.
  */
-export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: {
@@ -35,7 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className="antialiased">
-        <ArtworkProvider enabled={artworkEnabled()}>
+        <ArtworkProvider>
           <WatchlistProvider>
             <AppShell>{children}</AppShell>
           </WatchlistProvider>
