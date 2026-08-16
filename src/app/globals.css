@@ -25,6 +25,24 @@ body {
   color: var(--color-text);
 }
 
+html {
+  /* Stops the whole page rubber-banding behind the fixed app bar on iOS. */
+  overscroll-behavior-y: none;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  /* Removes the grey flash on tap, which is the clearest giveaway that an
+     app-like UI is really a web page. */
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+a,
+[role="button"] {
+  touch-action: manipulation;
+}
+
 body {
   background-image:
     radial-gradient(1200px 600px at 15% -10%, rgba(226, 54, 54, 0.16), transparent 60%),
@@ -73,10 +91,20 @@ body {
   border-radius: 4px;
 }
 
-/* Sticky filter bar needs an opaque-enough backing to stay readable. */
+/* Sticky bars need an opaque-enough backing to stay readable. */
 @utility sticky-bar {
   background-color: color-mix(in oklab, var(--color-ink) 88%, transparent);
   backdrop-filter: blur(14px);
+}
+
+/* Horizontal chip rows scroll on phones; the scrollbar itself is noise. */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
