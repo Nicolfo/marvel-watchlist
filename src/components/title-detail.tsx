@@ -76,71 +76,91 @@ export function TitleDetail({ id, overview }: { id: string; overview?: string })
         <Backdrop id={title.id} />
         <div className="absolute inset-0 bg-black/45" aria-hidden />
 
-        <div className="relative flex flex-col gap-6 p-5 sm:flex-row sm:p-6">
-          <Poster
-            title={title}
-            className="h-56 w-[150px] shrink-0 shadow-2xl sm:h-64 sm:w-[172px]"
-            sizes="172px"
-            priority
-          />
+        {/* Row on every size: a stacked 150px poster pushed the title, the
+            links and the actions off a phone screen entirely. */}
+        <div className="relative p-4 sm:p-6">
+          {/* Only the poster and the identifying text share a row. The synopsis
+              and the actions run full width underneath, because in the column
+              beside a poster they are ~240px wide on a phone. */}
+          <div className="flex flex-row gap-4 sm:gap-6">
+            <Poster
+              title={title}
+              className="h-36 w-24 shrink-0 shadow-2xl sm:h-64 sm:w-[172px]"
+              sizes="(max-width: 640px) 96px, 172px"
+              priority
+            />
 
-          <div className="min-w-0 flex-1">
-            <div className="flex flex-wrap items-center gap-2">
-              <Badge>#{position} in suggested order</Badge>
-              <Badge>{title.phase}</Badge>
-              <Badge>{title.saga}</Badge>
-              {!released ? <Badge className="text-accent-soft">Upcoming</Badge> : null}
+            <div className="min-w-0 flex-1">
+              <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                <Badge>#{position} in order</Badge>
+                <Badge>{title.phase}</Badge>
+                {/* Wrapped rather than given a `hidden` class: Badge sets its
+                    own `inline-flex`, which wins over it. */}
+                <span className="hidden sm:contents">
+                  <Badge>{title.saga}</Badge>
+                </span>
+                {!released ? <Badge className="text-accent-soft">Upcoming</Badge> : null}
+              </div>
+
+              <h1 className="mt-2 text-xl font-bold leading-tight tracking-tight sm:mt-3 sm:text-4xl">
+                {title.title}
+              </h1>
+              <div className="mt-1">
+                <TitleMeta title={title} />
+              </div>
+
+              <div className="mt-3 hidden flex-wrap items-center gap-2 sm:flex">
+                <ImdbLink title={title} />
+                <WatchLinks title={title} />
+              </div>
             </div>
+          </div>
 
-            <h1 className="mt-3 text-2xl font-bold tracking-tight sm:text-4xl">{title.title}</h1>
-            <div className="mt-1">
-              <TitleMeta title={title} />
-            </div>
+          <div className="mt-3 flex flex-wrap items-center gap-2 sm:hidden">
+            <ImdbLink title={title} />
+            <WatchLinks title={title} />
+          </div>
 
-            {overview ? (
-              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">{overview}</p>
-            ) : null}
-            {title.note ? <p className="mt-3 max-w-2xl text-sm text-muted">{title.note}</p> : null}
+          {overview ? (
+            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted">{overview}</p>
+          ) : null}
+          {title.note ? <p className="mt-3 max-w-2xl text-sm text-muted">{title.note}</p> : null}
 
-            <div className="mt-4 flex flex-wrap items-center gap-2">
-              <ImdbLink title={title} />
-              <WatchLinks title={title} />
-            </div>
+          {/* Full-width stacked actions on a phone: side by side they wrapped
+              into slivers narrower than a comfortable tap target. */}
+          <div className="mt-4 flex flex-col gap-2 sm:mt-5 sm:flex-row sm:flex-wrap sm:gap-3">
+            <button
+              type="button"
+              onClick={() => toggle(title.id)}
+              className={`min-h-11 rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
+                isWatched
+                  ? "border border-edge bg-black/40 text-muted hover:text-text"
+                  : "bg-accent text-white hover:bg-accent-soft"
+              }`}
+            >
+              {isWatched ? "Mark as not watched" : "Mark as watched"}
+            </button>
 
-            <div className="mt-5 flex flex-wrap gap-3">
+            {!isWatched && missing.length > 0 ? (
               <button
                 type="button"
-                onClick={() => toggle(title.id)}
-                className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
-                  isWatched
-                    ? "border border-edge bg-black/40 text-muted hover:text-text"
-                    : "bg-accent text-white hover:bg-accent-soft"
-                }`}
+                onClick={() => catchUpTo(title.id)}
+                className="min-h-11 rounded-lg border border-edge bg-black/40 px-4 py-2 text-sm font-medium text-text transition-colors hover:border-accent-soft"
               >
-                {isWatched ? "Mark as not watched" : "Mark as watched"}
+                I&rsquo;ve seen all of it — tick {missing.length} prerequisite
+                {missing.length > 1 ? "s" : ""} + this
               </button>
+            ) : null}
 
-              {!isWatched && missing.length > 0 ? (
-                <button
-                  type="button"
-                  onClick={() => catchUpTo(title.id)}
-                  className="rounded-lg border border-edge bg-black/40 px-4 py-2 text-sm font-medium text-text transition-colors hover:border-accent-soft"
-                >
-                  I&rsquo;ve seen all of it — tick {missing.length} prerequisite
-                  {missing.length > 1 ? "s" : ""} + this
-                </button>
-              ) : null}
-
-              {done.length > 0 ? (
-                <button
-                  type="button"
-                  onClick={() => markUnwatched(done.map((step) => step.title.id))}
-                  className="rounded-lg border border-edge bg-black/40 px-4 py-2 text-sm text-muted transition-colors hover:text-text"
-                >
-                  Clear its {done.length} watched prerequisite{done.length > 1 ? "s" : ""}
-                </button>
-              ) : null}
-            </div>
+            {done.length > 0 ? (
+              <button
+                type="button"
+                onClick={() => markUnwatched(done.map((step) => step.title.id))}
+                className="min-h-11 rounded-lg border border-edge bg-black/40 px-4 py-2 text-sm text-muted transition-colors hover:text-text"
+              >
+                Clear its {done.length} watched prerequisite{done.length > 1 ? "s" : ""}
+              </button>
+            ) : null}
           </div>
         </div>
       </header>
