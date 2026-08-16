@@ -79,9 +79,12 @@ export function Explorer() {
     <div className="space-y-6">
       <Hero next={next} ready={ready} progress={progress} />
 
-      <section className="sticky-bar sticky top-0 z-20 -mx-4 border-y border-edge px-4 py-3 sm:-mx-6 sm:px-6">
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
-          <div className="flex shrink-0 items-center gap-1 overflow-x-auto rounded-lg border border-edge p-0.5">
+      {/* Docks directly under the app bar (h-14) rather than at the viewport top. */}
+      <section className="sticky-bar sticky top-14 z-20 -mx-3 border-y border-edge px-3 py-2.5 sm:-mx-6 sm:px-6 sm:py-3">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2.5">
+          {/* Scrolls horizontally on a phone so the chips share a row with
+              Options instead of claiming one of their own. */}
+          <div className="no-scrollbar flex min-w-0 flex-1 items-center gap-1 overflow-x-auto rounded-lg border border-edge p-0.5 sm:max-w-full sm:flex-none">
             {FILTERS.map((entry) => (
               <button
                 key={entry.id}
@@ -109,8 +112,10 @@ export function Explorer() {
             className="order-last w-full min-w-0 rounded-lg border border-edge bg-panel px-3 py-1.5 text-sm placeholder:text-muted sm:order-none sm:w-auto sm:flex-1 sm:max-w-xs"
           />
 
-          <div className="ml-auto flex items-center gap-2">
-            <div className="flex items-center gap-0.5 rounded-lg border border-edge p-0.5">
+          <div className="ml-auto flex shrink-0 items-center gap-2">
+            {/* Grid is the right default on a phone; the toggle is desktop-only
+                so the bar stays two rows tall. */}
+            <div className="hidden items-center gap-0.5 rounded-lg border border-edge p-0.5 sm:flex">
               <ViewButton current={view} value="grid" onSelect={setView} label="Grid view">
                 <svg viewBox="0 0 16 16" className="h-4 w-4" fill="currentColor" aria-hidden>
                   <rect x="1" y="1" width="6" height="6" rx="1.5" />
@@ -144,7 +149,7 @@ export function Explorer() {
         </div>
 
         {showSettings ? (
-          <div className="mt-3 flex flex-col gap-4 border-t border-edge pt-3 lg:flex-row lg:items-start lg:justify-between">
+          <div className="mt-2.5 flex flex-col gap-4 border-t border-edge pt-3 lg:flex-row lg:items-start lg:justify-between">
             <StrictnessPicker />
             <div className="flex flex-wrap items-center gap-4">
               <label className="flex items-center gap-2 text-sm text-muted">
@@ -255,43 +260,44 @@ function Hero({
         className="absolute inset-0 bg-gradient-to-br from-accent/25 via-panel to-should/15"
         aria-hidden
       />
-      <div className="relative grid gap-6 p-6 sm:p-8 lg:grid-cols-[1fr_auto] lg:items-center">
+      <div className="relative grid gap-4 p-4 sm:gap-6 sm:p-8 lg:grid-cols-[1fr_auto] lg:items-center">
         <div className="max-w-2xl">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent-soft">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-accent-soft sm:text-xs">
             The Marvel Cinematic Universe, untangled
           </p>
-          <h1 className="mt-3 text-3xl font-bold leading-[1.1] tracking-tight sm:text-4xl lg:text-5xl">
+          <h1 className="mt-2 text-xl font-bold leading-[1.15] tracking-tight sm:mt-3 sm:text-4xl lg:text-5xl">
             Every film and series,
-            <br />
-            in an order that actually works
+            <br className="hidden sm:block" /> in an order that actually works
           </h1>
-          <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted">
+          {/* The pitch is desktop-only: on a phone it pushed the first poster
+              a full screen down, and the About page carries the same copy. */}
+          <p className="mt-4 hidden max-w-xl text-sm leading-relaxed text-muted sm:block">
             This isn&rsquo;t a flat list. It&rsquo;s a story-dependency graph, sorted so nothing
             ever appears before the titles it builds on. Open any title to see exactly what
             you&rsquo;re missing — and where to stream it.
           </p>
 
-          <div className="mt-6 flex flex-wrap items-center gap-3">
-            <div className="w-full max-w-xs">
-              <div className="mb-1.5 flex items-baseline justify-between text-xs">
-                <span className="text-muted">Your progress</span>
-                <span className="tabular-nums font-medium">
-                  {ready ? `${progress.watched}/${progress.total} · ${progress.percent}%` : "—"}
-                </span>
-              </div>
-              <ProgressBar value={ready ? progress.watched : 0} total={progress.total} />
+          <div className="mt-4 w-full max-w-xs sm:mt-6">
+            <div className="mb-1.5 flex items-baseline justify-between text-xs">
+              <span className="text-muted">Your progress</span>
+              <span className="tabular-nums font-medium">
+                {ready ? `${progress.watched}/${progress.total} · ${progress.percent}%` : "—"}
+              </span>
             </div>
+            <ProgressBar value={ready ? progress.watched : 0} total={progress.total} />
           </div>
         </div>
 
         {ready && next ? (
-          <div className="w-full max-w-xs rounded-xl border border-edge bg-black/40 p-4 backdrop-blur lg:w-72">
-            <p className="text-xs font-semibold uppercase tracking-wider text-muted">Next up</p>
-            <div className="mt-3 flex gap-3">
+          <div className="w-full rounded-xl border border-edge bg-black/40 p-3 backdrop-blur sm:max-w-xs sm:p-4 lg:w-72">
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-muted sm:text-xs">
+              Next up
+            </p>
+            <div className="mt-2 flex gap-3 sm:mt-3">
               <Link href={`/title/${next.id}`} className="shrink-0">
-                <Poster title={next} className="h-28 w-[74px]" sizes="74px" priority />
+                <Poster title={next} className="h-24 w-16 sm:h-28 sm:w-[74px]" sizes="74px" priority />
               </Link>
-              <div className="min-w-0">
+              <div className="min-w-0 flex-1">
                 <Link
                   href={`/title/${next.id}`}
                   className="block text-sm font-semibold leading-tight hover:text-accent-soft"
@@ -301,12 +307,12 @@ function Hero({
                 <p className="mt-0.5 text-xs text-muted">
                   {KIND_LABELS[next.kind]} · {next.year}
                 </p>
-                <div className="mt-2">
+                <div className="mt-1.5">
                   <Badge className="text-could">No prerequisites left</Badge>
                 </div>
               </div>
             </div>
-            <div className="mt-3 flex flex-wrap items-center gap-1.5">
+            <div className="mt-2.5 flex flex-wrap items-center gap-1.5">
               <ImdbLink title={next} compact />
               <WatchLinks title={next} />
             </div>
