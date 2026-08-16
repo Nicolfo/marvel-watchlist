@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { artworkSrc, generatedPalette } from "@/lib/artwork";
 import { useArtworkEnabled } from "@/lib/artwork-context";
 import { getGraph } from "@/lib/graph/catalog";
@@ -19,14 +19,35 @@ import { StrictnessPicker } from "./strictness-picker";
 import { Badge, EdgeBadge, KIND_LABELS, ProgressBar, TitleMeta } from "./ui";
 
 /**
- * `overview` is resolved on the server and passed in, rather than looked up
- * here: the synopsis comes from the same TMDB call as the artwork, and that
- * call needs an API key the browser must never see.
+ * The synopsis is fetched from /api/artwork/[id]/meta rather than passed in
+ * from the server. It comes from the same keyed TMDB lookup as the artwork, so
+ * awaiting it during render would make this page dynamic; the key still stays
+ * server-side behind that endpoint. It is supplementary text, so arriving a
+ * beat after the rest of the page costs nothing.
  */
-export function TitleDetail({ id, overview }: { id: string; overview?: string }) {
+export function TitleDetail({ id }: { id: string }) {
   const graph = getGraph();
   const { ready, watched, strictness, toggle, catchUpTo, markUnwatched } = useWatchlist();
   const title = graph.byId.get(id);
+  const [overview, setOverview] = useState<string | null>(null);
+  const enabled = useArtworkEnabled();
+
+  useEffect(() => {
+    // Nothing to fetch when the server has no artwork source configured.
+    if (!enabled) return;
+    let cancelled = false;
+    fetch(`/api/artwork/${encodeURIComponent(id)}/meta`)
+      .then((response) => (response.ok ? response.json() : { overview: null }))
+      .then((data: { overview?: string | null }) => {
+        if (!cancelled) setOverview(data.overview ?? null);
+      })
+      .catch(() => {
+        /* the page is complete without a synopsis */
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [enabled, id]);
 
   const steps = useMemo(
     () => (title ? prerequisitesFor(graph, id, watched, strictness) : []),
