@@ -3,7 +3,7 @@
 Explore every Marvel Studios film and series in a **suggested order**, and for any
 one title see exactly **what you still need to watch first**.
 
-The catalog is not a flat list — it is a directed graph of story dependencies.
+The catalog is not a flat list, it is a directed graph of story dependencies.
 The order you see is a topological sort of that graph, so nothing ever appears
 before the titles it builds on, and "what am I missing before *Avengers:
 Endgame*?" is a graph traversal rather than a guess.
@@ -11,31 +11,31 @@ Endgame*?" is a graph traversal rather than a guess.
 > **Data source.** The dependency graph is adapted from
 > [**"A smarter MCU watch order"** by Rocked03](https://www.reddit.com/r/marvelstudios/s/Yc9CunxbWr)
 > (ver. 003, March 2026), posted on r/marvelstudios. All credit for the ordering
-> and the arrow-by-arrow judgement calls goes to its author — this project only
+> and the arrow-by-arrow judgement calls goes to its author. This project only
 > transcribes that chart into machine-readable form. The credit is also shown in
 > the app's [About page](src/app/about/page.tsx).
 
 ## Features
 
-- **Suggested order** — topological sort of 86 titles and 139 dependencies,
+- **Suggested order**: a topological sort of 86 titles and 139 dependencies,
   with ties broken by release date.
-- **Three strictness levels** — the chart's *must / should / could* arrows are
+- **Three strictness levels**: the chart's *must / should / could* arrows are
   a user-facing setting. Both the order and the missing-prerequisite lists
   react to it, so you can take the shortest viable path or the completionist one.
-- **Mark as watched** — one click anywhere; progress bars per phase.
-- **Missing dependencies** — every title's page lists the unwatched titles
+- **Mark as watched**: one click anywhere, with progress bars per phase.
+- **Missing dependencies**: every title's page lists the unwatched titles
   standing between you and it, transitively, in the order to watch them.
   Already-watched titles prune the traversal, so the list shrinks as you go.
-- **"Ready to watch"** — the set of titles whose prerequisites you have all met.
-- **Local-first** — the watchlist lives in `localStorage`. No account, no
+- **"Ready to watch"**: the set of titles whose prerequisites you have all met.
+- **Local-first**: the watchlist lives in `localStorage`. No account, no
   tracking, no server. JSON export/import to move it between browsers.
-- **Upcoming titles** — release dates are compared at render time, so an
+- **Upcoming titles**: release dates are compared at render time, so an
   unreleased film flips to released on its own.
 - **Poster grid or list view**, with phase-coded artwork, a hero panel showing
   what to watch next, and a sticky filter bar.
-- **IMDb links on every title**, plus streaming links — platform chips and a
+- **IMDb links on every title**, plus streaming links: platform chips and a
   region-aware "where to watch" resolver.
-- **Artwork** — real posters from TMDB when a key is configured, and designed
+- **Artwork**: real posters from TMDB when a key is configured, and designed
   generated posters otherwise, so a fresh clone looks finished with zero setup.
 
 ## Quick start
@@ -54,7 +54,7 @@ npm run graph:stats    # print the computed watch order
 
 ## Updating the data
 
-New Marvel release? Edit **one file** — `data/marvel-graph.json` — then run
+New Marvel release? Edit **one file** (`data/marvel-graph.json`), then run
 `npm run graph:validate`. You never write positions, only dependencies; the
 order is computed. Full guide: **[docs/updating-the-graph.md](docs/updating-the-graph.md)**.
 
@@ -66,7 +66,7 @@ cycles** before a build can ship, so bad data cannot reach a release.
 Full detail: **[docs/artwork-and-links.md](docs/artwork-and-links.md)**.
 
 IMDb has no image API and its posters may not be hotlinked, so **artwork comes
-from TMDB** — whose free API also exposes each title's IMDb id, giving posters
+from TMDB**, whose free API also exposes each title's IMDb id, giving posters
 and exact IMDb links from one lookup. IMDb is used for linking.
 
 There are two ways to supply a key, and they compose:
@@ -82,7 +82,7 @@ TMDB_API_KEY=xxxxx npm start
 
 At runtime the key is read **only on the server**. Browsers request
 `/api/artwork/<id>/poster` and get redirected to TMDB's public image CDN, which
-needs no credential — so the key never reaches a client.
+needs no credential, so the key never reaches a client.
 
 Without a key the app draws **generated posters** from each title's own data
 (hue from the id, palette from the phase), so it looks finished offline and with
@@ -115,7 +115,7 @@ helm/marvel-watchlist/     Helm chart
 
 **Why no database, and why Postgres rather than a graph DB when one is
 eventually needed:** see **[docs/adr-001-storage.md](docs/adr-001-storage.md)**.
-Short version — 86 nodes and 139 edges is ~50 KB of JSON, which fits in the
+Short version: 86 nodes and 139 edges is ~50 KB of JSON, which fits in the
 browser, so traversals are local and instant; Neo4j would be an extra stateful
 component to answer a question a `for` loop answers in microseconds. A Cypher
 exporter is included anyway, so nothing is locked in.
@@ -125,8 +125,8 @@ exporter is included anyway, so nothing is locked in.
 `src/lib/watchlist/types.ts` defines a three-method `WatchlistAdapter`.
 `LocalStorageAdapter` is the default; `RemoteWatchlistAdapter` already speaks
 the `/api/watchlist` contract, and `prisma/schema.prisma` models `User` and
-`WatchEntry`. Wiring it up means implementing that route against a session —
-the UI changes by one argument to `<WatchlistProvider>`.
+`WatchEntry`. Wiring it up means implementing that route against a session.
+The UI changes by one argument to `<WatchlistProvider>`.
 
 ## Deployment
 
@@ -138,12 +138,12 @@ docker run --rm -p 3000:3000 marvel-watchlist:local
 ```
 
 Multi-stage build on `node:22-alpine` using Next's `output: "standalone"`, so
-the runtime image carries the server and only the modules it actually uses — no
+the runtime image carries the server and only the modules it actually uses, with no
 `npm install` at runtime. Runs as non-root (uid 1001) with a `HEALTHCHECK`
 against `/api/health`.
 
 `docker compose up --build` additionally starts a Postgres container. **It is
-not required** — the app ignores it until accounts exist; it is there for
+not required**: the app ignores it until accounts exist; it is there for
 `npm run db:seed` and local work on the logged-in mode.
 
 ### Published images
@@ -157,7 +157,7 @@ image.
 | --- | --- |
 | push to `main` | `latest`, `main`, `sha-<short>` |
 | push tag `v1.2.3` | `1.2.3`, `1.2`, `sha-<short>` |
-| pull request | *(none — build only)* |
+| pull request | *(none, build only)* |
 
 Cutting a release is therefore a git tag:
 
@@ -174,7 +174,7 @@ the chart's default tag resolves to an image that exists.
 
 > **Package visibility is separate from repo visibility.** A new GHCR package
 > inherits the repo's visibility on first publish, but making the repo public
-> later does *not* flip the package — change it under
+> later does *not* flip the package, change it under
 > *Repo → Packages → marvel-watchlist → Package settings → Change visibility*.
 > While the package is private a cluster needs a pull secret: create one, then
 > pass `--set imagePullSecrets[0].name=ghcr`. Once it is public, `helm install`
@@ -202,7 +202,7 @@ helm upgrade --install marvel-watchlist ./helm/marvel-watchlist \
   --set tmdb.existingSecret=tmdb
 ```
 
-Do **not** put the key in the plain `env:` map — that renders it as a literal
+Do **not** put the key in the plain `env:` map, that renders it as a literal
 value in the pod spec, readable by anyone who can `kubectl get pod -o yaml`.
 
 With an ingress:
@@ -247,9 +247,12 @@ Shipping a data update = build a new image from an updated
 | `/api/graph` | The whole dataset as JSON |
 | `/api/watchlist` | `501` placeholder for the account-backed mode |
 
-## Legal
+## Licence and legal
 
 An unofficial fan project. Marvel, the MCU and all title names are trademarks of
 Marvel Characters, Inc. and The Walt Disney Company; this project is not
-affiliated with, endorsed by, or sponsored by them. It stores no media — only
+affiliated with, endorsed by, or sponsored by them. It stores no media, only
 title names and the relationships between them.
+
+The code is MIT licensed. The dataset, the Marvel trademarks and the TMDB
+artwork are not ours to license: see [LICENSE](LICENSE) for what each covers.

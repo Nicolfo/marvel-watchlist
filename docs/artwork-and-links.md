@@ -7,7 +7,7 @@ hotlinked under its conditions of use. So the app does not take images from
 IMDb.
 
 It uses **[TMDB](https://www.themoviedb.org/)** instead, which offers a free
-official API that explicitly permits this use — and, usefully, exposes the
+official API that explicitly permits this use, and, usefully, exposes the
 **IMDb id** for every entry. One lookup therefore gives us both the poster and
 an exact IMDb link.
 
@@ -16,14 +16,14 @@ IMDb page.
 
 ## Three tiers of artwork
 
-1. **Real TMDB poster/backdrop** — either baked in by `npm run artwork:fetch`,
+1. **Real TMDB poster/backdrop**, either baked in by `npm run artwork:fetch`,
    or resolved at request time from a `TMDB_API_KEY` in the server's
    environment. See [Two ways to get real artwork](#two-ways-to-get-real-artwork).
-2. **Generated poster** — a deterministic designed treatment derived from the
+2. **Generated poster**, a deterministic designed treatment derived from the
    title itself: hue from a hash of its id, palette family from its phase, big
    typographic initials. This is the default, so a fresh clone with no API key
    looks finished rather than broken, and the app stays fully offline.
-3. **Runtime fallback** — if a remote image fails to load, the tile silently
+3. **Runtime fallback**, if a remote image fails to load, the tile silently
    degrades to tier 2 instead of showing a broken image.
 
 Because phases map to hue bands, the grid reads as eras at a glance even with
@@ -41,7 +41,7 @@ with no match simply keeps what is already on screen.
 | -------------- | -------------------------------- | ------------------------------------ |
 | Where the key lives | Your shell, once            | The server's environment             |
 | To enable      | Rebuild and republish the image  | Set a value, restart the pod         |
-| Offline builds | Yes — URLs are committed         | No — needs egress to TMDB            |
+| Offline builds | Yes, URLs are committed         | No, needs egress to TMDB            |
 | First page load| Instant                          | Generated art, then posters fade in  |
 
 They compose: baked-in entries always win and cost no network call, so a
@@ -52,7 +52,7 @@ fills the gaps.
 
 Set `TMDB_API_KEY` on the server (in Kubernetes, `tmdb.apiKey` or
 `tmdb.existingSecret` in the Helm chart) and posters appear on the next restart
-— no image rebuild.
+- no image rebuild.
 
 **The key never reaches a browser.** Only `src/lib/artwork-server.ts` reads it,
 and that module throws if it is ever bundled into client code. Clients ask
@@ -91,13 +91,13 @@ IMDb ids). The script:
 - searches the right endpoint per kind (`/search/tv` for series and animation,
   `/search/movie` otherwise) and filters by year;
 - scores candidates on name and year, and **refuses to match** when nothing
-  scores well — a wrong poster attached to a wrong IMDb link is worse than no
+  scores well, a wrong poster attached to a wrong IMDb link is worse than no
   poster, so unmatched titles are listed and keep their generated art;
 - backs off and retries on TMDB's 429 rate limit;
 - is idempotent, so re-running it after adding titles only fills the gaps.
 
 `data/artwork.json` is committed with an empty `items` map. Whether you commit a
-populated one is your call — committing it makes builds reproducible and
+populated one is your call, committing it makes builds reproducible and
 offline; leaving it empty keeps the repo free of third-party URLs.
 
 > The matching rules live in `src/lib/tmdb.ts` (re-exported by `scripts/tmdb.ts`)

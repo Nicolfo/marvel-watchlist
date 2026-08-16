@@ -1,0 +1,50 @@
+MIT License
+
+Copyright (c) 2026 Nicolò Fontana
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+WHAT THIS LICENCE COVERS
+
+The MIT terms above apply to the source code of this project: the graph engine,
+the web application, the scripts, the Helm chart and the documentation.
+
+They do not, and cannot, cover the third-party material this project refers to:
+
+* Marvel, the Marvel Cinematic Universe, and every film and series name in the
+  dataset are trademarks of Marvel Characters, Inc. and The Walt Disney
+  Company. This is an unofficial fan project, not affiliated with, endorsed by
+  or sponsored by them. The dataset stores title names and the relationships
+  between them, and no media.
+
+* The watch-order graph in data/marvel-graph.json is transcribed from
+  "A smarter MCU watch order" by Rocked03, published on r/marvelstudios:
+  https://www.reddit.com/r/marvelstudios/s/Yc9CunxbWr
+  The ordering and the arrow-by-arrow judgement calls are that author's work.
+  This project only puts them into machine-readable form. Please credit the
+  original if you reuse the data.
+
+* Poster artwork, backdrops and synopses come from The Movie Database (TMDB)
+  and are subject to TMDB's terms. This product uses the TMDB API but is not
+  endorsed or certified by TMDB.
+
+Reusing the code is straightforward. Reusing the dataset, or running this
+project commercially, means dealing with the three points above yourself.

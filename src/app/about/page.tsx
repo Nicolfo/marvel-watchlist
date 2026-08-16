@@ -21,7 +21,7 @@ export default function AboutPage() {
       <section className="panel rounded-2xl p-6">
         <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">About</h1>
         <p className="mt-3 text-sm leading-relaxed text-muted">
-          Most Marvel watch orders are a single flat list — release order or chronological order —
+          Most Marvel watch orders are a single flat list, release order or chronological order,
           which forces a rigid sequence even where the stories don&rsquo;t actually depend on each
           other. This app takes the other approach: the catalog is a{" "}
           <strong className="text-text">directed graph of story dependencies</strong>, and the
@@ -102,7 +102,7 @@ export default function AboutPage() {
       <section className="panel rounded-2xl p-6">
         <h2 className="text-lg font-semibold">Posters, IMDb and streaming links</h2>
         <p className="mt-3 text-sm leading-relaxed text-muted">
-          Every title links to <strong className="text-text">IMDb</strong> — directly where we hold
+          Every title links to <strong className="text-text">IMDb</strong>, directly where we hold
           a verified id, and to an IMDb search otherwise, so the link always lands somewhere
           useful. Artwork, however, does <em>not</em> come from IMDb: it publishes no image API and
           its posters may not be hotlinked. Posters come from{" "}
@@ -115,7 +115,7 @@ export default function AboutPage() {
             TMDB
           </a>
           , whose free API permits this use and also exposes each title&rsquo;s IMDb id. When no
-          TMDB key is configured, the app draws its own poster art from the title&rsquo;s data —
+          TMDB key is configured, the app draws its own poster art from the title&rsquo;s data.
           the colour tells you which phase it belongs to.
         </p>
         <p className="mt-3 text-sm leading-relaxed text-muted">
@@ -132,7 +132,7 @@ export default function AboutPage() {
           <code className="text-text">localStorage</code> under the key{" "}
           <code className="text-text">marvel-watchlist:v1</code>. There is no account, no server
           call and no tracking. The storage layer sits behind a small adapter interface, so a
-          logged-in, database-backed watchlist can replace it without touching the UI — see the
+          logged-in, database-backed watchlist can replace it without touching the UI. See the
           README for that path. You can{" "}
           <Link href="/watchlist" className="text-accent-soft underline underline-offset-2">
             export and import your list
@@ -144,8 +144,8 @@ export default function AboutPage() {
       <section className="panel rounded-2xl p-6">
         <h2 className="text-lg font-semibold">Keeping the data current</h2>
         <p className="mt-3 text-sm leading-relaxed text-muted">
-          The whole catalog lives in one file — <code className="text-text">data/marvel-graph.json</code>{" "}
-          — so adding next year&rsquo;s slate means appending a title and its arrows, then running{" "}
+          The whole catalog lives in one file, <code className="text-text">data/marvel-graph.json</code>,{" "}
+          so adding next year&rsquo;s slate means appending a title and its arrows, then running{" "}
           <code className="text-text">npm run graph:validate</code>. That check rejects unknown ids,
           duplicate or self edges, and dependency cycles before a release can ship. Exporters are
           included for Postgres and for Neo4j Cypher.
@@ -171,7 +171,7 @@ export default function AboutPage() {
         <p className="mt-3 text-sm leading-relaxed text-muted">
           An unofficial fan project. Marvel, the MCU and all title names are trademarks of Marvel
           Characters, Inc. and The Walt Disney Company; this project is not affiliated with,
-          endorsed by, or sponsored by them. It stores no media — only title names and the
+          endorsed by, or sponsored by them. It stores no media, only title names and the
           relationships between them.
         </p>
       </section>
