@@ -16,7 +16,13 @@ export const dynamic = "force-dynamic";
  * title", and the client falls back to its generated poster art.
  */
 
-const VARIANTS = new Set(["poster", "backdrop"]);
+const IMAGE_VARIANTS = new Set(["poster", "backdrop"]);
+/**
+ * `meta` returns JSON rather than a redirect. It exists so the title page can
+ * be prerendered: the synopsis comes from the same keyed TMDB lookup as the
+ * artwork, and awaiting it during render would make all 86 title pages dynamic.
+ */
+const META_VARIANT = "meta";
 
 /** Long enough to matter, short enough that a newly added poster shows up. */
 const HIT_CACHE = "public, max-age=86400, stale-while-revalidate=604800";
@@ -32,9 +38,19 @@ export async function GET(
   { params }: { params: Promise<{ id: string; variant: string }> },
 ) {
   const { id, variant } = await params;
-  if (!VARIANTS.has(variant)) return notFound();
+  if (variant !== META_VARIANT && !IMAGE_VARIANTS.has(variant)) return notFound();
 
   const art = await resolveArtwork(id);
+
+  if (variant === META_VARIANT) {
+    // Only the fields safe to hand a browser - never the credential, and not
+    // the raw entry, so adding a field to ArtworkEntry cannot leak it by default.
+    return NextResponse.json(
+      { overview: art?.overview ?? null },
+      { headers: { "Cache-Control": art?.overview ? HIT_CACHE : MISS_CACHE } },
+    );
+  }
+
   const url = variant === "poster" ? art?.posterUrl : art?.backdropUrl;
 
   // Never redirect anywhere but the TMDB image CDN, whatever a data file says.
