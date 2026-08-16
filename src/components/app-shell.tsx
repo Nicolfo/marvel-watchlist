@@ -105,7 +105,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
       </header>
 
-      <main className="mx-auto w-full max-w-6xl flex-1 px-3 pb-12 sm:px-6">{children}</main>
+      {/* pt keeps the first card off the app bar, which is sticky and so has
+          nothing else separating it from the content underneath. */}
+      <main className="mx-auto w-full max-w-6xl flex-1 px-3 pt-4 pb-12 sm:px-6 sm:pt-6">
+        {children}
+      </main>
 
       <footer className="mx-auto w-full max-w-6xl border-t border-edge px-3 py-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] text-xs text-muted sm:px-6">
         Watch order adapted from{" "}
