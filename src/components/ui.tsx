@@ -1,20 +1,40 @@
+"use client";
+
+import { useI18n } from "@/i18n/context";
 import type { EdgeType, Title } from "@/lib/graph/schema";
 
-export const EDGE_STYLES: Record<EdgeType, { label: string; dot: string; text: string; ring: string }> = {
-  must: { label: "Must watch", dot: "bg-must", text: "text-must", ring: "ring-must/40" },
-  should: { label: "Should watch", dot: "bg-should", text: "text-should", ring: "ring-should/40" },
-  could: { label: "Could watch", dot: "bg-could", text: "text-could", ring: "ring-could/40" },
+/**
+ * Colours stay module constants - they are not language. The labels that used
+ * to live beside them are now dictionary keys, looked up at render time, so
+ * "Must watch" can be "باید ببینید" without the colour mapping knowing.
+ */
+export const EDGE_STYLES: Record<EdgeType, { dot: string; text: string; ring: string }> = {
+  must: { dot: "bg-must", text: "text-must", ring: "ring-must/40" },
+  should: { dot: "bg-should", text: "text-should", ring: "ring-should/40" },
+  could: { dot: "bg-could", text: "text-could", ring: "ring-could/40" },
 };
 
-export const KIND_LABELS: Record<Title["kind"], string> = {
-  film: "Film",
-  series: "Series",
-  special: "Special",
-  short: "Short",
-  "one-shot": "One-shot",
-  animation: "Animation",
-  collection: "Collection",
-};
+/** Translation keys for the two data-driven vocabularies the UI displays. */
+export function kindKey(kind: Title["kind"]): string {
+  return `kind.${kind}`;
+}
+
+export function edgeKey(type: EdgeType): string {
+  return `edge.${type}`;
+}
+
+/**
+ * Phase names come from the dataset, not from the dictionary, so a phase nobody
+ * has translated yet falls back to the English name in the data rather than
+ * rendering a raw `phase.Phase Seven` key.
+ */
+export function usePhaseLabel(): (phase: string) => string {
+  const { t } = useI18n();
+  return (phase: string) => {
+    const translated = t(`phase.${phase}`);
+    return translated === `phase.${phase}` ? phase : translated;
+  };
+}
 
 export function Badge({
   children,
@@ -34,11 +54,12 @@ export function Badge({
 
 export function EdgeBadge({ type, provisional }: { type: EdgeType; provisional?: boolean }) {
   const style = EDGE_STYLES[type];
+  const { t } = useI18n();
   return (
     <Badge className={style.text}>
       <span className={`h-1.5 w-1.5 rounded-full ${style.dot}`} aria-hidden />
-      {style.label}
-      {provisional ? <span className="text-muted">· predicted</span> : null}
+      {t(edgeKey(type))}
+      {provisional ? <span className="text-muted">{t("edge.predicted")}</span> : null}
     </Badge>
   );
 }
@@ -52,6 +73,7 @@ export function ProgressBar({
   total: number;
   className?: string;
 }) {
+  const { t } = useI18n();
   const percent = total === 0 ? 0 : Math.round((value / total) * 100);
   return (
     <div
@@ -60,7 +82,7 @@ export function ProgressBar({
       aria-valuenow={value}
       aria-valuemin={0}
       aria-valuemax={total}
-      aria-label={`${value} of ${total} watched`}
+      aria-label={t("card.progressAria", { value, total })}
     >
       <div
         className="h-full rounded-full bg-gradient-to-r from-accent to-accent-soft transition-[width] duration-500"
@@ -71,11 +93,10 @@ export function ProgressBar({
 }
 
 export function TitleMeta({ title }: { title: Title }) {
-  return (
-    <span className="text-xs text-muted">
-      {KIND_LABELS[title.kind]} · {title.year}
-      {title.seasons ? ` · ${title.seasons} season${title.seasons > 1 ? "s" : ""}` : ""}
-      {title.runtimeMinutes ? ` · ${title.runtimeMinutes} min` : ""}
-    </span>
-  );
+  const { t, n } = useI18n();
+  const parts = [t(kindKey(title.kind)), n(title.year)];
+  if (title.seasons) parts.push(t("titleMeta.seasons", { count: title.seasons }));
+  if (title.runtimeMinutes) parts.push(t("titleMeta.minutes", { count: title.runtimeMinutes }));
+
+  return <span className="text-xs text-muted">{parts.join(" · ")}</span>;
 }

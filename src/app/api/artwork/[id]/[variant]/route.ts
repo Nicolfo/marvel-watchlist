@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { resolveArtwork } from "@/lib/artwork-server";
+import { resolveArtwork, resolveOverview } from "@/lib/artwork-server";
+import { DEFAULT_LOCALE } from "@/i18n/config";
 import { isTmdbImageUrl } from "@/lib/tmdb";
 
 export const dynamic = "force-dynamic";
@@ -20,7 +21,9 @@ const IMAGE_VARIANTS = new Set(["poster", "backdrop"]);
 /**
  * `meta` returns JSON rather than a redirect. It exists so the title page can
  * be prerendered: the synopsis comes from the same keyed TMDB lookup as the
- * artwork, and awaiting it during render would make all 86 title pages dynamic.
+ * artwork, and awaiting it during render would make every title page dynamic.
+ * It takes a `?lang=` parameter, because TMDB has the synopsis in many
+ * languages and a Persian page should show the Persian one.
  */
 const META_VARIANT = "meta";
 
@@ -34,22 +37,29 @@ function notFound(): NextResponse {
 }
 
 export async function GET(
-  _request: Request,
+  request: Request,
   { params }: { params: Promise<{ id: string; variant: string }> },
 ) {
   const { id, variant } = await params;
   if (variant !== META_VARIANT && !IMAGE_VARIANTS.has(variant)) return notFound();
 
-  const art = await resolveArtwork(id);
-
   if (variant === META_VARIANT) {
+    // TMDB is translated, so the synopsis is per-language. The locale rides in
+    // as a query parameter rather than being read from the path, because this
+    // endpoint sits outside the [locale] segment - it serves images to every
+    // language and only this one variant cares which.
+    const locale = new URL(request.url).searchParams.get("lang") ?? DEFAULT_LOCALE;
+    const { text, language } = await resolveOverview(id, locale);
+
     // Only the fields safe to hand a browser - never the credential, and not
     // the raw entry, so adding a field to ArtworkEntry cannot leak it by default.
     return NextResponse.json(
-      { overview: art?.overview ?? null },
-      { headers: { "Cache-Control": art?.overview ? HIT_CACHE : MISS_CACHE } },
+      { overview: text, language },
+      { headers: { "Cache-Control": text ? HIT_CACHE : MISS_CACHE } },
     );
   }
+
+  const art = await resolveArtwork(id);
 
   const url = variant === "poster" ? art?.posterUrl : art?.backdropUrl;
 

@@ -86,6 +86,44 @@ export function detailsUrl(tmdbId: number, type: "movie" | "tv", auth: TmdbAuth)
   return `${TMDB_API}/${type}/${tmdbId}${suffix}${query ? `?${query}` : ""}`;
 }
 
+/**
+ * TMDB's `language` parameter, derived from one of our locale codes.
+ *
+ * TMDB wants an ISO 639-1 code, optionally with a *region* (`pt-BR`, `zh-CN`).
+ * A region-qualified tag is passed through, because TMDB understands it and the
+ * region carries real meaning there. A *script* subtag is not the same thing:
+ * `zh-Hans` is meaningless to TMDB, which answers in English without erroring,
+ * so it is mapped explicitly. Anything else keeps only its primary subtag,
+ * which is the safe guess for a locale added later.
+ */
+const TMDB_LANGUAGE_OVERRIDES: Record<string, string> = {
+  "zh-Hans": "zh-CN",
+};
+
+export function tmdbLanguage(locale: string): string {
+  const override = TMDB_LANGUAGE_OVERRIDES[locale];
+  if (override) return override;
+  // `pt-BR` and `en-GB` pass through; `zh-Hant` keeps only `zh`.
+  return /^[a-z]{2}-[A-Z]{2}$/.test(locale) ? locale : locale.split("-")[0]!;
+}
+
+/**
+ * The details endpoint for one title in one language.
+ *
+ * Separate from `detailsUrl` because that one exists to fetch the IMDb id,
+ * which is the same in every language and so should be looked up once. This is
+ * the per-language call, and the only field we take from it is the overview.
+ */
+export function overviewUrl(
+  tmdbId: number,
+  type: "movie" | "tv",
+  auth: TmdbAuth,
+  locale: string,
+): string {
+  const params = new URLSearchParams({ ...auth.query, language: tmdbLanguage(locale) });
+  return `${TMDB_API}/${type}/${tmdbId}?${params}`;
+}
+
 export function resultYear(result: TmdbResult): number | null {
   const date = result.release_date ?? result.first_air_date;
   if (!date) return null;
