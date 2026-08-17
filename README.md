@@ -79,10 +79,11 @@ cycles** before a build can ship, so bad data cannot reach a release.
 
 Full detail: **[docs/spoiler-summaries.md](docs/spoiler-summaries.md)**.
 
-Summaries live in **one file** (`data/summaries.json`), keyed by title id, as
-original prose written for this project. Add or fix one and run
-`npm run summaries:validate`, which rejects unknown ids, summaries on titles
-that have not been released, and prose too thin to skip a title on.
+Summaries live in `data/summaries/`, **one file per language**, keyed by title
+id, as original prose written for this project. Resolution falls back to English
+**per title**, so a translator who does five films ships five translated films
+rather than having to finish all eighty first. Add or fix one and run
+`npm run summaries:validate`.
 
 ### Languages
 
@@ -138,7 +139,7 @@ npm run graph:export:cypher  # Neo4j CREATE statements
 
 ```
 data/marvel-graph.json     source of truth: titles + typed dependency edges
-data/summaries.json        detailed spoiler summaries, keyed by title id
+data/summaries/            detailed spoiler summaries, one file per language
 src/i18n/                  locales, dictionaries, plural + interpolation runtime
 src/middleware.ts          locale negotiation and redirects for unprefixed URLs
 src/lib/graph/schema.ts    zod schema + integrity checks (cycles, dangling ids)

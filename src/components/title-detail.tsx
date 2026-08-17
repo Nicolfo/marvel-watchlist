@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { DEFAULT_LOCALE, directionOf } from "@/i18n/config";
 import { useI18n, useLocalePath } from "@/i18n/context";
 import { Rich } from "@/i18n/rich";
+import type { SummaryMeta } from "@/lib/summaries/schema";
 import { artworkSrc, generatedPalette } from "@/lib/artwork";
 import { useArtworkEnabled } from "@/lib/artwork-context";
 import { getGraph } from "@/lib/graph/catalog";
@@ -34,7 +35,7 @@ import { Badge, EdgeBadge, ProgressBar, TitleMeta, kindKey, usePhaseLabel } from
  * reader's own language. It falls back to English where TMDB has no
  * translation, which is common for the one-shots and shorts.
  */
-export function TitleDetail({ id }: { id: string }) {
+export function TitleDetail({ id, summary }: { id: string; summary?: SummaryMeta }) {
   const graph = getGraph();
   const { ready, watched, strictness, toggle, catchUpTo, markUnwatched } = useWatchlist();
   const { t, n, locale } = useI18n();
@@ -222,7 +223,7 @@ export function TitleDetail({ id }: { id: string }) {
       {/* Sits directly under the header, where the spoiler-free synopsis just
           was, because the reader deciding whether to skip this title is deciding
           it right here - and stays shut until they say so. */}
-      <SpoilerSummary title={title} />
+      <SpoilerSummary title={title} summary={summary} />
 
       <section className="panel rounded-2xl p-5 sm:p-6">
         <div className="flex flex-wrap items-baseline justify-between gap-3">
