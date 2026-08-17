@@ -2,10 +2,12 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { useI18n, useLocalePath } from "@/i18n/context";
+import { Rich } from "@/i18n/rich";
 import { getGraph, phaseOrder } from "@/lib/graph/catalog";
 import { readyToWatch, suggestedOrder } from "@/lib/graph/engine";
 import { useWatchlist } from "@/lib/watchlist/provider";
-import { Badge, ProgressBar, TitleMeta } from "./ui";
+import { Badge, ProgressBar, TitleMeta, usePhaseLabel } from "./ui";
 
 export function WatchlistManager() {
   const graph = getGraph();
@@ -13,6 +15,9 @@ export function WatchlistManager() {
     useWatchlist();
   const [importText, setImportText] = useState("");
   const [message, setMessage] = useState<string | null>(null);
+  const { t, n } = useI18n();
+  const path = useLocalePath();
+  const phaseLabel = usePhaseLabel();
 
   const watchedTitles = useMemo(
     () => suggestedOrder(graph, strictness).filter((title) => watched.has(title.id)),
@@ -39,17 +44,21 @@ export function WatchlistManager() {
   return (
     <div className="space-y-6">
       <section className="panel rounded-2xl p-5 sm:p-6">
-        <h1 className="text-2xl font-semibold tracking-tight">My watchlist</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">{t("watchlist.title")}</h1>
         <p className="mt-2 text-sm text-muted">
-          Stored in this browser via <code className="text-text">localStorage</code> (backend:{" "}
-          <span className="text-text">{backend}</span>). No account, nothing leaves your device.
-          export it below if you want to move it.
+          <Rich
+            text={t("watchlist.storedIn")}
+            slots={{
+              code: <code className="text-text">localStorage</code>,
+              backend: <span className="text-text">{backend}</span>,
+            }}
+          />
         </p>
 
         <div className="mt-5 flex items-baseline justify-between text-sm">
-          <span className="text-muted">Overall</span>
+          <span className="text-muted">{t("watchlist.overall")}</span>
           <span className="tabular-nums">
-            {progress.watched}/{progress.total} · {progress.percent}%
+            {n(progress.watched)}/{n(progress.total)} · {n(progress.percent)}%
           </span>
         </div>
         <div className="mt-2">
@@ -63,9 +72,9 @@ export function WatchlistManager() {
             return (
               <div key={phase} className="rounded-xl border border-edge bg-panel-2/40 p-3">
                 <div className="flex items-baseline justify-between text-xs">
-                  <span className="truncate font-medium">{phase}</span>
+                  <span className="truncate font-medium">{phaseLabel(phase)}</span>
                   <span className="tabular-nums text-muted">
-                    {stats.watched}/{stats.total}
+                    {n(stats.watched)}/{n(stats.total)}
                   </span>
                 </div>
                 <div className="mt-2">
@@ -78,14 +87,12 @@ export function WatchlistManager() {
       </section>
 
       <section className="panel rounded-2xl p-5 sm:p-6">
-        <h2 className="text-lg font-semibold">Ready to watch now</h2>
-        <p className="mt-1 text-sm text-muted">
-          Every prerequisite ticked off, at your current strictness setting.
-        </p>
+        <h2 className="text-lg font-semibold">{t("watchlist.readyNow")}</h2>
+        <p className="mt-1 text-sm text-muted">{t("watchlist.readyNowSub")}</p>
         {!ready ? (
-          <p className="mt-4 text-sm text-muted">Loading…</p>
+          <p className="mt-4 text-sm text-muted">{t("watchlist.loading")}</p>
         ) : upNext.length === 0 ? (
-          <p className="mt-4 text-sm text-muted">You&rsquo;ve watched everything. Impressive.</p>
+          <p className="mt-4 text-sm text-muted">{t("watchlist.allWatched")}</p>
         ) : (
           <ul className="mt-4 grid gap-2 sm:grid-cols-2">
             {upNext.map((title) => (
@@ -93,7 +100,10 @@ export function WatchlistManager() {
                 key={title.id}
                 className="rounded-xl border border-edge bg-panel-2/40 px-3 py-2"
               >
-                <Link href={`/title/${title.id}`} className="font-medium hover:text-accent-soft">
+                <Link
+                  href={path(`/title/${title.id}`)}
+                  className="font-medium hover:text-accent-soft"
+                >
                   {title.title}
                 </Link>
                 <div>
@@ -107,27 +117,29 @@ export function WatchlistManager() {
 
       <section className="panel rounded-2xl p-5 sm:p-6">
         <div className="flex flex-wrap items-baseline justify-between gap-2">
-          <h2 className="text-lg font-semibold">Watched ({watchedTitles.length})</h2>
+          <h2 className="text-lg font-semibold">
+            {t("watchlist.watchedCount", { count: watchedTitles.length })}
+          </h2>
           {watchedTitles.length > 0 ? (
             <button
               type="button"
               onClick={() => {
-                if (confirm("Clear your entire watchlist? This cannot be undone.")) {
+                if (confirm(t("watchlist.clearConfirm"))) {
                   reset();
-                  setMessage("Watchlist cleared.");
+                  setMessage(t("watchlist.cleared"));
                 }
               }}
               className="text-sm text-muted underline underline-offset-2 hover:text-accent-soft"
             >
-              Clear everything
+              {t("watchlist.clearAll")}
             </button>
           ) : null}
         </div>
         {watchedTitles.length === 0 ? (
           <p className="mt-4 text-sm text-muted">
-            Nothing yet.{" "}
-            <Link href="/" className="text-accent-soft underline underline-offset-2">
-              Start ticking titles off
+            {t("watchlist.empty")}{" "}
+            <Link href={path("/")} className="text-accent-soft underline underline-offset-2">
+              {t("watchlist.startTicking")}
             </Link>
             .
           </p>
@@ -135,7 +147,7 @@ export function WatchlistManager() {
           <ul className="mt-4 flex flex-wrap gap-2">
             {watchedTitles.map((title) => (
               <li key={title.id}>
-                <Link href={`/title/${title.id}`}>
+                <Link href={path(`/title/${title.id}`)}>
                   <Badge className="hover:border-accent-soft hover:text-text">{title.title}</Badge>
                 </Link>
               </li>
@@ -145,11 +157,8 @@ export function WatchlistManager() {
       </section>
 
       <section className="panel rounded-2xl p-5 sm:p-6">
-        <h2 className="text-lg font-semibold">Back up or move your list</h2>
-        <p className="mt-1 text-sm text-muted">
-          The same JSON shape the future account-backed API will accept, so an export made today
-          will still import once logins exist.
-        </p>
+        <h2 className="text-lg font-semibold">{t("watchlist.backup")}</h2>
+        <p className="mt-1 text-sm text-muted">{t("watchlist.backupSub")}</p>
 
         <div className="mt-4 flex flex-wrap gap-3">
           <button
@@ -157,22 +166,22 @@ export function WatchlistManager() {
             onClick={download}
             className="rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white hover:bg-accent-soft"
           >
-            Download JSON
+            {t("watchlist.download")}
           </button>
           <button
             type="button"
             onClick={() => {
               void navigator.clipboard.writeText(exportJson());
-              setMessage("Copied to clipboard.");
+              setMessage(t("watchlist.copied"));
             }}
             className="rounded-lg border border-edge px-4 py-2 text-sm hover:border-accent-soft"
           >
-            Copy to clipboard
+            {t("watchlist.copy")}
           </button>
         </div>
 
         <label className="mt-5 block text-sm text-muted" htmlFor="import">
-          Paste a previously exported watchlist
+          {t("watchlist.pasteLabel")}
         </label>
         <textarea
           id="import"
@@ -180,19 +189,24 @@ export function WatchlistManager() {
           onChange={(event) => setImportText(event.target.value)}
           rows={4}
           placeholder='{"schemaVersion":1,"entries":[…]}'
-          className="mt-2 w-full rounded-lg border border-edge bg-panel px-3 py-2 font-mono text-xs placeholder:text-muted"
+          dir="ltr"
+          className="mt-2 w-full rounded-lg border border-edge bg-panel px-3 py-2 text-start font-mono text-xs placeholder:text-muted"
         />
         <button
           type="button"
           onClick={() => {
             const result = importJson(importText);
-            setMessage(result.ok ? "Watchlist imported." : `Import failed: ${result.error}`);
+            setMessage(
+              result.ok
+                ? t("watchlist.imported")
+                : t("watchlist.importFailed", { error: result.error }),
+            );
             if (result.ok) setImportText("");
           }}
           disabled={importText.trim().length === 0}
           className="mt-2 rounded-lg border border-edge px-4 py-2 text-sm disabled:opacity-40"
         >
-          Import
+          {t("watchlist.import")}
         </button>
 
         {message ? (

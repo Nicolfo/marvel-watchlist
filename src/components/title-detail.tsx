@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { useI18n, useLocalePath } from "@/i18n/context";
+import { Rich } from "@/i18n/rich";
 import { artworkSrc, generatedPalette } from "@/lib/artwork";
 import { useArtworkEnabled } from "@/lib/artwork-context";
 import { getGraph } from "@/lib/graph/catalog";
@@ -17,7 +19,7 @@ import { ImdbLink, WatchLinks } from "./links";
 import { Poster } from "./poster";
 import { SpoilerSummary } from "./spoiler-summary";
 import { StrictnessPicker } from "./strictness-picker";
-import { Badge, EdgeBadge, KIND_LABELS, ProgressBar, TitleMeta } from "./ui";
+import { Badge, EdgeBadge, ProgressBar, TitleMeta, kindKey, usePhaseLabel } from "./ui";
 
 /**
  * The synopsis is fetched from /api/artwork/[id]/meta rather than passed in
@@ -29,6 +31,9 @@ import { Badge, EdgeBadge, KIND_LABELS, ProgressBar, TitleMeta } from "./ui";
 export function TitleDetail({ id }: { id: string }) {
   const graph = getGraph();
   const { ready, watched, strictness, toggle, catchUpTo, markUnwatched } = useWatchlist();
+  const { t, n } = useI18n();
+  const path = useLocalePath();
+  const phaseLabel = usePhaseLabel();
   const title = graph.byId.get(id);
   const [overview, setOverview] = useState<string | null>(null);
   const enabled = useArtworkEnabled();
@@ -63,9 +68,12 @@ export function TitleDetail({ id }: { id: string }) {
   if (!title) {
     return (
       <div className="panel rounded-2xl p-8 text-center">
-        <p className="text-muted">No title with id &ldquo;{id}&rdquo;.</p>
-        <Link href="/" className="mt-4 inline-block text-accent-soft underline underline-offset-2">
-          Back to the list
+        <p className="text-muted">{t("detail.notFound", { id })}</p>
+        <Link
+          href={path("/")}
+          className="mt-4 inline-block text-accent-soft underline underline-offset-2"
+        >
+          {t("detail.backToList")}
         </Link>
       </div>
     );
@@ -82,8 +90,10 @@ export function TitleDetail({ id }: { id: string }) {
   return (
     <div className="space-y-6">
       <nav className="text-sm text-muted">
-        <Link href="/" className="hover:text-text">
-          ← All titles
+        {/* The arrow is part of the string, so a translator can move it to the
+            other side for a right-to-left language. */}
+        <Link href={path("/")} className="hover:text-text">
+          {t("detail.back")}
         </Link>
       </nav>
 
@@ -114,14 +124,16 @@ export function TitleDetail({ id }: { id: string }) {
 
             <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-                <Badge>#{position} in order</Badge>
-                <Badge>{title.phase}</Badge>
+                <Badge>{t("detail.position", { position })}</Badge>
+                <Badge>{phaseLabel(title.phase)}</Badge>
                 {/* Wrapped rather than given a `hidden` class: Badge sets its
                     own `inline-flex`, which wins over it. */}
                 <span className="hidden sm:contents">
                   <Badge>{title.saga}</Badge>
                 </span>
-                {!released ? <Badge className="text-accent-soft">Upcoming</Badge> : null}
+                {!released ? (
+                  <Badge className="text-accent-soft">{t("card.upcoming")}</Badge>
+                ) : null}
               </div>
 
               <h1 className="mt-2 text-xl font-bold leading-tight tracking-tight sm:mt-3 sm:text-4xl">
@@ -160,7 +172,7 @@ export function TitleDetail({ id }: { id: string }) {
                   : "bg-accent text-white hover:bg-accent-soft"
               }`}
             >
-              {isWatched ? "Mark as not watched" : "Mark as watched"}
+              {isWatched ? t("detail.markUnwatched") : t("detail.markWatched")}
             </button>
 
             {!isWatched && missing.length > 0 ? (
@@ -169,8 +181,7 @@ export function TitleDetail({ id }: { id: string }) {
                 onClick={() => catchUpTo(title.id)}
                 className="min-h-11 rounded-lg border border-edge bg-black/40 px-4 py-2 text-sm font-medium text-text transition-colors hover:border-accent-soft"
               >
-                I&rsquo;ve seen all of it: tick {missing.length} prerequisite
-                {missing.length > 1 ? "s" : ""} + this
+                {t("detail.catchUp", { count: missing.length })}
               </button>
             ) : null}
 
@@ -180,7 +191,7 @@ export function TitleDetail({ id }: { id: string }) {
                 onClick={() => markUnwatched(done.map((step) => step.title.id))}
                 className="min-h-11 rounded-lg border border-edge bg-black/40 px-4 py-2 text-sm text-muted transition-colors hover:text-text"
               >
-                Clear its {done.length} watched prerequisite{done.length > 1 ? "s" : ""}
+                {t("detail.clearPrereqs", { count: done.length })}
               </button>
             ) : null}
           </div>
@@ -196,13 +207,13 @@ export function TitleDetail({ id }: { id: string }) {
         <div className="flex flex-wrap items-baseline justify-between gap-3">
           <h2 className="text-lg font-semibold">
             {!ready
-              ? "Checking your watchlist…"
+              ? t("detail.checking")
               : missing.length === 0
-                ? "You're ready to watch this"
-                : `${missing.length} title${missing.length > 1 ? "s" : ""} to watch first`}
+                ? t("detail.ready")
+                : t("detail.toWatchFirst", { count: missing.length })}
           </h2>
           <span className="text-xs text-muted">
-            {done.length}/{steps.length} prerequisites watched
+            {t("detail.prereqCount", { done: done.length, total: steps.length })}
           </span>
         </div>
 
@@ -212,9 +223,7 @@ export function TitleDetail({ id }: { id: string }) {
 
         {missing.length === 0 ? (
           <p className="mt-4 text-sm text-muted">
-            {steps.length === 0
-              ? "Nothing points into this one. It's a valid entry point into the franchise."
-              : "Every prerequisite is ticked off. Go watch it."}
+            {steps.length === 0 ? t("detail.entryPoint") : t("detail.allTicked")}
           </p>
         ) : (
           <ol className="mt-4 space-y-2">
@@ -226,7 +235,7 @@ export function TitleDetail({ id }: { id: string }) {
                 <button
                   type="button"
                   onClick={() => toggle(step.title.id)}
-                  aria-label={`Mark ${step.title.title} as watched`}
+                  aria-label={t("card.markWatched", { title: step.title.title })}
                   className="relative z-10 grid h-7 w-7 shrink-0 place-items-center rounded-full border border-edge text-transparent transition-colors hover:border-accent-soft hover:text-text"
                 >
                   <svg viewBox="0 0 20 20" className="h-4 w-4" fill="none" aria-hidden>
@@ -244,7 +253,7 @@ export function TitleDetail({ id }: { id: string }) {
 
                 <div className="min-w-0 flex-1">
                   <Link
-                    href={`/title/${step.title.id}`}
+                    href={path(`/title/${step.title.id}`)}
                     className="block truncate font-medium hover:text-accent-soft"
                   >
                     <span className="absolute inset-0" aria-hidden />
@@ -259,7 +268,7 @@ export function TitleDetail({ id }: { id: string }) {
                 </div>
 
                 <div className="relative z-10 hidden shrink-0 items-center gap-2 sm:flex">
-                  {step.direct ? <Badge>Direct</Badge> : null}
+                  {step.direct ? <Badge>{t("detail.direct")}</Badge> : null}
                   <EdgeBadge type={step.via} />
                 </div>
               </li>
@@ -271,10 +280,10 @@ export function TitleDetail({ id }: { id: string }) {
       <div className="grid gap-6 lg:grid-cols-2">
         <section className="panel rounded-2xl p-5">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-muted">
-            Points into this
+            {t("detail.pointsInto")}
           </h2>
           {direct.length === 0 ? (
-            <p className="mt-3 text-sm text-muted">Nothing. This is an entry point.</p>
+            <p className="mt-3 text-sm text-muted">{t("detail.nothingPointsInto")}</p>
           ) : (
             <ul className="mt-3 space-y-2">
               {direct.map((edge) => {
@@ -283,7 +292,7 @@ export function TitleDetail({ id }: { id: string }) {
                   <li key={edge.from} className="flex items-center gap-3">
                     <Poster title={from} className="h-11 w-8 shrink-0" sizes="32px" />
                     <Link
-                      href={`/title/${from.id}`}
+                      href={path(`/title/${from.id}`)}
                       className={`min-w-0 flex-1 truncate text-sm hover:text-accent-soft ${
                         watched.has(from.id) ? "text-muted line-through" : ""
                       }`}
@@ -300,10 +309,10 @@ export function TitleDetail({ id }: { id: string }) {
 
         <section className="panel rounded-2xl p-5">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-muted">
-            Watching this unlocks
+            {t("detail.unlocks")}
           </h2>
           {unlocks.length === 0 ? (
-            <p className="mt-3 text-sm text-muted">Nothing depends on it yet.</p>
+            <p className="mt-3 text-sm text-muted">{t("detail.nothingDepends")}</p>
           ) : (
             <ul className="mt-3 space-y-2">
               {unlocks.map((edge) => {
@@ -312,7 +321,7 @@ export function TitleDetail({ id }: { id: string }) {
                   <li key={edge.to} className="flex items-center gap-3">
                     <Poster title={to} className="h-11 w-8 shrink-0" sizes="32px" />
                     <Link
-                      href={`/title/${to.id}`}
+                      href={path(`/title/${to.id}`)}
                       className="min-w-0 flex-1 truncate text-sm hover:text-accent-soft"
                     >
                       {to.title}
@@ -328,19 +337,22 @@ export function TitleDetail({ id }: { id: string }) {
 
       <section className="panel rounded-2xl p-5">
         <h2 className="text-sm font-semibold uppercase tracking-wider text-muted">
-          Adjust what counts as a prerequisite
+          {t("detail.adjust")}
         </h2>
         <div className="mt-3">
           <StrictnessPicker />
         </div>
         <p className="mt-3 text-xs text-muted">
-          {KIND_LABELS[title.kind]} · streaming availability is regional and changes often, so the
-          &ldquo;where to watch&rdquo; link resolves it for your country. Dependency data is a
-          transcription of the community watch-order chart, see{" "}
-          <Link href="/about" className="text-accent-soft underline underline-offset-2">
-            About
-          </Link>
-          .
+          <Rich
+            text={t("detail.footnote", { kind: t(kindKey(title.kind)) })}
+            slots={{
+              aboutLink: (
+                <Link href={path("/about")} className="text-accent-soft underline underline-offset-2">
+                  {t("detail.footnote.about")}
+                </Link>
+              ),
+            }}
+          />
         </p>
       </section>
     </div>

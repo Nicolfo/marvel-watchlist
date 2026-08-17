@@ -37,6 +37,12 @@ Endgame*?" is a graph traversal rather than a guess.
   region-aware "where to watch" resolver.
 - **Artwork**: real posters from TMDB when a key is configured, and designed
   generated posters otherwise, so a fresh clone looks finished with zero setup.
+- **14 languages, including right-to-left**: the whole interface is translated
+  into English, Spanish, Portuguese, French, German, Italian, Turkish, Russian,
+  Hindi, Chinese, Japanese, Korean, Arabic and Persian. Arabic and Persian get a
+  properly mirrored layout, plurals go through `Intl.PluralRules` (Russian's
+  one/few/many, Arabic's dual), and the language is part of the URL so a shared
+  link opens in the language it was shared in.
 - **Detailed summaries, behind a spoiler gate**: every released title has a
   full plot summary - ending included - so you can skip it and still follow what
   comes next. It is never shown unless you ask: the text is not in the page at
@@ -56,6 +62,7 @@ npm test                   # engine + dataset invariants
 npm run typecheck
 npm run graph:validate     # dataset integrity (also runs as a prebuild step)
 npm run summaries:validate # summary coverage (also runs as a prebuild step)
+npm run i18n:validate      # dictionary keys and placeholders (prebuild step)
 npm run graph:stats        # print the computed watch order
 ```
 
@@ -76,6 +83,16 @@ Summaries live in **one file** (`data/summaries.json`), keyed by title id, as
 original prose written for this project. Add or fix one and run
 `npm run summaries:validate`, which rejects unknown ids, summaries on titles
 that have not been released, and prose too thin to skip a title on.
+
+### Languages
+
+Full detail: **[docs/internationalisation.md](docs/internationalisation.md)**.
+
+The **interface** is translated; the **catalog** is not. Title names and the
+detailed summaries stay in English, because they are data rather than UI copy
+and a machine-translated film title helps nobody. Adding a language is one JSON
+file in `src/i18n/dictionaries/` plus a row in `src/i18n/config.ts`; missing keys
+fall back to English, so a partial translation is shippable.
 
 ### Posters, IMDb and streaming
 
@@ -122,11 +139,13 @@ npm run graph:export:cypher  # Neo4j CREATE statements
 ```
 data/marvel-graph.json     source of truth: titles + typed dependency edges
 data/summaries.json        detailed spoiler summaries, keyed by title id
+src/i18n/                  locales, dictionaries, plural + interpolation runtime
+src/middleware.ts          locale negotiation and redirects for unprefixed URLs
 src/lib/graph/schema.ts    zod schema + integrity checks (cycles, dangling ids)
 src/lib/graph/engine.ts    topological sort, transitive prerequisites, progress
 src/lib/summaries/         summary schema + client-safe accessor
 src/lib/watchlist/         WatchlistAdapter interface + localStorage impl + React provider
-src/app/                   Next.js App Router pages (all 91 routes prerendered)
+src/app/[locale]/          Next.js App Router pages, prerendered per language
 prisma/                    optional Postgres schema + seed for the future logged-in mode
 helm/marvel-watchlist/     Helm chart
 ```

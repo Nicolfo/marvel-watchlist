@@ -1,10 +1,15 @@
 import { Explorer } from "@/components/explorer";
 import { JsonLd } from "@/components/json-ld";
+import { getDictionary } from "@/i18n/dictionary";
+import { translate } from "@/i18n/translate";
 import { getGraph, graphData } from "@/lib/graph/catalog";
 import { suggestedOrder } from "@/lib/graph/engine";
-import { absoluteUrl, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
+import { absoluteUrl, localeUrl, SITE_NAME, SITE_URL } from "@/lib/site";
 
-export default function HomePage() {
+export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+  const dictionary = await getDictionary(locale);
+
   // The real computed order, not the order titles happen to sit in the data
   // file - the list below claims to be the suggested order, so it must be.
   const order = suggestedOrder(getGraph(), "should");
@@ -17,23 +22,25 @@ export default function HomePage() {
           "@graph": [
             {
               "@type": "WebSite",
-              "@id": `${SITE_URL}/#website`,
-              url: SITE_URL,
+              // Per-language id, so fourteen translations are not advertised as
+              // fourteen conflicting descriptions of one entity.
+              "@id": `${SITE_URL}/${locale}/#website`,
+              url: absoluteUrl(localeUrl("/", locale)),
               name: SITE_NAME,
-              description: SITE_DESCRIPTION,
-              inLanguage: "en",
+              description: translate(dictionary, locale, "meta.home.description"),
+              inLanguage: locale,
             },
             {
               // The catalog itself, so the ordering - the thing this site is
               // actually for - is legible as data and not just as markup.
               "@type": "ItemList",
-              name: "Marvel films and series in suggested watch order",
+              name: translate(dictionary, locale, "meta.home.title"),
               numberOfItems: graphData.titles.length,
               itemListOrder: "https://schema.org/ItemListOrderAscending",
               itemListElement: order.slice(0, 30).map((title, index) => ({
                 "@type": "ListItem",
                 position: index + 1,
-                url: absoluteUrl(`/title/${title.id}`),
+                url: absoluteUrl(localeUrl(`/title/${title.id}`, locale)),
                 name: title.title,
               })),
             },

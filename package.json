@@ -5,7 +5,7 @@
   "description": "Explore every Marvel Studios film and series in a suggested order, driven by a story-dependency graph.",
   "scripts": {
     "dev": "next dev",
-    "prebuild": "npm run graph:validate && npm run summaries:validate",
+    "prebuild": "npm run graph:validate && npm run summaries:validate && npm run i18n:validate",
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
@@ -13,6 +13,7 @@
     "test:watch": "vitest",
     "graph:validate": "tsx scripts/validate-graph.ts",
     "summaries:validate": "tsx scripts/validate-summaries.ts",
+    "i18n:validate": "tsx scripts/validate-i18n.ts",
     "graph:stats": "tsx scripts/graph-stats.ts",
     "graph:export:cypher": "tsx scripts/export-cypher.ts",
     "graph:export:sql": "tsx scripts/export-sql.ts",
