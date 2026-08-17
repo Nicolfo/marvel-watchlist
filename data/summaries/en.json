@@ -1,7 +1,8 @@
 {
   "schemaVersion": 1,
+  "locale": "en",
   "updatedAt": "2026-08-17",
-  "note": "Detailed plot summaries, spoilers and all, written so a reader can skip a title and still follow the ones that depend on it. Original prose written for this project - not copied from Wikipedia, a wiki or a press kit - so it ships under the repository's own licence. Only titles that have actually been released are summarised. Corrections and additions are welcome: edit this one file and open a PR.",
+  "note": "Detailed plot summaries, spoilers and all, written so a reader can skip a title and still follow the ones that depend on it. Original prose written for this project - not copied from Wikipedia, a wiki or a press kit - so it ships under the repository's own licence. Only titles that have actually been released are summarised. This is the English base: every other locale falls back to it per title, so a translation may cover as few titles as its translator has reached. Corrections and additions are welcome - edit one file and open a PR.",
   "items": {
     "iron-man": {
       "paragraphs": [

@@ -1,9 +1,11 @@
 import { artworkFor, HAS_REAL_ARTWORK, type ArtworkEntry } from "./artwork";
 import { getGraph } from "./graph/catalog";
+import { DEFAULT_LOCALE, isLocale } from "@/i18n/config";
 import {
   backdropUrl,
   detailsUrl,
   mediaTypeFor,
+  overviewUrl,
   pickBestMatch,
   posterUrl,
   redact,
@@ -163,4 +165,75 @@ export async function resolveArtwork(id: string): Promise<ArtworkEntry | null> {
   const started = lookup(id, tmdbAuth(key)).finally(() => inflight.delete(id));
   inflight.set(id, started);
   return started;
+}
+
+/**
+ * The short, spoiler-free synopsis for one title, in one language.
+ *
+ * TMDB is translated - it takes a `language` parameter and answers with a
+ * community-supplied overview in that language - so a Persian reader should get
+ * a Persian synopsis rather than the English one. That is a separate call from
+ * `resolveArtwork` on purpose: a poster is a poster in every language, so the
+ * expensive part (search, match, IMDb id) is looked up once and cached by id,
+ * and only this one field is fetched per language.
+ *
+ * Coverage on TMDB is uneven - a one-shot may have an English overview and
+ * nothing else - so an empty answer falls back to English rather than leaving a
+ * gap where the synopsis should be.
+ */
+export interface ResolvedOverview {
+  text: string | null;
+  /**
+   * Which language the text actually came back in - not which was asked for.
+   *
+   * The caller needs this: an English synopsis shown on a Persian page has to
+   * be marked `lang="en" dir="ltr"`, or the browser lays an English paragraph
+   * out right-to-left and a screen reader pronounces it in the wrong voice.
+   */
+  language: string;
+}
+
+const overviewCache = new Map<string, { value: ResolvedOverview; expires: number }>();
+
+export async function resolveOverview(id: string, locale: string): Promise<ResolvedOverview> {
+  const art = await resolveArtwork(id);
+  const english: ResolvedOverview = {
+    text: art?.overview ?? null,
+    language: DEFAULT_LOCALE,
+  };
+
+  // Unknown locale, English, no match to ask about, or no key to ask with:
+  // whatever we already have is the answer.
+  if (!isLocale(locale) || locale === DEFAULT_LOCALE || !art?.tmdbId) return english;
+  const key = apiKey();
+  if (!key) return english;
+
+  const cacheKey = `${id}|${locale}`;
+  const cached = overviewCache.get(cacheKey);
+  if (cached && cached.expires > Date.now()) return cached.value;
+
+  const auth = tmdbAuth(key);
+  const title = getGraph().byId.get(id);
+  if (!title) return english;
+
+  try {
+    const details = await getJson<{ overview?: string }>(
+      overviewUrl(art.tmdbId, mediaTypeFor(title), auth, locale),
+      auth,
+    );
+    const translated = details.overview?.trim() || null;
+    const value: ResolvedOverview = translated ? { text: translated, language: locale } : english;
+    overviewCache.set(cacheKey, {
+      value,
+      // A missing translation is worth re-asking for sooner than a present one:
+      // TMDB's overviews are community-contributed and keep arriving.
+      expires: Date.now() + (translated ? HIT_TTL_MS : MISS_TTL_MS),
+    });
+    return value;
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.warn(`overview: ${id} (${locale}): ${redact(message, auth)}`);
+    overviewCache.set(cacheKey, { value: english, expires: Date.now() + ERROR_TTL_MS });
+    return english;
+  }
 }

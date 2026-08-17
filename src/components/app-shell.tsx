@@ -3,7 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { useI18n, useLocalePath } from "@/i18n/context";
 import { useWatchlist } from "@/lib/watchlist/provider";
+import { LanguageSwitcher } from "./language-switcher";
 import { ProgressBar } from "./ui";
 
 /**
@@ -12,12 +14,18 @@ import { ProgressBar } from "./ui";
  * On phones this is an app bar plus a slide-in drawer, so the whole viewport
  * below 56px belongs to content. On large screens the same bar carries the nav
  * inline and the drawer never exists.
+ *
+ * Directional classes here are logical (`ms`/`me`, `start`/`end`) rather than
+ * physical (`ml`/`mr`, `left`/`right`), so the whole chrome mirrors itself in
+ * Arabic and Persian: the drawer slides in from the right, the burger sits on
+ * the right, and the progress pill moves to the left, without a second
+ * stylesheet.
  */
 
 const NAV = [
-  { href: "/", label: "Explore", icon: GridIcon },
-  { href: "/watchlist", label: "My watchlist", icon: CheckIcon },
-  { href: "/about", label: "About", icon: InfoIcon },
+  { href: "/", key: "nav.explore", icon: GridIcon },
+  { href: "/watchlist", key: "nav.watchlist", icon: CheckIcon },
+  { href: "/about", key: "nav.about", icon: InfoIcon },
 ];
 
 export function AppShell({ children }: { children: React.ReactNode }) {
@@ -25,6 +33,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const panelRef = useRef<HTMLDivElement>(null);
   const burgerRef = useRef<HTMLButtonElement>(null);
+  const { t } = useI18n();
+  const path = useLocalePath();
 
   // Navigating from inside the drawer should dismiss it.
   useEffect(() => {
@@ -60,10 +70,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             ref={burgerRef}
             type="button"
             onClick={() => setOpen(true)}
-            aria-label="Open menu"
+            aria-label={t("shell.openMenu")}
             aria-expanded={open}
             aria-controls="app-drawer"
-            className="-ml-1 grid h-11 w-11 shrink-0 place-items-center rounded-lg text-text transition-colors hover:bg-panel-2 lg:hidden"
+            className="-ms-1 grid h-11 w-11 shrink-0 place-items-center rounded-lg text-text transition-colors hover:bg-panel-2 lg:hidden"
           >
             <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" aria-hidden>
               <path
@@ -75,31 +85,37 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </svg>
           </button>
 
-          <Link href="/" className="flex min-w-0 items-center gap-2">
+          <Link href={path("/")} className="flex min-w-0 items-center gap-2">
             <span className="grid h-8 w-8 shrink-0 place-items-center rounded-md bg-accent text-sm font-black tracking-tighter text-white">
               M
             </span>
-            <span className="truncate text-base font-semibold tracking-tight">
+            {/* The product name is a brand, so it is not translated - but it is
+                marked `ltr` so it does not get reordered inside an RTL bar. */}
+            <span dir="ltr" className="truncate text-base font-semibold tracking-tight">
               Marvel<span className="text-muted"> Watchlist</span>
             </span>
           </Link>
 
-          <nav className="ml-4 hidden items-center gap-1 text-sm lg:flex">
-            {NAV.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                aria-current={pathname === item.href ? "page" : undefined}
-                className={`rounded-md px-3 py-1.5 transition-colors hover:bg-panel-2 hover:text-text ${
-                  pathname === item.href ? "bg-panel-2 text-text" : "text-muted"
-                }`}
-              >
-                {item.label}
-              </Link>
-            ))}
+          <nav className="ms-4 hidden items-center gap-1 text-sm lg:flex">
+            {NAV.map((item) => {
+              const href = path(item.href);
+              return (
+                <Link
+                  key={item.href}
+                  href={href}
+                  aria-current={pathname === href ? "page" : undefined}
+                  className={`rounded-md px-3 py-1.5 transition-colors hover:bg-panel-2 hover:text-text ${
+                    pathname === href ? "bg-panel-2 text-text" : "text-muted"
+                  }`}
+                >
+                  {t(item.key)}
+                </Link>
+              );
+            })}
           </nav>
 
-          <div className="ml-auto shrink-0">
+          <div className="ms-auto flex shrink-0 items-center gap-2">
+            <LanguageSwitcher className="hidden sm:flex" />
             <ProgressPill />
           </div>
         </div>
@@ -112,16 +128,16 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </main>
 
       <footer className="mx-auto w-full max-w-6xl border-t border-edge px-3 py-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] text-xs text-muted sm:px-6">
-        Watch order adapted from{" "}
+        {t("shell.footer.prefix")}{" "}
         <a
           className="text-accent-soft underline underline-offset-2"
           href="https://www.reddit.com/r/marvelstudios/s/Yc9CunxbWr"
           target="_blank"
           rel="noreferrer noopener"
         >
-          &ldquo;A smarter MCU watch order&rdquo; by Rocked03
+          {t("shell.footer.link")}
         </a>
-        . Fan project, not affiliated with Marvel or The Walt Disney Company.
+        {t("shell.footer.suffix")}
       </footer>
 
       <Drawer open={open} onClose={() => setOpen(false)} pathname={pathname} panelRef={panelRef} />
@@ -141,6 +157,8 @@ function Drawer({
   panelRef: React.RefObject<HTMLDivElement | null>;
 }) {
   const { ready, progress } = useWatchlist();
+  const { t, n } = useI18n();
+  const path = useLocalePath();
 
   return (
     <div
@@ -154,27 +172,31 @@ function Drawer({
         }`}
       />
 
+      {/* `start-0` + the rtl-aware transform: the panel enters from whichever
+          edge the reading direction starts at. */}
       <div
         id="app-drawer"
         ref={panelRef}
         role="dialog"
         aria-modal="true"
-        aria-label="Menu"
+        aria-label={t("shell.menu")}
         tabIndex={-1}
-        className={`absolute inset-y-0 left-0 flex w-[82%] max-w-xs flex-col border-r border-edge bg-panel pt-[env(safe-area-inset-top)] transition-transform duration-300 ease-out ${
-          open ? "translate-x-0" : "-translate-x-full"
+        className={`absolute inset-y-0 start-0 flex w-[82%] max-w-xs flex-col border-e border-edge bg-panel pt-[env(safe-area-inset-top)] transition-transform duration-300 ease-out ${
+          open ? "translate-x-0" : "-translate-x-full rtl:translate-x-full"
         }`}
       >
         <div className="flex h-14 items-center gap-2 px-3">
           <span className="grid h-8 w-8 place-items-center rounded-md bg-accent text-sm font-black tracking-tighter text-white">
             M
           </span>
-          <span className="text-base font-semibold tracking-tight">Marvel Watchlist</span>
+          <span dir="ltr" className="text-base font-semibold tracking-tight">
+            Marvel Watchlist
+          </span>
           <button
             type="button"
             onClick={onClose}
-            aria-label="Close menu"
-            className="-mr-1 ml-auto grid h-11 w-11 place-items-center rounded-lg text-muted transition-colors hover:bg-panel-2 hover:text-text"
+            aria-label={t("shell.closeMenu")}
+            className="-me-1 ms-auto grid h-11 w-11 place-items-center rounded-lg text-muted transition-colors hover:bg-panel-2 hover:text-text"
           >
             <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" aria-hidden>
               <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
@@ -184,32 +206,38 @@ function Drawer({
 
         <nav className="mt-2 flex flex-col gap-1 px-2">
           {NAV.map((item) => {
-            const active = pathname === item.href;
+            const href = path(item.href);
+            const active = pathname === href;
             const Icon = item.icon;
             return (
               <Link
                 key={item.href}
-                href={item.href}
+                href={href}
                 aria-current={active ? "page" : undefined}
                 className={`flex min-h-12 items-center gap-3 rounded-xl px-3 text-base transition-colors ${
                   active ? "bg-panel-2 text-text" : "text-muted hover:bg-panel-2/60 hover:text-text"
                 }`}
               >
                 <Icon />
-                {item.label}
+                {t(item.key)}
               </Link>
             );
           })}
         </nav>
 
-        <div className="mt-auto border-t border-edge p-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
-          <div className="mb-1.5 flex items-baseline justify-between text-xs">
-            <span className="text-muted">Watched</span>
-            <span className="tabular-nums">
-              {ready ? `${progress.watched}/${progress.total}` : "..."}
-            </span>
+        <div className="mt-auto space-y-4 border-t border-edge p-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
+          {/* The switcher is hidden in the phone app bar for room, so the
+              drawer is where a phone reader changes language. */}
+          <LanguageSwitcher className="sm:hidden" />
+          <div>
+            <div className="mb-1.5 flex items-baseline justify-between text-xs">
+              <span className="text-muted">{t("shell.watched")}</span>
+              <span className="tabular-nums">
+                {ready ? `${n(progress.watched)}/${n(progress.total)}` : "..."}
+              </span>
+            </div>
+            <ProgressBar value={ready ? progress.watched : 0} total={progress.total} />
           </div>
-          <ProgressBar value={ready ? progress.watched : 0} total={progress.total} />
         </div>
       </div>
     </div>
@@ -219,18 +247,24 @@ function Drawer({
 /** Compact progress for the app bar: a ring on phones, ring + count above. */
 function ProgressPill() {
   const { ready, progress } = useWatchlist();
+  const { t, n } = useI18n();
+  const path = useLocalePath();
   const radius = 9;
   const circumference = 2 * Math.PI * radius;
   const filled = ready ? (progress.percent / 100) * circumference : 0;
 
   return (
     <Link
-      href="/watchlist"
+      href={path("/watchlist")}
       aria-label={
-        ready ? `${progress.watched} of ${progress.total} watched` : "Watchlist progress"
+        ready
+          ? t("shell.progressAria", { watched: progress.watched, total: progress.total })
+          : t("shell.progressFallbackAria")
       }
       className="flex items-center gap-2 rounded-full border border-edge px-2 py-1 transition-colors hover:border-accent-soft"
     >
+      {/* The ring is a clock-face, not a piece of text: it winds the same way
+          in every language, so it is pinned to ltr. */}
       <svg viewBox="0 0 24 24" className="h-5 w-5 -rotate-90" aria-hidden>
         <circle cx="12" cy="12" r={radius} fill="none" stroke="var(--color-edge)" strokeWidth="3" />
         <circle
@@ -246,7 +280,7 @@ function ProgressPill() {
         />
       </svg>
       <span className="text-xs tabular-nums text-muted">
-        {ready ? `${progress.watched}/${progress.total}` : "..."}
+        {ready ? `${n(progress.watched)}/${n(progress.total)}` : "..."}
       </span>
     </Link>
   );

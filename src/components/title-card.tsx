@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import { useI18n, useLocalePath } from "@/i18n/context";
 import type { Title } from "@/lib/graph/schema";
 import { useWatchlist } from "@/lib/watchlist/provider";
 import { ImdbLink, WatchLinks } from "./links";
 import { Poster } from "./poster";
-import { Badge, ProgressBar, TitleMeta } from "./ui";
+import { Badge, ProgressBar, TitleMeta, usePhaseLabel } from "./ui";
 
 export interface TitleCardData {
   title: Title;
@@ -25,6 +26,7 @@ function WatchToggle({
   size?: "sm" | "md";
 }) {
   const { toggle } = useWatchlist();
+  const { t } = useI18n();
   const dimensions = size === "sm" ? "h-6 w-6" : "h-8 w-8";
 
   return (
@@ -36,7 +38,11 @@ function WatchToggle({
         toggle(title.id);
       }}
       aria-pressed={watched}
-      aria-label={watched ? `Mark ${title.title} as unwatched` : `Mark ${title.title} as watched`}
+      aria-label={
+        watched
+          ? t("card.markUnwatched", { title: title.title })
+          : t("card.markWatched", { title: title.title })
+      }
       className={`group/toggle grid ${dimensions} shrink-0 place-items-center rounded-full border backdrop-blur transition-colors ${
         watched
           ? "border-accent bg-accent text-white"
@@ -68,6 +74,8 @@ function WatchToggle({
 /** Poster tile used in the grid view. */
 export function TitleTile({ data, priority = false }: { data: TitleCardData; priority?: boolean }) {
   const { title, position, watched, missingCount, released } = data;
+  const { t, n } = useI18n();
+  const path = useLocalePath();
 
   return (
     <li className="group relative">
@@ -80,11 +88,11 @@ export function TitleTile({ data, priority = false }: { data: TitleCardData; pri
           aria-hidden
         />
 
-        <span className="pointer-events-none absolute left-2 top-2 rounded-md bg-black/60 px-1.5 py-0.5 text-[10px] font-semibold tabular-nums text-white/80 backdrop-blur">
-          {position}
+        <span className="pointer-events-none absolute start-2 top-2 rounded-md bg-black/60 px-1.5 py-0.5 text-[10px] font-semibold tabular-nums text-white/80 backdrop-blur">
+          {n(position)}
         </span>
 
-        <div className="absolute right-2 top-2">
+        <div className="absolute end-2 top-2">
           <WatchToggle title={title} watched={watched} size="sm" />
         </div>
 
@@ -97,22 +105,22 @@ export function TitleTile({ data, priority = false }: { data: TitleCardData; pri
             {title.title}
           </h3>
           <p className="mt-1 text-[11px] text-white/60">
-            {title.year}
-            {!released ? " · Upcoming" : ""}
+            {n(title.year)}
+            {!released ? ` · ${t("card.upcoming")}` : ""}
           </p>
 
           <div className="mt-1.5">
             {watched ? (
               <span className="inline-block rounded bg-could/20 px-1.5 py-0.5 text-[10px] font-medium text-could">
-                Watched
+                {t("card.watched")}
               </span>
             ) : missingCount > 0 ? (
               <span className="inline-block rounded bg-black/60 px-1.5 py-0.5 text-[10px] font-medium text-white/70">
-                {missingCount} first
+                {t("card.first", { count: missingCount })}
               </span>
             ) : (
               <span className="inline-block rounded bg-could/20 px-1.5 py-0.5 text-[10px] font-medium text-could">
-                Ready
+                {t("card.ready")}
               </span>
             )}
           </div>
@@ -130,9 +138,9 @@ export function TitleTile({ data, priority = false }: { data: TitleCardData; pri
       </div>
 
       <Link
-        href={`/title/${title.id}`}
+        href={path(`/title/${title.id}`)}
         className="absolute inset-0 rounded-xl"
-        aria-label={`${title.title} details`}
+        aria-label={t("card.details", { title: title.title })}
       >
         <span className="sr-only">{title.title}</span>
       </Link>
@@ -143,6 +151,8 @@ export function TitleTile({ data, priority = false }: { data: TitleCardData; pri
 /** Compact row used in the list view. */
 export function TitleCard({ data }: { data: TitleCardData }) {
   const { title, position, watched, missingCount, released } = data;
+  const { t, n } = useI18n();
+  const path = useLocalePath();
 
   return (
     <li
@@ -150,7 +160,7 @@ export function TitleCard({ data }: { data: TitleCardData }) {
         watched ? "opacity-70" : ""
       }`}
     >
-      <span className="w-7 shrink-0 text-right text-xs tabular-nums text-muted">{position}</span>
+      <span className="w-7 shrink-0 text-end text-xs tabular-nums text-muted">{n(position)}</span>
 
       <div className="relative z-10">
         <WatchToggle title={title} watched={watched} size="sm" />
@@ -159,7 +169,7 @@ export function TitleCard({ data }: { data: TitleCardData }) {
       <Poster title={title} className="h-16 w-11 shrink-0" sizes="44px" />
 
       <div className="min-w-0 flex-1">
-        <Link href={`/title/${title.id}`} className="block">
+        <Link href={path(`/title/${title.id}`)} className="block">
           <span className="absolute inset-0" aria-hidden />
           <span
             className={`block truncate font-medium ${watched ? "line-through decoration-muted" : ""}`}
@@ -169,7 +179,7 @@ export function TitleCard({ data }: { data: TitleCardData }) {
         </Link>
         <div className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-1">
           <TitleMeta title={title} />
-          {!released ? <Badge className="text-accent-soft">Upcoming</Badge> : null}
+          {!released ? <Badge className="text-accent-soft">{t("card.upcoming")}</Badge> : null}
         </div>
       </div>
 
@@ -180,11 +190,11 @@ export function TitleCard({ data }: { data: TitleCardData }) {
 
       <div className="relative z-10 hidden shrink-0 sm:block">
         {watched ? (
-          <Badge className="text-could">Watched</Badge>
+          <Badge className="text-could">{t("card.watched")}</Badge>
         ) : missingCount > 0 ? (
-          <Badge className="text-muted">{missingCount} to watch first</Badge>
+          <Badge className="text-muted">{t("card.toWatchFirst", { count: missingCount })}</Badge>
         ) : (
-          <Badge className="text-could">Ready</Badge>
+          <Badge className="text-could">{t("card.ready")}</Badge>
         )}
       </div>
     </li>
@@ -200,14 +210,19 @@ export function PhaseHeading({
   watched: number;
   total: number;
 }) {
+  const { n } = useI18n();
+  const phaseLabel = usePhaseLabel();
+
   return (
     <div className="mb-3 mt-8 flex items-center gap-4 first:mt-0">
-      <h2 className="text-sm font-semibold uppercase tracking-wider text-muted">{phase}</h2>
+      <h2 className="text-sm font-semibold uppercase tracking-wider text-muted">
+        {phaseLabel(phase)}
+      </h2>
       <div className="hidden flex-1 sm:block">
         <ProgressBar value={watched} total={total} />
       </div>
       <span className="text-xs tabular-nums text-muted">
-        {watched}/{total}
+        {n(watched)}/{n(total)}
       </span>
     </div>
   );
