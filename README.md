@@ -85,7 +85,7 @@ blocked on somebody doing all of it.
 | | Where | Size | State |
 | --- | --- | --- | --- |
 | 1. Reviewing existing translations | `src/i18n/dictionaries/*.json` | ~185 strings each | All 14 written, none reviewed by a speaker |
-| 2. Translating plot summaries | `data/summaries/<locale>.json` | 80 titles, ~15,000 words | English complete; Italian seeded with 5 |
+| 2. Translating plot summaries | `data/summaries/<locale>.json` | 80 titles, ~15,000 words | English complete; Italian complete, unreviewed |
 | 3. Adding a new language | both of the above | — | 14 supported |
 
 ### Fixing a word or a sentence
@@ -141,7 +141,7 @@ Both commands print it. As of the last update:
 ```
 UI strings   all 14 languages at 92-99% (the remainder are strings that are
              correctly identical to English)
-Summaries    en 80/82 released titles · it 5/82
+Summaries    en 80/82 released titles · it 80/82
 ```
 
 The two titles missing from English — `wonder-man` and

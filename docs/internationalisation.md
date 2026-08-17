@@ -44,7 +44,7 @@ of it. The structure for that is described in
 under `data/summaries/`, falling back to English **per title**, so a translator
 who does five films ships five translated films rather than having to finish all
 eighty before anything appears. English is the base and is complete; Italian is
-seeded with a handful as a worked example.
+a full translation of it, and awaits review by a second speaker.
 
 A reader who opens a summary that has not been translated yet is told so, in
 their own language, before and after the reveal (`spoiler.notTranslated`), and
