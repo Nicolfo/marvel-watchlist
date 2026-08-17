@@ -1,11 +1,13 @@
 "use client";
 
 import { useEffect, useId, useState } from "react";
+import { DEFAULT_LOCALE } from "@/i18n/config";
+import { useI18n } from "@/i18n/context";
 import type { Title } from "@/lib/graph/schema";
 import { isReleased } from "@/lib/graph/engine";
 import { useSpoilerPreference } from "@/lib/spoiler-context";
 import { readingMinutes, summaryFor } from "@/lib/summaries/catalog";
-import { Badge, KIND_LABELS } from "./ui";
+import { Badge, kindKey } from "./ui";
 
 /**
  * The detailed, spoilers-and-all summary of a title.
@@ -28,6 +30,7 @@ import { Badge, KIND_LABELS } from "./ui";
 export function SpoilerSummary({ title }: { title: Title }) {
   const entry = summaryFor(title.id);
   const { ready, alwaysShow, setAlwaysShow } = useSpoilerPreference();
+  const { t, n, locale, dir } = useI18n();
   const [revealed, setRevealed] = useState(false);
   const bodyId = useId();
 
@@ -46,47 +49,62 @@ export function SpoilerSummary({ title }: { title: Title }) {
     return (
       <section className="panel rounded-2xl p-5 sm:p-6">
         <h2 className="text-sm font-semibold uppercase tracking-wider text-muted">
-          Detailed summary
+          {t("spoiler.heading")}
         </h2>
         <p className="mt-3 text-sm text-muted">
-          No detailed summary written for this one yet. They live in{" "}
-          <code className="rounded bg-panel-2 px-1 py-0.5 text-xs">data/summaries.json</code> -
-          contributions welcome.
+          {t("spoiler.none", { file: "data/summaries.json" })}
         </p>
       </section>
     );
   }
 
   const minutes = readingMinutes(entry);
-  const kind = KIND_LABELS[title.kind].toLowerCase();
+  const kind = t(kindKey(title.kind)).toLocaleLowerCase(locale);
 
   return (
     <section className="panel rounded-2xl p-5 sm:p-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex flex-wrap items-center gap-2">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-muted">
-            Detailed summary
+            {t("spoiler.heading")}
           </h2>
           <Badge className="text-accent-soft">
             <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden />
-            Spoilers
+            {t("spoiler.badge")}
           </Badge>
         </div>
         <span className="text-xs text-muted">
-          {minutes} min read · the whole {kind}, ending included
+          {t("spoiler.readTime", { count: minutes, kind })}
         </span>
       </div>
 
       {revealed ? (
         <>
-          <div id={bodyId} className="mt-4 space-y-3 text-sm leading-relaxed text-text/90">
+          {/* The summaries are English prose whatever the interface language
+              is, so the block declares that: `lang` fixes hyphenation and the
+              screen-reader voice, and `dir` stops an English paragraph being
+              laid out right-to-left inside a Persian page. */}
+          <div
+            id={bodyId}
+            lang="en"
+            dir="ltr"
+            className="mt-4 space-y-3 text-start text-sm leading-relaxed text-text/90"
+          >
             {entry.paragraphs.map((paragraph, index) => (
               <p key={index}>{paragraph}</p>
             ))}
 
+            {/* Says so plainly rather than letting a Persian reader press the
+                button and be surprised by a wall of English. */}
+            {locale !== DEFAULT_LOCALE ? (
+              <p lang={locale} dir={dir} className="text-xs italic text-muted">
+                {t("spoiler.englishOnly")}
+              </p>
+            ) : null}
+
             {entry.stinger ? (
               <p className="rounded-xl border border-edge bg-panel-2/50 p-3 text-muted">
-                <span className="font-semibold text-text">After the credits: </span>
+                <span className="font-semibold text-text">{t("spoiler.afterCredits")}</span>
                 {entry.stinger}
               </p>
             ) : null}
@@ -105,17 +123,15 @@ export function SpoilerSummary({ title }: { title: Title }) {
               aria-controls={bodyId}
               className="min-h-11 rounded-lg border border-edge bg-black/40 px-4 py-2 text-sm text-muted transition-colors hover:text-text"
             >
-              Hide the summary
+              {t("spoiler.hide")}
             </button>
-            <AlwaysShowToggle checked={alwaysShow} onChange={setAlwaysShow} />
+            <AlwaysShowToggle checked={alwaysShow} onChange={setAlwaysShow} label={t("spoiler.always")} />
           </div>
         </>
       ) : (
         <>
           <p className="mt-3 max-w-2xl text-sm text-muted">
-            Everything that happens in {title.title}, including how it ends. Written so you can
-            skip watching it and still follow whatever comes next - so only open it if you are
-            fine with that.
+            {t("spoiler.warning", { title: title.title })}
           </p>
 
           <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
@@ -126,9 +142,9 @@ export function SpoilerSummary({ title }: { title: Title }) {
               aria-controls={bodyId}
               className="min-h-11 rounded-lg border border-edge bg-black/40 px-4 py-2 text-sm font-medium text-text transition-colors hover:border-accent-soft"
             >
-              Show me what happens
+              {t("spoiler.reveal")}
             </button>
-            <AlwaysShowToggle checked={alwaysShow} onChange={setAlwaysShow} />
+            <AlwaysShowToggle checked={alwaysShow} onChange={setAlwaysShow} label={t("spoiler.always")} />
           </div>
         </>
       )}
@@ -139,9 +155,11 @@ export function SpoilerSummary({ title }: { title: Title }) {
 function AlwaysShowToggle({
   checked,
   onChange,
+  label,
 }: {
   checked: boolean;
   onChange(value: boolean): void;
+  label: string;
 }) {
   return (
     <label className="inline-flex cursor-pointer items-center gap-2 text-xs text-muted">
@@ -151,7 +169,7 @@ function AlwaysShowToggle({
         onChange={(event) => onChange(event.target.checked)}
         className="h-4 w-4 accent-accent"
       />
-      Always open these for me
+      {label}
     </label>
   );
 }

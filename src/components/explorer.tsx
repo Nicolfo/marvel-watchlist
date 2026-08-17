@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { useI18n, useLocalePath } from "@/i18n/context";
 import { getGraph } from "@/lib/graph/catalog";
 import { isReleased, missingPrerequisites, nextUp, suggestedOrder } from "@/lib/graph/engine";
 import type { Title } from "@/lib/graph/schema";
@@ -10,22 +11,18 @@ import { ImdbLink, WatchLinks } from "./links";
 import { Poster } from "./poster";
 import { StrictnessPicker } from "./strictness-picker";
 import { PhaseHeading, TitleCard, TitleTile, type TitleCardData } from "./title-card";
-import { Badge, KIND_LABELS, ProgressBar } from "./ui";
+import { Badge, ProgressBar, kindKey } from "./ui";
 
 type Filter = "all" | "unwatched" | "ready" | "watched";
 type Grouping = "order" | "phase";
 type View = "grid" | "list";
 
-const FILTERS: Array<{ id: Filter; label: string }> = [
-  { id: "all", label: "All" },
-  { id: "unwatched", label: "Not watched" },
-  { id: "ready", label: "Ready" },
-  { id: "watched", label: "Watched" },
-];
+const FILTERS: Filter[] = ["all", "unwatched", "ready", "watched"];
 
 export function Explorer() {
   const graph = getGraph();
   const { ready, watched, strictness, progress } = useWatchlist();
+  const { t, n } = useI18n();
   const [filter, setFilter] = useState<Filter>("all");
   const [grouping, setGrouping] = useState<Grouping>("order");
   const [view, setView] = useState<View>("grid");
@@ -57,12 +54,15 @@ export function Explorer() {
       if (filter === "unwatched" && row.watched) return false;
       if (filter === "ready" && (row.watched || row.missingCount > 0)) return false;
       if (needle) {
-        const haystack = `${row.title.title} ${row.title.phase} ${KIND_LABELS[row.title.kind]}`;
+        // Searches both the English data and the translated labels, so
+        // "serie" finds a series for an Italian reader and "series" still
+        // finds it for everyone else.
+        const haystack = `${row.title.title} ${row.title.phase} ${t(kindKey(row.title.kind))} ${t(`phase.${row.title.phase}`)}`;
         if (!haystack.toLowerCase().includes(needle)) return false;
       }
       return true;
     });
-  }, [filter, includeUpcoming, query, rows]);
+  }, [filter, includeUpcoming, query, rows, t]);
 
   const groups = useMemo(() => {
     if (grouping === "order") return [{ key: "", rows: visible }];
@@ -87,17 +87,17 @@ export function Explorer() {
           <div className="no-scrollbar flex min-w-0 flex-1 items-center gap-1 overflow-x-auto rounded-lg border border-edge p-0.5 sm:max-w-full sm:flex-none">
             {FILTERS.map((entry) => (
               <button
-                key={entry.id}
+                key={entry}
                 type="button"
-                onClick={() => setFilter(entry.id)}
-                aria-pressed={filter === entry.id}
+                onClick={() => setFilter(entry)}
+                aria-pressed={filter === entry}
                 className={`shrink-0 rounded-md px-2.5 py-1 text-sm transition-colors ${
-                  filter === entry.id
+                  filter === entry
                     ? "bg-panel-2 text-text"
                     : "text-muted hover:bg-panel-2/60 hover:text-text"
                 }`}
               >
-                {entry.label}
+                {t(`explorer.filter.${entry}`)}
               </button>
             ))}
           </div>
@@ -107,16 +107,16 @@ export function Explorer() {
             type="search"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search titles…"
-            aria-label="Search titles"
+            placeholder={t("explorer.search.placeholder")}
+            aria-label={t("explorer.search.label")}
             className="order-last w-full min-w-0 rounded-lg border border-edge bg-panel px-3 py-1.5 text-sm placeholder:text-muted sm:order-none sm:w-auto sm:flex-1 sm:max-w-xs"
           />
 
-          <div className="ml-auto flex shrink-0 items-center gap-2">
+          <div className="ms-auto flex shrink-0 items-center gap-2">
             {/* Grid is the right default on a phone; the toggle is desktop-only
                 so the bar stays two rows tall. */}
             <div className="hidden items-center gap-0.5 rounded-lg border border-edge p-0.5 sm:flex">
-              <ViewButton current={view} value="grid" onSelect={setView} label="Grid view">
+              <ViewButton current={view} value="grid" onSelect={setView} label={t("explorer.view.grid")}>
                 <svg viewBox="0 0 16 16" className="h-4 w-4" fill="currentColor" aria-hidden>
                   <rect x="1" y="1" width="6" height="6" rx="1.5" />
                   <rect x="9" y="1" width="6" height="6" rx="1.5" />
@@ -124,7 +124,7 @@ export function Explorer() {
                   <rect x="9" y="9" width="6" height="6" rx="1.5" />
                 </svg>
               </ViewButton>
-              <ViewButton current={view} value="list" onSelect={setView} label="List view">
+              <ViewButton current={view} value="list" onSelect={setView} label={t("explorer.view.list")}>
                 <svg viewBox="0 0 16 16" className="h-4 w-4" fill="currentColor" aria-hidden>
                   <rect x="1" y="2" width="14" height="2.5" rx="1.25" />
                   <rect x="1" y="6.75" width="14" height="2.5" rx="1.25" />
@@ -143,7 +143,7 @@ export function Explorer() {
                   : "border-edge text-muted hover:text-text"
               }`}
             >
-              Options
+              {t("explorer.options")}
             </button>
           </div>
         </div>
@@ -159,17 +159,17 @@ export function Explorer() {
                   onChange={(event) => setIncludeUpcoming(event.target.checked)}
                   className="h-4 w-4 accent-[var(--color-accent)]"
                 />
-                Show upcoming
+                {t("explorer.showUpcoming")}
               </label>
               <label className="flex items-center gap-2 text-sm text-muted">
-                Group by
+                {t("explorer.groupBy")}
                 <select
                   value={grouping}
                   onChange={(event) => setGrouping(event.target.value as Grouping)}
                   className="rounded-lg border border-edge bg-panel px-2 py-1.5 text-sm text-text"
                 >
-                  <option value="order">Suggested order</option>
-                  <option value="phase">Phase</option>
+                  <option value="order">{t("explorer.group.order")}</option>
+                  <option value="phase">{t("explorer.group.phase")}</option>
                 </select>
               </label>
             </div>
@@ -179,7 +179,7 @@ export function Explorer() {
 
       {visible.length === 0 ? (
         <p className="panel rounded-2xl p-10 text-center text-sm text-muted">
-          Nothing matches those filters.
+          {t("explorer.empty")}
         </p>
       ) : (
         groups.map((group) => (
@@ -209,8 +209,11 @@ export function Explorer() {
       )}
 
       <p className="text-center text-xs text-muted">
-        Showing {visible.length} of {rows.length} titles · order recomputed live from{" "}
-        {graph.data.edges.length} dependencies.
+        {t("explorer.count", {
+          visible: visible.length,
+          total: rows.length,
+          edges: graph.data.edges.length,
+        })}
       </p>
     </div>
   );
@@ -254,6 +257,9 @@ function Hero({
   ready: boolean;
   progress: { watched: number; total: number; percent: number };
 }) {
+  const { t, n } = useI18n();
+  const path = useLocalePath();
+
   return (
     <section className="relative overflow-hidden rounded-2xl border border-edge">
       <div
@@ -263,25 +269,25 @@ function Hero({
       <div className="relative grid gap-4 p-4 sm:gap-6 sm:p-8 lg:grid-cols-[1fr_auto] lg:items-center">
         <div className="max-w-2xl">
           <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-accent-soft sm:text-xs">
-            The Marvel Cinematic Universe, untangled
+            {t("hero.eyebrow")}
           </p>
           <h1 className="mt-2 text-xl font-bold leading-[1.15] tracking-tight sm:mt-3 sm:text-4xl lg:text-5xl">
-            Every film and series,
-            <br className="hidden sm:block" /> in an order that actually works
+            {t("hero.title.line1")}
+            <br className="hidden sm:block" /> {t("hero.title.line2")}
           </h1>
           {/* The pitch is desktop-only: on a phone it pushed the first poster
               a full screen down, and the About page carries the same copy. */}
           <p className="mt-4 hidden max-w-xl text-sm leading-relaxed text-muted sm:block">
-            This isn&rsquo;t a flat list. It&rsquo;s a story-dependency graph, sorted so nothing
-            ever appears before the titles it builds on. Open any title to see exactly what
-            you&rsquo;re missing, and where to stream it.
+            {t("hero.pitch")}
           </p>
 
           <div className="mt-4 w-full max-w-xs sm:mt-6">
             <div className="mb-1.5 flex items-baseline justify-between text-xs">
-              <span className="text-muted">Your progress</span>
+              <span className="text-muted">{t("hero.progress")}</span>
               <span className="tabular-nums font-medium">
-                {ready ? `${progress.watched}/${progress.total} · ${progress.percent}%` : "..."}
+                {ready
+                  ? `${n(progress.watched)}/${n(progress.total)} · ${n(progress.percent)}%`
+                  : "..."}
               </span>
             </div>
             <ProgressBar value={ready ? progress.watched : 0} total={progress.total} />
@@ -291,24 +297,24 @@ function Hero({
         {ready && next ? (
           <div className="w-full rounded-xl border border-edge bg-black/40 p-3 backdrop-blur sm:max-w-xs sm:p-4 lg:w-72">
             <p className="text-[10px] font-semibold uppercase tracking-wider text-muted sm:text-xs">
-              Next up
+              {t("hero.nextUp")}
             </p>
             <div className="mt-2 flex gap-3 sm:mt-3">
-              <Link href={`/title/${next.id}`} className="shrink-0">
+              <Link href={path(`/title/${next.id}`)} className="shrink-0">
                 <Poster title={next} className="h-24 w-16 sm:h-28 sm:w-[74px]" sizes="74px" priority />
               </Link>
               <div className="min-w-0 flex-1">
                 <Link
-                  href={`/title/${next.id}`}
+                  href={path(`/title/${next.id}`)}
                   className="block text-sm font-semibold leading-tight hover:text-accent-soft"
                 >
                   {next.title}
                 </Link>
                 <p className="mt-0.5 text-xs text-muted">
-                  {KIND_LABELS[next.kind]} · {next.year}
+                  {t(kindKey(next.kind))} · {n(next.year)}
                 </p>
                 <div className="mt-1.5">
-                  <Badge className="text-could">No prerequisites left</Badge>
+                  <Badge className="text-could">{t("hero.noPrereqs")}</Badge>
                 </div>
               </div>
             </div>

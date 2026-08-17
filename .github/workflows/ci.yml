@@ -39,6 +39,11 @@ jobs:
       - name: Validate summaries
         run: npm run summaries:validate
 
+      # Catches a placeholder a translation dropped or renamed, and a locale
+      # declared without a dictionary file.
+      - name: Validate translations
+        run: npm run i18n:validate
+
       - name: Typecheck
         run: npm run typecheck
 
