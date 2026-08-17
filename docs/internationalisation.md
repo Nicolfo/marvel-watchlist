@@ -26,15 +26,44 @@ for **Arabic** and **Persian**.
 page titles and meta descriptions, `aria-label`s, and the phase names
 (*Phase One* → *فاز یک*).
 
-**The catalog is not.** Title names stay as they are, and so do the 80 detailed
-plot summaries. These are data rather than UI copy: a machine-translated film
-title helps nobody find the film, and a machine-translated plot summary would be
-worse than the English one it replaced. A non-English reader who opens a summary
-is told, in their own language, that what follows is English — see
-`spoiler.englishOnly`.
+**The short TMDB synopsis is**, where TMDB has a translation. TMDB's API takes a
+`language` parameter and answers with a community-supplied overview in that
+language, so the spoiler-free synopsis in the page header is one of the few
+pieces of *catalog* text this app can legitimately show in the reader's own
+language — it is a real translation by a human, not a machine rendering of ours.
+Coverage is uneven (a one-shot may have English and nothing else), so an empty
+answer falls back to English.
+
+**The rest of the catalog is not.** Title names stay as they are, and so do the
+80 detailed plot summaries. These are data rather than UI copy: a
+machine-translated film title helps nobody find the film, and a
+machine-translated plot summary would be worse than the English one it replaced.
+A non-English reader who opens a summary is told, in their own language, that
+what follows is English — see `spoiler.englishOnly`.
 
 A summary block is marked `lang="en" dir="ltr"` so an English paragraph inside a
 Persian page is laid out and pronounced as English rather than being flipped.
+The synopsis carries whichever language it *actually* came back in, for the same
+reason: when TMDB has no Persian overview and we fall back, that paragraph must
+not be laid out right to left.
+
+### How the synopsis lookup is split
+
+`resolveArtwork(id)` is language-neutral and cached by id — a poster is a poster
+in every language, and the expensive part (search, match, IMDb id) should happen
+once. `resolveOverview(id, locale)` reuses that result's `tmdbId` and makes one
+extra call per (title, non-English locale), cached 24h for a hit and 1h for a
+miss, since TMDB's overviews are community-contributed and keep arriving.
+
+The browser asks `/api/artwork/<id>/meta?lang=<locale>`. That endpoint sits
+outside the `[locale]` segment because it serves images to every language, so
+the locale rides in as a query parameter rather than a path segment.
+
+`tmdbLanguage()` maps our locale codes to what TMDB expects. A region-qualified
+tag (`pt-BR`) passes through; `zh-Hans` must become `zh-CN`, because a *script*
+subtag is meaningless to TMDB and it answers in English without erroring — the
+kind of failure that looks like "translation just doesn't work" rather than an
+error anyone would notice.
 
 ## URLs
 
@@ -64,7 +93,7 @@ Which locale a bare URL resolves to, in order:
 Every page carries a canonical for its own language plus `hreflang` alternates
 naming all fourteen, with `x-default` on English. Without those, a crawler reads
 fourteen translations of one page as fourteen pages competing for one query. The
-sitemap lists every locale of every page with the same alternates map — 1,232
+sitemap lists every locale of every page with the same alternates map — 1,246
 URLs, generated from the catalog and the locale list, so neither can drift.
 
 ## Right to left

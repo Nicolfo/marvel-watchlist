@@ -62,6 +62,11 @@ keyed lookup and TMDB's CDN serves the bytes.
 
 Details worth knowing:
 
+- **Synopses are per language.** TMDB is translated, so
+  `/api/artwork/<id>/meta?lang=<locale>` asks it for the reader's language and
+  falls back to English where there is no translation. The artwork lookup itself
+  stays language-neutral and cached by id, so only that one field costs an extra
+  call per language.
 - **Caching.** Resolved entries are held in each pod's memory for 24h, misses
   for 1h, errors for 5 minutes. It is per-pod and lost on restart, which is
   why the first view after a rollout briefly shows generated art.

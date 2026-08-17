@@ -7,12 +7,15 @@ import {
   detailsUrl,
   isTmdbImageUrl,
   mediaTypeFor,
+  overviewUrl,
   pickBestMatch,
   redact,
   searchUrl,
   tmdbAuth,
+  tmdbLanguage,
   type TmdbResult,
 } from "./tmdb";
+import { LOCALE_CODES } from "@/i18n/config";
 
 const graph = getGraph();
 const title = (id: string): Title => graph.byId.get(id)!;
@@ -171,5 +174,54 @@ describe("phaseOrder", () => {
     const phases = phaseOrder();
     expect(new Set(phases).size).toBe(phases.length);
     expect(new Set(phases)).toEqual(new Set(graphData.titles.map((t) => t.phase)));
+  });
+});
+
+describe("tmdbLanguage", () => {
+  it("passes through the codes TMDB already understands", () => {
+    expect(tmdbLanguage("fa")).toBe("fa");
+    expect(tmdbLanguage("ja")).toBe("ja");
+    expect(tmdbLanguage("pt-BR")).toBe("pt-BR");
+  });
+
+  it("maps zh-Hans, which is a script subtag TMDB does not know", () => {
+    // Sending "zh-Hans" gets a silent English answer rather than an error, so
+    // this mapping is the difference between a translated synopsis and not.
+    expect(tmdbLanguage("zh-Hans")).toBe("zh-CN");
+  });
+
+  it("passes a region-qualified tag through, since TMDB uses the region", () => {
+    expect(tmdbLanguage("en-GB")).toBe("en-GB");
+    expect(tmdbLanguage("de-AT")).toBe("de-AT");
+  });
+
+  it("strips a script subtag, which TMDB does not understand", () => {
+    expect(tmdbLanguage("zh-Hant")).toBe("zh");
+    expect(tmdbLanguage("sr-Latn")).toBe("sr");
+  });
+
+  it("produces a plausible tag for every locale the site offers", () => {
+    for (const code of LOCALE_CODES) {
+      expect(tmdbLanguage(code), code).toMatch(/^[a-z]{2}(-[A-Z]{2})?$/);
+    }
+  });
+});
+
+describe("overviewUrl", () => {
+  it("asks TMDB for the language, and keeps a v3 key out of the path", () => {
+    const auth = tmdbAuth("eyJhbGciOi.token");
+    const url = overviewUrl(84958, "tv", auth, "fa");
+    expect(url).toContain("/tv/84958");
+    expect(url).toContain("language=fa");
+    // A v4 token travels in a header, so it must not appear in the URL.
+    expect(url).not.toContain("eyJhbGciOi");
+  });
+
+  it("hits the plain details endpoint, not external_ids", () => {
+    // external_ids carries the IMDb id and no overview; asking it for a
+    // translation would silently return nothing at all.
+    const auth = tmdbAuth("eyJhbGciOi.token");
+    expect(overviewUrl(1726, "movie", auth, "es")).not.toContain("external_ids");
+    expect(detailsUrl(84958, "tv", auth)).toContain("external_ids");
   });
 });
