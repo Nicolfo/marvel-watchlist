@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { DEFAULT_LOCALE, directionOf } from "@/i18n/config";
 import { useI18n, useLocalePath } from "@/i18n/context";
 import { Rich } from "@/i18n/rich";
 import { artworkSrc, generatedPalette } from "@/lib/artwork";
@@ -27,25 +28,35 @@ import { Badge, EdgeBadge, ProgressBar, TitleMeta, kindKey, usePhaseLabel } from
  * awaiting it during render would make this page dynamic; the key still stays
  * server-side behind that endpoint. It is supplementary text, so arriving a
  * beat after the rest of the page costs nothing.
+ *
+ * The active locale goes with the request: TMDB is translated, so the short
+ * synopsis is one of the few pieces of catalog text this app *can* show in the
+ * reader's own language. It falls back to English where TMDB has no
+ * translation, which is common for the one-shots and shorts.
  */
 export function TitleDetail({ id }: { id: string }) {
   const graph = getGraph();
   const { ready, watched, strictness, toggle, catchUpTo, markUnwatched } = useWatchlist();
-  const { t, n } = useI18n();
+  const { t, n, locale } = useI18n();
   const path = useLocalePath();
   const phaseLabel = usePhaseLabel();
   const title = graph.byId.get(id);
-  const [overview, setOverview] = useState<string | null>(null);
+  const [overview, setOverview] = useState<{ text: string; language: string } | null>(null);
   const enabled = useArtworkEnabled();
 
   useEffect(() => {
     // Nothing to fetch when the server has no artwork source configured.
     if (!enabled) return;
     let cancelled = false;
-    fetch(`/api/artwork/${encodeURIComponent(id)}/meta`)
+    fetch(`/api/artwork/${encodeURIComponent(id)}/meta?lang=${encodeURIComponent(locale)}`)
       .then((response) => (response.ok ? response.json() : { overview: null }))
-      .then((data: { overview?: string | null }) => {
-        if (!cancelled) setOverview(data.overview ?? null);
+      .then((data: { overview?: string | null; language?: string }) => {
+        if (cancelled) return;
+        setOverview(
+          data.overview
+            ? { text: data.overview, language: data.language ?? DEFAULT_LOCALE }
+            : null,
+        );
       })
       .catch(() => {
         /* the page is complete without a synopsis */
@@ -53,7 +64,7 @@ export function TitleDetail({ id }: { id: string }) {
     return () => {
       cancelled = true;
     };
-  }, [enabled, id]);
+  }, [enabled, id, locale]);
 
   const steps = useMemo(
     () => (title ? prerequisitesFor(graph, id, watched, strictness) : []),
@@ -155,8 +166,18 @@ export function TitleDetail({ id }: { id: string }) {
             <WatchLinks title={title} />
           </div>
 
+          {/* TMDB's coverage is uneven, so this may be the reader's language or
+              the English fallback. It is tagged with whichever came back, so an
+              English paragraph on a Persian page is not laid out right-to-left
+              or read aloud in the wrong voice. */}
           {overview ? (
-            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted">{overview}</p>
+            <p
+              lang={overview.language}
+              dir={directionOf(overview.language)}
+              className="mt-4 max-w-2xl text-start text-sm leading-relaxed text-muted"
+            >
+              {overview.text}
+            </p>
           ) : null}
           {title.note ? <p className="mt-3 max-w-2xl text-sm text-muted">{title.note}</p> : null}
 
