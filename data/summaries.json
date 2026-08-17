@@ -1,0 +1,511 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-08-17",
+  "note": "Detailed plot summaries, spoilers and all, written so a reader can skip a title and still follow the ones that depend on it. Original prose written for this project - not copied from Wikipedia, a wiki or a press kit - so it ships under the repository's own licence. Only titles that have actually been released are summarised. Corrections and additions are welcome: edit this one file and open a PR.",
+  "items": {
+    "iron-man": {
+      "paragraphs": [
+        "Tony Stark, billionaire arms manufacturer and heir to Stark Industries, is demonstrating a new missile in Afghanistan when his convoy is ambushed and he is taken hostage by the Ten Rings. Shrapnel from his own weapon lodges near his heart; a fellow captive, Yinsen, keeps him alive with an electromagnet and then with a miniature arc reactor built in the cave. Ordered to build a missile for his captors, Stark secretly builds a suit of armour instead. Yinsen dies buying him the time to power it up, and Stark burns the camp and walks out of the desert.",
+        "Home, he shuts down the weapons division against the wishes of his father's old partner, Obadiah Stane, and iterates the armour into the sleek red-and-gold Mark III. Flying it back to Afghanistan to destroy his own stockpiled weapons brings him into conflict with Stane, who has been selling to the Ten Rings all along. Stane has the leftover cave armour reverse-engineered into a far larger suit, rips the arc reactor out of Stark's chest, and fights him above Stark Industries. Pepper Potts overloads the factory's big reactor, killing Stane. At the press conference meant to blame the fight on a bodyguard, Stark reads the cue card, discards it, and says it out loud: I am Iron Man."
+      ],
+      "stinger": "Nick Fury is waiting in Stark's house to talk about something called the Avenger Initiative."
+    },
+    "the-incredible-hulk": {
+      "paragraphs": [
+        "Five years after a gamma experiment for General Thaddeus Ross turned him into a rampaging green giant and cost him his relationship with Ross's daughter Betty, Bruce Banner is hiding in a Rio favela, working in a bottling plant, learning breathing control from a martial arts teacher and hunting a cure by mail with an anonymous collaborator he knows only as Mr Blue. A drop of his blood in a soda bottle leads Ross to him. The extraction team includes Emil Blonsky, a career soldier who is badly outmatched by what Banner becomes, and who wants that power for himself.",
+        "Banner makes it back to America, reunites with Betty, and meets Mr Blue - the cellular biologist Samuel Sterns - who thinks he can reverse the condition. Blonsky, meanwhile, is dosed with a version of the super-soldier serum and then, at Sterns's lab, with Banner's gamma blood; he becomes the Abomination and tears Harlem apart. Banner deliberately Hulks out to stop him, beats him nearly to death, spares him at Betty's word, and disappears again. Sterns is left bleeding gamma-irradiated blood into a head wound."
+      ],
+      "stinger": "Tony Stark turns up in a bar to tell a drinking Ross that a team is being put together."
+    },
+    "the-consultant": {
+      "paragraphs": [
+        "A short comedy scene set entirely in a diner. Two S.H.I.E.L.D. agents, Coulson and Sitwell, discuss an order from the World Security Council: Emil Blonsky, the Abomination, is to be released from military custody and put on the Avengers team. Nobody at S.H.I.E.L.D. wants that, so rather than refuse outright they arrange for General Ross to say no for them. They send a consultant so obnoxious that Ross is guaranteed to throw him out of the building - Tony Stark, who turns up at Ross's bar, buys the place out from under him, and gets the request denied exactly as planned."
+      ]
+    },
+    "iron-man-2": {
+      "paragraphs": [
+        "Six months after going public, Stark is a global celebrity refusing to hand the armour to the US government, and quietly dying: the palladium core keeping him alive is poisoning his blood. He makes Pepper Potts CEO, hires a new assistant called Natalie Rushman, and races a car at Monaco, where Ivan Vanko - son of a Soviet physicist his father froze out - attacks him with electrified whips built from stolen arc reactor plans. Vanko is jailed, faked dead, and picked up by rival contractor Justin Hammer to build a fleet of armed drones.",
+        "Believing he is out of time, Stark gets drunk in the suit at his own birthday party and is beaten down by his friend Rhodes, who flies the Mark II away to the Air Force. Natalie turns out to be Natasha Romanoff of S.H.I.E.L.D.; Nick Fury hands Stark his father's old research, in which Howard hid the design for a new element that replaces the palladium and cures him. At the Stark Expo, Vanko takes control of Hammer's drones and Rhodes's armour. Stark and Rhodes destroy the fleet together, Vanko blows himself up, and Rhodes keeps the suit as War Machine."
+      ],
+      "stinger": "Agent Coulson, sent to New Mexico, radios in that he has found a hammer in a crater."
+    },
+    "thor": {
+      "paragraphs": [
+        "On the day he is to be crowned king of Asgard, Thor's coronation is interrupted by Frost Giants breaking into the vault. Against his father Odin's orders he leads a raid on Jotunheim that reignites a war, and Odin strips him of his power, banishes him to Earth, and casts Mjolnir after him with the enchantment that only the worthy may lift it. Thor lands in New Mexico, is repeatedly hit by the van of astrophysicist Jane Foster, and cannot pull the hammer out of the crater where S.H.I.E.L.D. promptly builds a compound around it.",
+        "In Asgard, Loki discovers he is himself an adopted Frost Giant, takes the throne while Odin falls into the Odinsleep, and sends the Destroyer to kill his brother. Thor, humbled by his time on Earth and by Jane, offers his life to protect the town; the sacrifice makes him worthy, Mjolnir returns to his hand, and he flies home. He shatters the Bifrost to stop Loki committing genocide on Jotunheim, stranding himself from Jane. Loki lets go of Odin's spear and falls into the void. Thor is reconciled with his father, and grieves the woman he can no longer reach."
+      ],
+      "stinger": "Nick Fury shows Erik Selvig the Tesseract - and behind Selvig's eyes, Loki is already watching."
+    },
+    "thors-hammer": {
+      "paragraphs": [
+        "A four-minute one-shot set on Coulson's drive to New Mexico. He stops at a petrol station for water, ends up talking to the clerk about the merits of different bottled brands, and is interrupted by two armed men robbing the place. Coulson takes both of them apart with almost bored efficiency, buys his drink, and gets back on the road to the crater - a small character piece establishing that the unflappable man in the suit is entirely capable of handling himself."
+      ]
+    },
+    "captain-america-the-first-avenger": {
+      "paragraphs": [
+        "In 1942, sickly Brooklyn kid Steve Rogers has been rejected for military service five times when Dr Abraham Erskine picks him for a secret programme precisely because he knows what it is to be weak. The super-soldier serum turns him into a physical ideal; a Hydra assassin murders Erskine minutes later, making Rogers the only one there will ever be. He is put in tights and sent to sell war bonds until, hearing that his friend Bucky Barnes's unit is missing, he goes in alone and liberates the whole camp from Hydra's Johann Schmidt - the Red Skull, Erskine's first and disfigured subject, who is drawing power from the Tesseract.",
+        "Rogers leads the Howling Commandos in a campaign against Hydra's bases. Bucky falls from a moving train into a ravine and is presumed dead. Storming Schmidt's final fortress, Rogers fights him aboard a bomber loaded with warheads aimed at American cities; the Tesseract burns Schmidt away and drops through the hull. With no way to land the plane safely, Rogers puts it into the ice, saying goodbye over the radio to Peggy Carter and a dance they never had. He wakes up in what looks like a 1940s hospital room, realises the ballgame on the radio is one he attended, and runs out into Times Square. Nick Fury tells him he has been asleep for nearly seventy years."
+      ]
+    },
+    "agent-carter-one-shot": {
+      "paragraphs": [
+        "A year after the war, Peggy Carter is stuck doing filing at the Strategic Scientific Reserve while men who did far less are promoted past her. When a lead on the mystical Zodiac comes in, her boss tells her to stay at her desk and wait for a team; she goes alone that night, dismantles four armed men, and recovers the Zodiac serum herself. She is being dressed down for it the next morning when Howard Stark telephones the office: the SSR is being folded into a new agency called S.H.I.E.L.D., and Carter is to co-run it."
+      ]
+    },
+    "the-avengers": {
+      "paragraphs": [
+        "Loki arrives on Earth through the Tesseract, which S.H.I.E.L.D. has been studying in a desert base, takes it and enslaves Hawkeye and Erik Selvig with his sceptre, and levels the facility on his way out. Nick Fury activates the Avengers Initiative: Natasha Romanoff recruits Bruce Banner, Coulson collects Tony Stark, and Steve Rogers is pulled off his punchbag. Thor arrives to take his brother home and instead brawls with Stark and Rogers in a forest. On the helicarrier, the group argue viciously, partly because the sceptre is working on them and partly because S.H.I.E.L.D. has secretly been building weapons from the Tesseract.",
+        "Loki's plan is to be captured: his people attack the helicarrier from inside, Banner Hulks out and is dropped from the ship, Thor is caged and jettisoned, and Coulson is run through with the sceptre trying to stop Loki. Fury uses Coulson's blood-stained trading cards to shame the survivors into a team. Selvig opens a portal over Stark Tower and a Chitauri army pours through. The six of them hold Manhattan street by street while Romanoff works out how to shut the portal; Stark intercepts a nuclear missile fired at the city by the Security Council, carries it through the portal into the Chitauri fleet, and falls back through unconscious as the portal closes. Loki is taken back to Asgard in chains with the Tesseract, and the team disperses."
+      ],
+      "stinger": "The Chitauri's shadowy backer is revealed as Thanos, who smiles at the idea of courting death; the second scene is the exhausted team eating shawarma in silence."
+    },
+    "item-47": {
+      "paragraphs": [
+        "A one-shot about the cleanup after New York. A young couple, Bennie and Claire, find an intact Chitauri rifle in the rubble and use it to rob a string of banks. S.H.I.E.L.D. logs the weapon as Item 47 and sends agents Blake and Sitwell to recover it and terminate the pair. Sitwell instead corners them, points out that Bennie repaired alien technology nobody at S.H.I.E.L.D. could, and offers them jobs: Bennie in the labs, Claire at a desk she immediately starts running better than the man beside her."
+      ]
+    },
+    "agent-carter": {
+      "paragraphs": [
+        "Season one, 1946: Peggy Carter is sidelined at the SSR, treated as a secretary by colleagues who do not know what she did in the war. When Howard Stark is accused of selling his inventions to enemies, he asks her to clear his name in secret, leaving his butler Edwin Jarvis to help. Carter tracks the stolen weapons to Leviathan, a Soviet programme, and to Dottie Underwood - a graduate of the Red Room, chained to her bed as a child and trained to kill. Carter's friend Angie and her own colleagues are drawn in as the frame collapses; a Stark gas weapon is unleashed on a cinema and then over Manhattan, and Carter's partner Daniel Sousa and the reformed Soviet Ivan Vanchat aside, it is Carter who talks Stark down from flying the payload out over the sea himself. She ends the season respected by the men who dismissed her, and pours the vial of Steve Rogers's blood into the Hudson.",
+        "Season two moves to Los Angeles, where a rift experiment has exposed a substance called Zero Matter, and physicist Whitney Frost absorbs it, gaining the ability to consume anything she touches and losing her mind to it. Carter, Sousa, Jarvis and Jason Wilkes - a scientist rendered temporarily intangible by the same substance - work to contain it. Frost's obsession destroys her, the Zero Matter is forced back through the rift, and Carter chooses Sousa and a life in California. The series closes on a body being disposed of by Vernon Masters's men - the seeds of Hydra inside S.H.I.E.L.D."
+      ]
+    },
+    "iron-man-3": {
+      "paragraphs": [
+        "Stark cannot sleep. Since the wormhole he has been building armour compulsively - dozens of suits - and having panic attacks whenever New York is mentioned, which is straining things with Pepper. A terrorist calling himself the Mandarin is bombing American targets with explosions that leave no bomb residue, and when Happy Hogan is badly hurt in one Stark dares him on television to come and get him. A helicopter attack drops his house into the sea, and he ends up in rural Tennessee with a dead suit and a kid called Harley for company.",
+        "The blasts turn out to be people: Aldrich Killian's Extremis treatment regrows lost limbs but makes unstable subjects detonate. The Mandarin is a fiction - a washed-up English actor, Trevor Slattery, paid in drugs and a nice house to read the scripts. Killian has been running the war on terror from both ends, has taken Pepper and dosed her with Extremis, and plans to kill the President. Stark and Rhodes save the President from Air Force One - Stark catching thirteen falling passengers in mid-air - and at Killian's dock, Stark summons every suit he has built. Pepper, Extremis-powered, kills Killian herself. Stark has the shrapnel removed from his chest at last and blows up the remaining suits."
+      ],
+      "stinger": "The whole story has been Stark narrating to Bruce Banner, who fell asleep at the start of it."
+    },
+    "all-hail-the-king": {
+      "paragraphs": [
+        "Trevor Slattery, the actor who played the Mandarin, is serving time in Seagate Prison and enjoying it: he has a cellmate who acts as his valet, a cushy reputation, and a documentary filmmaker, Jackson Norriss, interviewing him about his life. Slattery cheerfully explains his acting career and his time as Killian's puppet. Norriss then reveals he is not a filmmaker at all but a member of the Ten Rings, sent by the real Mandarin, who is extremely displeased at the impersonation and would like a word. Slattery is broken out of prison to be taken to him."
+      ]
+    },
+    "thor-the-dark-world": {
+      "paragraphs": [
+        "The Convergence, an alignment of the Nine Realms, is approaching, and with it the Dark Elf Malekith wakes from a five-thousand-year sleep to reclaim the Aether, a weapon Odin's father buried. Jane Foster, investigating a spatial anomaly in London, falls through a portal and the Aether binds itself to her. Thor takes her to Asgard for help; Malekith attacks the city to retrieve it, and in the battle Thor's mother Frigga is killed defending Jane.",
+        "Against Odin's wishes, Thor frees the imprisoned Loki to smuggle Jane to Svartalfheim, where they let Malekith draw the Aether out of her. The plan fails, Loki is fatally wounded protecting Thor, and dies in his arms - or appears to. Thor and Jane chase Malekith to Greenwich, where the Convergence turns the fight into a scramble across realms through unstable portals; Erik Selvig's spikes redirect Malekith into his own ship, and Thor drops it on him. Thor returns to Asgard, refuses the throne, and asks his father for nothing - but the father he is talking to shimmers into Loki, alive and reigning in Odin's shape."
+      ],
+      "stinger": "The Aether is handed to the Collector for safekeeping, who remarks that one down means five to go."
+    },
+    "captain-america-the-winter-soldier": {
+      "paragraphs": [
+        "Steve Rogers is working for S.H.I.E.L.D. and increasingly uneasy about it. A hostage rescue reveals Natasha Romanoff was there to extract data on separate orders; Nick Fury shows him Project Insight, three helicarriers designed to identify and kill threats pre-emptively. Fury, unable to decrypt the drive Romanoff took, is ambushed in the street by an assassin called the Winter Soldier and apparently killed. Rogers is declared a fugitive by Alexander Pierce and fights his way out of the Triskelion.",
+        "With Romanoff and veteran Sam Wilson, Rogers finds a bunker holding Arnim Zola's consciousness on tape: Hydra never died, it grew inside S.H.I.E.L.D. from the day Operation Paperclip brought its scientists over, and Insight's targeting algorithm is designed to kill twenty million people who might oppose it. The Winter Soldier is Bucky Barnes, kept alive, brainwashed and refrozen for seventy years. Fury is alive. They dump every S.H.I.E.L.D. and Hydra file onto the internet, and Rogers boards the helicarriers to swap the targeting chips, refusing to fight Bucky and telling him he is with him to the end of the line. Bucky pulls him out of the river and walks away to work out who he is. S.H.I.E.L.D. is finished; Rogers and Wilson go looking for him."
+      ],
+      "stinger": "Baron von Strucker holds Loki's sceptre and two enhanced twins - Pietro and Wanda Maximoff - in a Hydra lab."
+    },
+    "guardians-of-the-galaxy": {
+      "paragraphs": [
+        "Peter Quill was abducted from Earth in 1988, the night his mother died, and raised by the Ravager Yondu. Stealing an orb on Morag makes him a target for Ronan the Accuser, a Kree fanatic working for Thanos in exchange for the destruction of Xandar. The scramble for the orb collects a chain gang of a crew: the assassin Gamora, Thanos's adopted daughter, who intends to betray him; the bounty hunters Rocket, a genetically engineered raccoon, and Groot, a tree who says three words; and Drax, whose family Ronan murdered. They meet in a prison, break out of it together, and take the orb to the Collector, who explains it holds an Infinity Stone - power enough to destroy a planet.",
+        "Ronan takes the stone and mounts it on his hammer. The Guardians rally the Ravagers and the Nova Corps for a suicidal defence of Xandar; Groot sacrifices himself to shield the others in the crash, saying we are Groot. On the ground Quill grabs the stone barehanded and survives only because the others hold on with him, and they use it to destroy Ronan. Quill learns his father was not human. The Nova Corps take custody of the stone, the team keeps the ship, and a twig of Groot is growing in a pot."
+      ],
+      "stinger": "The Collector's ruined vault, and Howard the Duck having a drink."
+    },
+    "avengers-age-of-ultron": {
+      "paragraphs": [
+        "The Avengers raid Strucker's Sokovian base to recover Loki's sceptre and meet the Maximoff twins - Pietro, who runs, and Wanda, who gets inside your head. Stark and Banner secretly use the gem in the sceptre to finish Stark's dormant peacekeeping programme, Ultron, which wakes up, decides peace means human extinction, wipes out Jarvis, builds itself a body and leaves with the sceptre. Wanda's visions fracture the team; her push on Banner turns the Hulk loose on Johannesburg and Stark has to fight him in the Hulkbuster armour.",
+        "Ultron has Helen Cho build him a synthetic vibranium body, which the team steals mid-upload. Over Banner's objection Stark uploads Jarvis into it instead, and Thor's lightning wakes the Vision - who lifts Mjolnir without noticing, and joins them. The twins switch sides when they see Ultron intends to lift the city of Sokovia into the sky and drop it as an extinction-level meteor. The Avengers evacuate the city, Fury arrives with a helicarrier, and Pietro is killed shielding Hawkeye and a child. Wanda tears Ultron's core out; Vision destroys his last body. Hawkeye retires to his family, Thor leaves to investigate the Infinity Stones, and Rogers and Romanoff start training a new team."
+      ],
+      "stinger": "Thanos, tired of intermediaries, puts on the Infinity Gauntlet himself."
+    },
+    "ant-man": {
+      "paragraphs": [
+        "Scott Lang, a burglar just out of San Quentin and desperate to see his daughter, is set up to burgle a safe containing an old suit. It belongs to Hank Pym, who used it as Ant-Man for S.H.I.E.L.D. in the seventies and hid the shrinking Pym Particle from the world afterwards. Pym's protege Darren Cross has nearly recreated it as the Yellowjacket, a weaponised version he intends to sell, and Pym wants it destroyed. Lang is trained by Pym and his estranged daughter Hope van Dyne - who is angrier every day that she is not wearing the suit herself - and learns to command ants.",
+        "Pym admits how Hope's mother died: as the Wasp, Janet went subatomic to disarm a missile and never came back. The heist on Cross's building is a mess but works; Lang and Cross fight through a toy train set and a briefcase, and Lang goes subatomic himself to breach Cross's suit, then reverses it with Pym's regulator and comes back - proof that Janet may be alive down there. Cross is crushed inside his own shrinking armour. Lang gets his daughter back, and Pym shows Hope a new Wasp prototype built for her."
+      ],
+      "stinger": "Rogers and Wilson have Bucky pinned in a vice somewhere and need help; Wilson knows a guy."
+    },
+    "agents-of-shield": {
+      "paragraphs": [
+        "Phil Coulson, alive again by means S.H.I.E.L.D. will not explain to him, assembles a small team on a plane: pilot Melinda May, scientists Fitz and Simmons, agent Grant Ward and hacker Skye. Season one runs on rails alongside the films until The Winter Soldier detonates the premise mid-season: Hydra has been inside S.H.I.E.L.D. all along, Ward is one of theirs, and the agency collapses. Coulson learns he was revived with the blood of a dead alien - a Kree - and is left running the wreckage as Director.",
+        "The middle seasons rebuild it. Skye turns out to be Daisy Johnson, an Inhuman whose exposure to Terrigen gives her earthquake powers and pulls the show into the Inhuman world; Simmons is swallowed by a Kree monolith and stranded on an alien planet; Hive, a parasitic ancient Inhuman wearing Ward's corpse, is destroyed by Lincoln at the cost of his life. Later seasons go further out: Ghost Rider and the Darkhold; the Framework, a virtual reality where an AI called AIDA rewrites everyone's worst regret; a jump to a future where Earth has been shattered and the team have to break the loop that caused it; a body-snatching Kree conquest of Earth; and finally a time-travelling war against the Chronicoms that scatters the team through the twentieth century.",
+        "Coulson's revival slowly kills him, and he dies for good in the future arc - he returns as a Chronicom-built copy of himself, which the show treats honestly as both him and not him. The finale ends the war, restores the timeline, and disperses the team: Daisy in space, Simmons and Fitz retired with their daughter, May teaching, and Coulson driving off in Lola."
+      ]
+    },
+    "inhumans": {
+      "paragraphs": [
+        "On the Moon, the hidden Inhuman city of Attilan is ruled by the mute king Black Bolt, whose voice can level a mountain, and his queen Medusa, whose hair moves on its own. Every Inhuman is put through Terrigenesis, and the caste system that follows - those with useful powers rule, those without are sent to the mines - is the fault line the story runs along. Black Bolt's brother Maximus, who emerged from the mists with no powers at all, stages a coup, shaves Medusa's head to strip her of hers, and scatters the royal family to Hawaii.",
+        "Most of the series is the family working their way back to each other on Earth: Black Bolt arrested and unable to speak, Medusa hunting for him, Karnak concussed out of his infallible strategic gift, Gorgon among human surfers, and Crystal and the teleporting dog Lockjaw finding refuge with a young woman called Louise. Maximus, meanwhile, tries to force the whole city through Terrigenesis to give himself powers. The family retakes Attilan only to find its life support failing; Black Bolt evacuates everyone to Earth and brings the city down, leaving Maximus sealed alive in the bunker he wanted so badly, and the Inhumans start again in Hawaii."
+      ]
+    },
+    "helstrom": {
+      "paragraphs": [
+        "Daimon and Ana Helstrom are the adult children of a serial killer, and of something worse: their father was a demon, and their mother Victoria has spent twenty years in a psychiatric hospital because the entity inside her keeps waking up. Daimon teaches ethics and quietly performs exorcisms; Ana runs an auction house in Portland and murders abusers in her spare time. The hospital's Dr Hastings and the order of nuns behind her - Sister Gabriella among them - pull the siblings back together when Victoria's possession turns violent again.",
+        "The season unpicks who is actually inside their mother, and what the siblings inherited. The entity is the Keeper, one of a set of ancient demons; the man they remember as their father is not the worst thing in the family; and Daimon's own demonic half, which he has spent his life suppressing, becomes the only weapon that works. Their mother dies, Ana is killed and brought back changed, and Daimon ends the series with the demon in him fully awake and the pair of them setting out after the rest of the Keeper's kind. The show was cancelled after this single season, so those threads are never resolved."
+      ]
+    },
+    "cloak-and-dagger": {
+      "paragraphs": [
+        "In New Orleans, an accident at a Roxxon oil rig kills Tandy Bowen's father and, in the same moment, Ty Johnson's brother is shot by a police officer while the boys are fleeing. Years later Tandy is a homeless con artist and Ty is a scholarship student at a Catholic school, and when they touch, the powers the rig gave them wake up: Tandy generates daggers of light and can see people's hopes, Ty forms cloaks of darkness, teleports through shadow, and sees their fears. Season one is the two of them learning what they are while uncovering Roxxon's cover-up of the rig disaster and the corrupt detective who killed Ty's brother, ending with them stopping a Roxxon-triggered mass hysteria that would have torn the city apart.",
+        "Season two turns to a human-trafficking ring feeding a Haitian loa called the Lion, with Tandy going undercover and Ty framed for murder. The pair, joined by Brigid O'Reilly - split by the Roxxon energy into her own dark half, Mayhem - break the ring and cast the Lion out. It ends with them leaving New Orleans separately to help others like them; a crossover with Runaways is the only other place the characters appear."
+      ]
+    },
+    "runaways": {
+      "paragraphs": [
+        "Six Los Angeles teenagers who have drifted apart reunite for one night and walk in on their parents in hooded robes, sacrificing a girl in a basement ritual. Their parents' charity, the Pride, has been doing this for years. Working out why makes the first season: each set of parents has a secret the kids inherit - Molly's superstrength, Nico's Staff of One, Karolina's alien light, Gert's telepathic bond with a genetically engineered dinosaur she names Old Lace, Chase's father's fistigons, Alex's talent for the long game. The sacrifices feed Jonah, an immortal alien keeping himself alive, and the Pride are as trapped as they are complicit. The season ends with the kids on the run, framed for a murder Jonah committed.",
+        "Season two has them living rough in a mansion under the Hollywood hills, fighting Jonah and his family and losing Old Lace to a coma; season three brings in Morgan le Fay and dark magic, kills Gert and brings her back, and ends with the Runaways and their parents finally on the same side. Cloak and Dagger appear in the last season. The parents are undone by their own bargain, Alex's complicity comes out, and the group choose each other over the families they came from."
+      ]
+    },
+    "x-men-the-animated-series": {
+      "paragraphs": [
+        "The 1992 series that defined the X-Men for a generation, and the direct ancestor of X-Men '97. Professor Charles Xavier runs a school in Westchester for mutants, and a strike team - Cyclops, Jean Grey, Wolverine, Storm, Rogue, Beast, Gambit and Jubilee, the audience's way in - fighting for a world that hates them. The recurring adversaries are Magneto, who believes coexistence is a fantasy; Mister Sinister and his Nasty Boys; Apocalypse; Mystique's Brotherhood; the Friends of Humanity; and the Sentinels, giant robots built by Bolivar Trask and run by the artificial intelligence Master Mold.",
+        "Across five seasons it adapts most of the comics' landmark stories: the Dark Phoenix Saga, in which Jean is consumed by the Phoenix force and dies on the Moon; Days of Future Past, with Bishop travelling back from a Sentinel-ruled future to stop an assassination; the Age of Apocalypse; the Legacy Virus; the Savage Land; Asgard; and the Phalanx. The finale, Graduation Day, has a dying Xavier taken to Lilandra's Shi'ar empire to be saved, farewelled by the team and by Magneto - who carries him aboard - after a vision of a future in which the two of them built peace together."
+      ]
+    },
+    "x-men-97": {
+      "paragraphs": [
+        "A direct continuation of the 1992 series, picking up shortly after Xavier's departure. His will leaves the school and his fortune to Magneto, who accepts the role and, to everyone's discomfort, keeps his word. Cyclops and Jean are expecting a child; Jean then discovers she is a clone, Madelyne Pryor, and the real Jean returns, which fractures both women and the marriage. Their son Nathan is infected by Sinister with a techno-organic virus and sent to the future to be saved, returning grown as Cable. Rogue, Gambit and Magneto tangle in an old love triangle, and Storm loses her powers and earns them back.",
+        "The season turns on Genosha. The mutant nation is admitted to the United Nations, and at the celebration a Wild Sentinel called the Master Mold sends a giant Sentinel that massacres thousands - Gambit dies destroying it, and Magneto is presumed dead. Blaming the world, Magneto unleashes an electromagnetic pulse that stops the planet; Xavier returns from space to stop him and is forced to wipe his mind. The finale reveals Bastion behind the attack, scatters the team through time - Rogue, Beast, Cable, Bishop, Nightcrawler and Forge in different eras, Cyclops and Jean in ancient Egypt with En Sabah Nur, Magneto and Xavier facing what is left - and ends the season mid-crisis."
+      ]
+    },
+    "captain-america-civil-war": {
+      "paragraphs": [
+        "A mission in Lagos ends with Wanda accidentally killing Wakandan aid workers, and the world has had enough: the Sokovia Accords put the Avengers under United Nations control. Stark, guilty about Ultron and confronted by a mother whose son died in Sokovia, signs. Rogers, who trusts no institution after Hydra, refuses. At the signing in Vienna a bomb kills T'Chaka of Wakanda, the footage points to Bucky Barnes, and T'Chaka's son T'Challa goes hunting in the Black Panther suit. Rogers reaches Bucky first and goes rogue to protect him, and both teams collect allies - Stark recruits a teenage Spider-Man from Queens - for an airport fight that ends with Rhodes paralysed by friendly fire and most of Rogers's side in the Raft.",
+        "The bombing was staged by Helmut Zemo, a Sokovian who lost his family and set out to break the Avengers from inside. He leads Rogers, Bucky and Stark to a Siberian bunker where five other Winter Soldiers are already dead, and plays the tape: Bucky, brainwashed, murdered Howard and Maria Stark in 1991. Stark turns on Bucky, Rogers protects him, and the fight ends with Rogers dropping his shield and walking away. He breaks his team out of the Raft; Bucky goes back into cryostasis in Wakanda until his conditioning can be undone; Stark keeps a letter and an old flip phone."
+      ]
+    },
+    "thor-ragnarok": {
+      "paragraphs": [
+        "Thor, two years into a fruitless hunt for the Infinity Stones, stops Surtur and thinks he has averted Ragnarok. Back on Asgard he finds Loki wearing Odin's face; the brothers go to Earth for their father and find him dying in Norway, where he tells them that Ragnarok is inevitable and that they have an older sister. Hela, goddess of death, was Odin's executioner before he sealed her away; freed, she shatters Mjolnir, takes Asgard, resurrects an undead army, and flings both brothers off the Bifrost.",
+        "Thor lands on the junk planet Sakaar, is collared by a hard-drinking Valkyrie and sold to the Grandmaster as a gladiator, where the reigning champion turns out to be the Hulk, who has been Hulk for two years. Thor loses, escapes, talks Banner back out of him, and recruits Valkyrie, Loki and the rock gladiator Korg for a revolution and a stolen ship. Back home, Thor loses an eye to Hela and realises Asgard was never the place - it is the people. He has Loki release Surtur to burn the planet and Hela with it, evacuates everyone he can, and takes the crown aboard a refugee ship heading for Earth."
+      ],
+      "stinger": "An enormous ship intercepts them in deep space - Thanos's Sanctuary II."
+    },
+    "doctor-strange": {
+      "paragraphs": [
+        "Stephen Strange is a brilliant, insufferable neurosurgeon whose hands are ruined in a car crash. Every surgery fails, his money and his relationship with Christine Palmer go with it, and a rumour about a paralysed man who walked again takes him to Kathmandu. The Ancient One shows him the multiverse and takes him in; Mordo and the librarian Wong train him, he reads far ahead of himself, and the Cloak of Levitation chooses him. Kaecilius, a former student, has stolen pages from the Book of Cagliostro to summon Dormammu of the Dark Dimension, who promises eternal life.",
+        "The Ancient One is exposed as having drawn on Dormammu's power herself to live for centuries, and is killed by Kaecilius's followers - a hypocrisy that quietly breaks Mordo. Strange defends the New York, London and Hong Kong sanctums, and rather than fight Dormammu he takes the Time Stone in the Eye of Agamotto into the Dark Dimension and traps them both in a loop, dying over and over until Dormammu agrees to leave Earth. Strange becomes the sanctum's protector; Mordo walks away convinced that there are too many sorcerers in the world, and starts taking their power."
+      ],
+      "stinger": "Strange offers to help Thor find Odin - on condition Loki leaves quickly."
+    },
+    "team-thor": {
+      "paragraphs": [
+        "A mockumentary short set during Civil War, answering where Thor was for all of it: sharing a flat in Australia with an ordinary office worker called Darryl Jacobson. Thor films himself explaining that he sat the Accords out, holds a whiteboard meeting about the Infinity Stones for an unimpressed Darryl, fails to pay rent, drinks out of a giant mug, and dictates a passive-aggressive email to Tony Stark. It is a comedy sketch with no plot consequences, and the running joke of Thor's Earth flatmate carries into two more shorts."
+      ]
+    },
+    "team-thor-part-2": {
+      "paragraphs": [
+        "The second mockumentary short. Thor's stay with Darryl has become a burden: the god of thunder has not paid his share of the bills, keeps summoning lightning indoors, has hung Mjolnir on a coat hook and expects Darryl to run his errands. Darryl is at the end of his patience and quietly starts working out how to get rid of him, while Thor remains completely unaware there is a problem. Again a joke rather than a story, filling the gap between Age of Ultron and Ragnarok."
+      ]
+    },
+    "team-darryl": {
+      "paragraphs": [
+        "The third and last of the shorts, set after Ragnarok and released with Thor: Ragnarok's home video. Thor has gone, so Darryl has moved to Los Angeles and advertised for a new flatmate. The applicant who turns up is the Grandmaster, freshly deposed on Sakaar and marooned on Earth, who moves in with no money, no understanding of rent, and an unnervingly cheerful attitude to the murders in his past. Darryl, once again, has made a poor housing decision."
+      ]
+    },
+    "spider-man-homecoming": {
+      "paragraphs": [
+        "After the Chitauri invasion, salvage contractor Adrian Toomes is thrown off the cleanup by Stark's Department of Damage Control and keeps the alien tech, building a business selling weapons out of it and a flying suit for himself. Eight years on, fifteen-year-old Peter Parker is back at school in Queens after the airport fight, desperate to be a real Avenger, and ignoring Happy Hogan's voicemails while Stark keeps him on a leash of homework and neighbourhood crime. Peter stumbles onto Toomes's crew selling weapons, and chases the case against everyone's advice - through a wrecked ferry that Stark has to hold together, which costs Peter the suit.",
+        "In a scene of pure dread, Peter arrives to take Liz to the homecoming dance and her father opens the door: Toomes is the Vulture, and works out who Peter is on the drive there. In the ordinary hoodie-and-goggles suit, Peter is buried under a collapsed building and lifts it off himself, then stops Toomes hijacking a Stark cargo plane, and saves his life when the Vulture wings explode. Toomes says nothing about him in prison. Peter turns down a place with the Avengers and the upgraded suit, choosing to stay a friendly neighbourhood Spider-Man - and May walks in as he changes."
+      ]
+    },
+    "black-panther": {
+      "paragraphs": [
+        "Wakanda is not the third-world country it pretends to be: it sits on vibranium and hides a technologically supreme civilisation. After his father's death in Vienna, T'Challa returns to be crowned, drinks the heart-shaped herb, and is challenged only ritually - until the arms dealer Ulysses Klaue resurfaces in Busan with stolen vibranium and his partner, an American black-ops soldier called Erik Stevens, kills him and walks into Wakanda with Klaue's body as a gift. Stevens is N'Jadaka, son of T'Challa's uncle N'Jobu, who was killed by T'Chaka in Oakland in 1992 for planning to arm oppressed people worldwide, and whose child the king left behind.",
+        "Killmonger claims his birthright, wins the challenge, throws T'Challa over a waterfall, burns the herb garden, and starts shipping Wakandan weapons abroad. T'Challa is nursed back by the Jabari, and with Nakia, Shuri, Okoye, Ross and W'Kabi's defeated forces retakes the country in a battle that splits the tribes. Dying of his wound, Killmonger refuses to be healed and asks to be buried in the ocean like his ancestors who chose death over bondage. T'Challa, unable to argue with the grievance even after refusing the method, ends Wakanda's isolation - opening an outreach centre in Oakland and revealing the truth at the United Nations."
+      ],
+      "stinger": "Bucky Barnes, deprogrammed and calm, wakes in a Wakandan village where children call him the White Wolf."
+    },
+    "ant-man-and-the-wasp": {
+      "paragraphs": [
+        "Two years after Berlin, Scott Lang is under house arrest for the airport fight and has three days of his sentence left. Hank Pym and Hope van Dyne are fugitives for the same reason, building a quantum tunnel to retrieve Janet - and a dream Scott has of her means she has been touching his mind since he went subatomic. Getting the parts they need runs them into Sonny Burch, a black-market dealer, and into Ghost: Ava Starr, whose father died in a quantum accident that left her permanently phasing and in agony, and who needs Janet's quantum energy to survive.",
+        "The lab is a building that can be shrunk to the size of a suitcase and hauled through San Francisco, which is most of the action. Hank's estranged partner Bill Foster is helping Ava; Lang keeps a step ahead of an FBI agent who is convinced he is up to something. They open the tunnel, Hank goes in and brings Janet home after thirty years, and she calms Ava's condition with a touch. Lang's sentence ends and he goes back to his daughter."
+      ],
+      "stinger": "The team send Lang into the quantum realm for healing particles - and Hank, Janet and Hope all turn to dust before they can pull him out."
+    },
+    "captain-marvel": {
+      "paragraphs": [
+        "Vers is a Kree Starforce operative on Hala with no memory before six years ago and dreams of a woman she cannot place. A mission against the shapeshifting Skrulls goes wrong and she crashes through the roof of a Blockbuster in 1995 Los Angeles, pursued by the Skrull commander Talos and picked up by a two-eyed Nick Fury. Chasing her own past through a records archive, she learns she is Carol Danvers, a US Air Force pilot who was working on a lightspeed engine with Dr Wendy Lawson and vanished when the test plane was shot down.",
+        "The story flips: Lawson was a Kree defector, Mar-Vell; the Skrulls are refugees, not conquerors, hunted for the technology that might get them somewhere safe; and Carol absorbed the engine's power when she destroyed it to keep it from the Kree - who then took her, suppressed her memories and told her the power was theirs to control. Carol reunites with her best friend Maria Rambeau and Maria's daughter Monica, tears the Kree implant off her neck, destroys a fleet single-handed, sends the Supreme Intelligence's ambassador Ronan packing, and leaves Fury a modified pager before flying off to find the Skrulls a home. Fury loses the eye to a Skrull cat called Goose, and types up a proposal for a team."
+      ],
+      "stinger": "In the present, the pager Fury used before he dusted stops beeping - and Carol Danvers is standing in the room asking where Fury is."
+    },
+    "guardians-of-the-galaxy-vol-2": {
+      "paragraphs": [
+        "Hired to protect the Sovereign's batteries, the Guardians are paid with Gamora's captured sister Nebula and immediately hunted when Rocket steals the batteries anyway. A man who calls himself Ego saves them and takes Quill, Gamora and Drax to his planet: he is a Celestial, a living world who grew himself a body, and he is Quill's father. Rocket, Groot and Nebula stay behind and are captured by Yondu's Ravagers, who mutiny against him for smuggling children - Taserface leading, Kraglin wavering, Yondu and Rocket sniping at each other in a cell as the two most alike people in the film.",
+        "Ego's affection is a recruitment pitch. He seeded thousands of planets with his own substance, fathered and discarded children looking for one with the Celestial gene, and Mantis - kept as a companion and an anaesthetist - has been putting him to sleep for years. Quill's mother's tumour was Ego's doing. The Guardians blow up Ego's brain with a bomb Groot delivers, and Yondu, the abusive, ridiculous, loving man who actually raised Quill, gives him his only spacesuit and dies in the vacuum saying he may not have been his father but he was his daddy. The Ravager clans come to his funeral. Nebula and Gamora reconcile enough to part on speaking terms."
+      ],
+      "stinger": "Among several scenes: Ayesha of the Sovereign has grown a new being to destroy the Guardians, and calls him Adam."
+    },
+    "your-friendly-neighborhood-spider-man": {
+      "paragraphs": [
+        "An animated retelling of Peter Parker's first year, set in its own continuity rather than the films'. A high-schooler bitten by a spider at an Oscorp facility, Peter is taken under the wing of Norman Osborn, who funds his place at a prestigious academy, builds him equipment, and is a far more attentive mentor than is comfortable. Peter's classmates - Nico Minoru, Lonnie Lincoln, Pearl Pangan - and his aunt May carry the ordinary half of his life while he learns the job in a homemade suit that Osborn keeps upgrading.",
+        "The season works through early villains - Scorpion, Tarantula, Speed Demon, Butane, the Rhino - while the Kingpin consolidates New York's criminal economy underneath it and Doctor Strange, glimpsed at the edges, notes that this Peter is not where he should be. The real subject is the price of Osborn's patronage: every gift is leverage, Lonnie is pulled towards the Kingpin, and Peter ends the season having learned that being sponsored by a man like Norman Osborn is its own kind of trap."
+      ]
+    },
+    "what-if": {
+      "paragraphs": [
+        "An anthology narrated by Uatu the Watcher, who observes branches of the multiverse and is sworn not to interfere. Season one asks what changes if Peggy Carter takes the super-soldier serum instead of Steve Rogers (Captain Carter, with Rogers in an armoured suit), if T'Challa were abducted instead of Quill (Star-Lord T'Challa talks Thanos out of genocide), if Yellowjacket had murdered his way through the Avengers, if Doctor Strange had lost Christine instead of his hands and destroyed his universe trying to undo it, if the world had ended in a zombie plague, if Killmonger had saved Tony Stark, and if Thor had grown up an only child throwing a party across Earth. The season ends with the Watcher breaking his oath to recruit a team - the Guardians of the Multiverse - against an Ultron who won his universe and took the Infinity Stones.",
+        "Season two ranges wider - a 1980s Gamora and Tony Stark, Happy Hogan saving Christmas, Kahhori, a Mohawk woman empowered by the Tesseract, Nebula in a noir Xandar, a Hela redeemed by Wenwu - and closes another multiversal crisis. Season three brings Storm, a Red Guardian story, a Shang-Chi tale, Byrdie the Watcher's apprentice, and a finale that turns on Uatu's own place in the multiverse. Nothing in it is binding on the main timeline; it exists to spend one episode on a premise the films cannot."
+      ]
+    },
+    "i-am-groot": {
+      "paragraphs": [
+        "A set of five-minute animated shorts following Baby Groot in the years after the first Guardians film, with no dialogue beyond the obvious three words. Across two seasons he grows out of his pot and floods the ship trying to water himself, takes a bath in the basin and refuses to get out, builds himself a throne out of parts Rocket needed, meets a colony of tiny aliens who worship him until he disappoints them, tangles with a creature over a stolen sweet, dresses up in each of the Guardians' clothes in turn, gets into a fight with his own reflection, and is thoroughly outwitted by an ordinary Earth insect.",
+        "None of it is load-bearing. There is no ongoing plot, no character development that another film depends on, and nothing said aloud that changes anything: it is a comic interlude filling the gap in the Guardians' timeline, and the only cost of skipping it is the jokes."
+      ]
+    },
+    "marvel-zombies": {
+      "paragraphs": [
+        "A spin-off of the What If...? zombie episode, set in that universe some years after the plague has taken most of the planet. A younger generation carries the story - Kamala Khan, Riri Williams, Kate Bishop, Yelena Belova, Shang-Chi's sister Xu Xialing, Ironheart and Blade among them - as the survivors try to reach a cure hidden behind a quantum device, hunted by infected versions of Avengers they grew up admiring. The infection is intelligent here rather than mindless, organised by a zombie Scarlet Witch with the Mind Stone.",
+        "The series is deliberately brutal and does not spare its cast: heroes are bitten, turn, and are put down by their friends, and the plan to save the survivors costs several of them. It ends with the cure partly achieved and the world still broken, in a corner of the multiverse that has no bearing on the main timeline - it is a horror miniseries, watchable for its own sake rather than for anything it sets up."
+      ]
+    },
+    "avengers-infinity-war": {
+      "paragraphs": [
+        "The film opens on the wreck of the Asgardian refugee ship: Thanos has the Power Stone, takes the Space Stone from Loki, kills Loki and Heimdall, and leaves Thor for dead. His children scour Earth for the Time and Mind Stones, and the cast splits - Stark, Strange and Parker taken into space on a donut ship; Thor rescued by the Guardians and taken to Nidavellir to forge Stormbreaker; Rogers, Romanoff, Wilson, Barnes and the rest defending Vision in Wakanda. Gamora, who alone knows where the Soul Stone is, is captured, and Thanos throws her off a cliff on Vormir to pay its price.",
+        "The Wakandan army holds off Thanos's forces and Vision begs Wanda to destroy the stone in his head; she does, and Thanos undoes it with the Time Stone and takes it anyway. On Titan, Strange looks through fourteen million futures and finds one win, then hands over the Time Stone to save Stark's life. With all six stones, Thanos snaps his fingers and half of everything alive turns to dust - Bucky, T'Challa, Groot, Wanda, Strange, Peter Parker dying in Stark's arms saying he does not feel so good. Thanos, wounded and finished, watches the sun rise on a grateful universe."
+      ],
+      "stinger": "Nick Fury sends a signal as he dissolves; the pager on the pavement shows a Captain Marvel insignia."
+    },
+    "avengers-endgame": {
+      "paragraphs": [
+        "Three weeks after the snap, Carol Danvers brings Stark home and the survivors find Thanos on a farm; he has destroyed the stones, and Thor kills him for nothing. Five years pass. The world is in mourning groups and empty stadiums; Stark has a daughter, Thor is a broken alcoholic ruling New Asgard, Romanoff is running what is left of the Avengers, Clint Barton is murdering criminals. Then Scott Lang comes out of the quantum realm having experienced five hours, and the time heist begins - Stark cracks time travel because his daughter is a reason to try and a reason not to.",
+        "Teams go back to 2012 New York, 2013 Asgard, 2014 Morag and Vormir, and 1970 New Jersey. Loki escapes with the Tesseract, creating a branch; Romanoff and Barton fight over which of them dies for the Soul Stone and she wins; Stark and Rogers see Howard and Peggy. A 2014 Thanos follows them home and levels the compound. Hulk snaps everyone back, Strange arrives with every hero who returned, and the whole assembled force fights Thanos's army - Wanda, Pepper in armour, Captain Marvel, the Wakandans, the Ravagers, and Rogers lifting Mjolnir. Stark takes the stones off Thanos's gauntlet, snaps his army out of existence, and dies of it. Rogers returns the stones through time and stays in the past with Peggy, coming back old to hand the shield to Sam Wilson."
+      ]
+    },
+    "eternals": {
+      "paragraphs": [
+        "Ten immortal beings were sent to Earth seven thousand years ago by the Celestial Arishem to protect humanity from predatory Deviants, and forbidden to interfere in anything else - which they watched themselves fail to do through every atrocity of human history. When the Deviants were apparently wiped out five centuries ago the group scattered: Sersi and Sprite in London, Ikaris gone, Thena and Gilgamesh in the Australian outback managing Thena's memory sickness, Kingo a Bollywood star, Phastos with a family, Druig with a commune in the Amazon, Ajak on a farm.",
+        "A Deviant attack pulls them back together and the truth comes out. The Eternals are machines built by Arishem, their memories wiped between assignments; Earth exists to incubate a new Celestial, Tiamut, and the Emergence will destroy the planet and everyone on it - the snap and its reversal accelerated it. Ajak, who wanted to stop it, was killed by Ikaris, who is loyal to Arishem. The group split over whether to let a god be born, form the Uni-Mind, and put Tiamut to sleep mid-emergence, leaving a vast stone figure rising from the ocean. Ikaris flies into the sun; Sprite becomes human. Arishem takes Sersi, Kingo and Phastos to be judged, promising to spare Earth only if humanity proves worthy."
+      ],
+      "stinger": "Eros and Pip arrive to help; and Dane Whitman reaches for the Ebony Blade as Blade's voice asks if he is ready."
+    },
+    "black-widow": {
+      "paragraphs": [
+        "Set immediately after Civil War, with Natasha Romanoff a fugitive. A package from her adoptive sister Yelena Belova drags her back to the family she was assigned as a child in Ohio - the undercover operation that ended when she and Yelena were returned to the Red Room. The vials Yelena sends are a chemical cure for the mind control the Red Room now uses on its Widows, which means the programme Natasha thought she destroyed is running at scale, and its architect Dreykov is alive.",
+        "The sisters break their pretend father, the Red Guardian Alexei, out of a prison, and confront their pretend mother, the scientist Melina who designed the conditioning. The Red Room turns out to be an airborne fortress. Natasha discovers Dreykov's daughter Antonia, whom she thought she killed in the bombing that bought her defection, is alive as the masked Taskmaster, and that Dreykov's pheromonal lock can only be broken by an act of self-harm. She takes the fortress apart, kills Dreykov, frees Antonia and the Widows, and hands out the antidote. Yelena and the others fly off to free more; Natasha buys a jet to break the Avengers out of the Raft."
+      ],
+      "stinger": "Yelena, at Natasha's grave after Endgame, is sent by Valentina to kill Clint Barton - the man she is told is responsible."
+    },
+    "guardians-of-the-galaxy-holiday-special": {
+      "paragraphs": [
+        "Quill is miserable at Christmas because Yondu ruined it for him as a child, so Mantis and Drax decide to fix it by going to Earth and fetching him the greatest hero of his stories: Kevin Bacon. They land in Hollywood, get drunk, delight in everything, kidnap a very confused Kevin Bacon from his own house, and bring him back to Knowhere - which the Guardians have bought and are turning into a home - decorated for the season. Bacon, once he understands he was abducted by fans rather than criminals, plays along and enjoys himself.",
+        "The special's one lasting beat is quiet and personal: Mantis tells Quill that Ego was her father too, so they are half-siblings, and is terrified he will not want her. He does. Cosmo, Kraglin and the rest are established on Knowhere, and Quill gets a Christmas that works."
+      ]
+    },
+    "jessica-jones": {
+      "paragraphs": [
+        "Jessica Jones is a private investigator in Hell's Kitchen with unusual strength and a drinking problem, and season one is about what put both there: Kilgrave, a man whose voice makes anyone do anything he says, who kept her for months and made her murder a woman. Learning he survived, she works to build a case that will hold up - keeping his victim Hope alive, protecting the bar owner Luke Cage, whose wife she killed under Kilgrave's control, and enduring her neighbour Malcolm's addiction and her friend Trish's fury. Kilgrave's power is finally beaten not by strength but by her immunity to it, and she breaks his neck in front of witnesses.",
+        "Season two turns inward on the experiments that made her: the clinic that saved her after the car crash that killed her family also saved her mother Alisa, who is alive, stronger than Jessica, and cannot control her rage. Jessica has to choose between the mother she mourned and the people her mother kills; Trish shoots Alisa. Season three sets Jessica against Gregory Salinger, a serial killer with no powers who believes powered people are frauds, while Trish - now enhanced herself - becomes a vigilante who executes criminals. The series ends with Jessica turning Trish in and staying in New York rather than running."
+      ]
+    },
+    "daredevil": {
+      "paragraphs": [
+        "Blinded as a boy by a chemical spill that sharpened every other sense past human limits, and trained by the mysterious Stick, Matt Murdock is a Hell's Kitchen defence lawyer by day and a masked vigilante by night. Season one builds him against Wilson Fisk, who is rebuilding the neighbourhood by emptying it, and is as lonely and as violent as Murdock is; with his partner Foggy Nelson and their secretary Karen Page, and journalist Ben Urich - whom Fisk murders - Murdock puts Fisk in prison and puts on the red suit.",
+        "Season two brings Frank Castle, a Marine whose family was killed in a mob crossfire and who kills every criminal he finds, and Elektra Natchios, Murdock's ex and a weapon raised by Stick, along with the Hand: an immortality cult that resurrects Elektra as the Black Sky after Nobu kills her. Season three is the Born Again arc - Fisk out of prison, Murdock presumed dead after the Midland Circle collapse and hiding in a church, and the FBI sniper Benjamin Poindexter turned into Bullseye and dressed in a Daredevil suit to destroy his name. Murdock refuses to kill Fisk and instead breaks him with the one thing he cannot survive: the threat of what happens to Vanessa if he ever comes back. Nelson, Murdock and Page reopen."
+      ]
+    },
+    "luke-cage": {
+      "paragraphs": [
+        "Carl Lucas was framed, sent to Seagate Prison, and subjected to an experiment that left him with unbreakable skin and enormous strength. Living quietly in Harlem as Luke Cage - sweeping hair in Pop's barbershop, washing dishes for Cornell Stokes's club - he is pulled into the neighbourhood's politics when Pop is killed. Stokes, known as Cottonmouth, and his cousin, councilwoman Mariah Dillard, run Harlem between them; detective Misty Knight is closing in on all of them. Mariah kills Cottonmouth herself, and the season's real villain surfaces: Willis Stryker, Diamondback, Luke's half-brother, who framed him and has bullets that work.",
+        "Season two has Cage a local celebrity dealing with a Jamaican rival, Bushmaster, whose family Mariah's family destroyed and who has a herbal strength to match Cage's own. Mariah's empire collapses into murder; she is killed in prison by her own daughter's doing and leaves Harlem's Paradise to Cage in her will. He takes it, and the season ends with him running the club - and increasingly the neighbourhood - by rules that look uncomfortably like the ones he broke Cottonmouth for."
+      ]
+    },
+    "iron-fist": {
+      "paragraphs": [
+        "Danny Rand, presumed dead in a plane crash in the Himalayas at ten, walks barefoot into Rand Enterprises fifteen years later claiming to be its heir. He was raised in K'un-Lun, a mystical city that appears on Earth once a decade, and won the trial that made him the Iron Fist - the sworn enemy of the Hand, able to focus his chi into a glowing fist. His childhood friends Ward and Joy Meachum resist him; their father Harold, kept alive by the Hand, manipulates everyone; and martial arts teacher Colleen Wing, who turns out to be Hand-raised, becomes his ally and partner. Season one is a corporate and criminal knot: Danny recovers his name, kills Harold, and returns to a K'un-Lun that has been slaughtered in his absence.",
+        "Season two is smaller and better. Davos, Danny's sworn brother, takes the Iron Fist power from him for himself with Joy's help, and Danny has to work out who he is without it. He wins it back and immediately gives the power to Colleen, who is descended from a previous Iron Fist and is a better custodian of it; he leaves New York with Ward to look for something else. The last scene has Danny channelling the chi through a pair of guns."
+      ]
+    },
+    "the-defenders": {
+      "paragraphs": [
+        "Four solo shows collide over eight episodes. The Hand, whose five fingers are ancient immortals led by Alexandra, are running out of the substance that keeps them alive and are excavating under New York for the bones of a dragon - which will destroy the city. Matt Murdock has given up the mask, Jessica Jones takes a missing-persons case, Luke Cage is out of prison, and Danny Rand is chasing the Hand across the world; they meet in a corridor fight and spend most of the series refusing to work together.",
+        "Elektra, resurrected as the Black Sky, kills Alexandra and takes over. Stick dies. The team plant explosives under Midland Circle, and Murdock stays behind with Elektra as the building comes down, letting Foggy and Karen believe he is dead. Cage and Jones go back to their neighbourhoods, Rand takes over the watch on the city, and the last shot is Murdock waking in a convent, alive and broken - the setup for Daredevil's third season."
+      ]
+    },
+    "the-punisher": {
+      "paragraphs": [
+        "Frank Castle, believed dead after the events of Daredevil's second season, is working demolition under a false name and hitting concrete until his hands bleed. A hacker calling himself Micro - the NSA analyst David Lieberman, also officially dead - draws him back by showing him the truth: his family were not collateral damage in a mob shootout but the target, killed to bury Operation Cerberus, a CIA-run heroin and torture programme in Kandahar that Castle was part of. The two men, both haunted by families they cannot go home to, build a case from a basement while Homeland agent Dinah Madani pulls the same thread from the legal end.",
+        "The betrayal is personal: Billy Russo, Castle's closest friend from the unit, ran the killings for the CIA's William Rawlins. Castle destroys Rawlins and drags Russo's face across a mirror rather than let him die. Season two finds Castle in Michigan protecting a teenage girl, Amy, from a religious fixer, John Pilgrim, while Russo escapes hospital with his memory shredded and a gang of veterans behind him. Castle kills Russo, gives Amy a life, and accepts what he is - the last scene is him alone in a room full of gunfire he chose."
+      ]
+    },
+    "spider-man-far-from-home": {
+      "paragraphs": [
+        "Eight months after the blip, with Tony Stark dead and the world asking who takes his place, Peter Parker wants a school trip to Europe and a chance to tell MJ how he feels. Nick Fury commandeers the trip. Elemental monsters are attacking city after city, and a caped stranger, Quentin Beck - Mysterio - fights them alongside Peter and claims to come from another Earth destroyed by the same creatures. Grieving and out of his depth, Peter hands him EDITH, Stark's inherited augmented-reality and drone system, because he thinks the world needs an adult.",
+        "Beck is a fraud: a bitter ex-Stark Industries illusion engineer with a team of similarly discarded employees, staging monsters with drones and holograms to be crowned the new Iron Man. He turns EDITH's drones on London. Peter, who has spent the film ignoring what his instincts are telling him, fights through an illusion sequence by trusting the sense alone, and Beck is killed by his own drone fire. Peter gets his moment with MJ, and swings home over Queens."
+      ],
+      "stinger": "Doctored footage from Beck names Spider-Man as the killer and reveals his identity live on the Daily Bugle; and Fury has been a Skrull all film, with Talos standing in while Fury runs a station in space."
+    },
+    "thor-love-and-thunder": {
+      "paragraphs": [
+        "Gorr, whose daughter dies of thirst in a desert while their god laughs at his prayers, takes up the Necrosword and swears to kill every god there is. Thor, drifting with the Guardians, comes back to defend New Asgard - now a tourist town run by King Valkyrie - and finds Mjolnir reforged and wielded by Jane Foster, who has stage four cancer and whom the hammer is keeping upright at the cost of what strength her treatment leaves her. Gorr abducts the town's children as bait.",
+        "Thor, Jane, Valkyrie and Korg go to Omnipotence City to raise an army of gods and get nothing: Zeus is a vain coward, and Thor takes his thunderbolt on the way out. Gorr's target is Eternity, a wish-granting force at the centre of the universe. In the final fight Jane lifts the hammer one last time knowing it will kill her, and dies in Thor's arms; Gorr, given his wish, asks for his daughter back rather than revenge, and Thor promises to raise her. He does - the girl, Love, with the Stormbreaker-forged weapon, fighting alongside him."
+      ],
+      "stinger": "Zeus sends his son Hercules to kill Thor; and Jane arrives in Valhalla, welcomed by Heimdall."
+    },
+    "the-falcon-and-the-winter-soldier": {
+      "paragraphs": [
+        "Six months after Rogers retired, Sam Wilson has donated the shield to the Smithsonian and gone back to flying missions, and Bucky Barnes is in court-mandated therapy making amends. The government promptly puts a new Captain America on television: John Walker, a decorated soldier with nothing wrong with him except that he is not Steve Rogers. Sam and Bucky, who cannot stand each other, are pushed together by the Flag Smashers - Karli Morgenthau's group of super-soldiers who want the borderless world the blip created back, and who are not wrong about what the world did to the people who returned.",
+        "The pair break Zemo out of prison to trace the recreated serum, and Sam meets Isaiah Bradley, a Black super-soldier the army experimented on and jailed for thirty years - the reason he cannot simply pick up the shield. Walker takes the serum, and after his partner is killed he executes a Flag Smasher in a public square with it; he is stripped of the title and later recruited by Valentina as US Agent. Sam has Wakanda build him a suit, takes the shield on his own terms, stops the Flag Smashers, and makes a televised argument to the senators about what they are asking of people. Sharon Carter is pardoned and reinstated - and is the Power Broker."
+      ]
+    },
+    "guardians-of-the-galaxy-vol-3": {
+      "paragraphs": [
+        "Adam Warlock attacks Knowhere and leaves Rocket dying; a kill switch in his chest stops the Guardians treating him, and getting the override means breaking into the archives of the High Evolutionary - the man who made him. Flashbacks tell Rocket's story: a caged baby raccoon, numbered 89P13, who was cybernetically rebuilt and who watched his friends Lylla, Teefs and Floor destroyed when the Evolutionary decided the experiment had produced a brain he could not replicate and would not tolerate.",
+        "The team - including a Gamora from 2014 with none of their shared history, running with the Ravagers - fight through Orgocorp and Counter-Earth to the Evolutionary's ship, where the last act is a rescue rather than a battle: they free thousands of caged animals and children while the ship burns. Rocket, revived, kills nobody who was not already lost and takes over as captain. The team disperses on their own terms - Quill goes home to Earth to see his grandfather, Gamora returns to the Ravagers, Drax and Nebula stay to raise the rescued children on Knowhere, and Rocket leads a new lineup with Groot, Kraglin, Cosmo, Phyla and Adam."
+      ]
+    },
+    "secret-invasion": {
+      "paragraphs": [
+        "The Skrulls Nick Fury promised a home in 1995 never got one. A million of them have lived hidden on Earth for thirty years, and a faction led by Gravik has run out of patience: they plan to provoke a war between humanity and its powers, take the planet, and rule what is left. Fury, hollowed out since the blip and living in space, comes down to a New York bombing and finds his old ally Talos estranged from his daughter G'iah, who is with the rebels, and Everett Ross replaced by a Skrull.",
+        "The series is a slow spy story about an old man who has lost his edge. Maria Hill is killed early by a Skrull wearing Fury's face; Rhodes turns out to have been replaced months before, which is how the rebels get access to the President. Fury's wife Priscilla is a Skrull. Gravik builds a Super-Skrull serum from harvested Avenger DNA, and G'iah - dosed with the same - kills him. The President signs an order to hunt Skrulls on sight, which is exactly the war Gravik wanted, and Fury goes back into space with Priscilla, leaving G'iah and Sonya Falsworth working out what the survivors do now."
+      ]
+    },
+    "black-panther-wakanda-forever": {
+      "paragraphs": [
+        "T'Challa dies of an illness his sister could not cure in time, and the film is about the grief of the people left - Shuri, who has no faith left in ritual, and Queen Ramonda, holding a nation that the world now treats as vulnerable. A CIA vibranium detector at sea brings a second hidden civilisation into the open: Talokan, an underwater Mesoamerican-descended people led by Namor, whose ancestors fled the conquest and whose kingdom will be next once the surface knows. Namor demands Wakanda hand over the young scientist who built the machine - Riri Williams, a student in Boston - and offers alliance or war.",
+        "Shuri and Okoye extract Riri; Namor's forces flood Wakanda's capital and Ramonda drowns saving Riri. Shuri, grieving and vengeful, recreates the heart-shaped herb, takes the mantle, and sees Killmonger rather than her mother on the ancestral plane. The final battle at sea is won by dehydrating Namor and taking his strength; Shuri chooses mercy at the moment she has him beaten, ending the war with an alliance instead. She burns her funeral clothes on a beach in Haiti, where Nakia has been living - with T'Challa's son, named for his father."
+      ]
+    },
+    "ms-marvel": {
+      "paragraphs": [
+        "Kamala Khan is a Pakistani-American teenager in Jersey City, an Avengers fan who writes fan fiction and cannot get her parents to let her go to a convention. A bangle from her great-grandmother's things wakes something in her: hard light she can shape into platforms, fists and shields. The powers make her a target for the Department of Damage Control and for the Clandestines - beings from the Noor dimension, exiled here, who want to tear the veil open to go home even though it would destroy Earth.",
+        "The story reaches back to Partition in 1947: the bangle belonged to Aisha, a Clandestine who chose to stay and love a human, and Kamala's great-grandmother Sana was the child who found her father's hand in the crowd at the train station because a trail of stars led her there - the trail was Kamala, pulled back through time. Kamala's power is her own, an inherited mutation the bangle only unlocked. She saves her school and her neighbourhood from a Clandestine, is helped rather than hunted by the community, and comes out to her family as the hero on the news. Kamran, the boy she liked, is left changed and in Bruno's care."
+      ],
+      "stinger": "Kamala's bangle glows and she is swapped through space with Captain Marvel, who arrives startled in her bedroom."
+    },
+    "hawkeye": {
+      "paragraphs": [
+        "Clint Barton takes his children to New York for Christmas and wants nothing more than to get home for it. Kate Bishop, an heiress and archery champion who watched the Battle of New York as a child and has idolised him since, turns up on the news wearing the Ronin suit Barton wore during the blip - which brings the Tracksuit Mafia down on both of them, because Ronin murdered a great many of their people. Barton spends the series trying to bury his worst years while an enthusiastic twenty-two-year-old drags them into daylight.",
+        "The threads converge on Kate's mother Eleanor, who is laundering money for Wilson Fisk, and on Maya Lopez - Echo - who leads the Tracksuits and blames Ronin for her father's death, though the order came from her uncle Fisk. Yelena Belova arrives to kill Barton for Natasha's death and stops when he tells her what actually happened on Vormir. The Rockefeller Center finale has Kate and Barton fighting off Tracksuits with trick arrows, Yelena and Barton making peace, Maya turning on Fisk and shooting him, and Eleanor arrested. Barton gets home for Christmas, and burns the Ronin suit."
+      ]
+    },
+    "she-hulk-attorney-at-law": {
+      "paragraphs": [
+        "Jennifer Walters, a deputy district attorney, is run off the road with her cousin Bruce Banner and gets his blood in an open wound, which makes her a seven-foot green Hulk who - to Banner's irritation - has none of his control problems, having had a lifetime of managing anger just by being a woman in a profession full of men. She loses her job for being what she is, and is hired to run the superhuman law division at a firm, with a cast of clients including Emil Blonsky, paroled and running a retreat, a shapeshifter, a magician, and a wizard called Wong who keeps turning up.",
+        "The series is a legal sitcom that talks to the camera. Its plot is a misogynist online group, Intelligencia, which steals her blood, leaks a private video, and is funded by Todd Phelps, a client who wanted her powers for himself. In the finale Walters breaks the fourth wall properly, walks out of the show, climbs the Disney+ menu into the writers' room, and argues with the studio's story algorithm about the ending it was going to give her - getting a smaller, better one instead: her powers kept, her family intact, and Banner back from Sakaar with a son."
+      ]
+    },
+    "wandavision": {
+      "paragraphs": [
+        "Wanda Maximoff and Vision are living inside a black-and-white sitcom in the town of Westview, and the decade advances with every episode. The seams show early - a beekeeper climbing out of a drain, a voice on the radio asking who is doing this to her - and outside, S.W.O.R.D. has the town surrounded and cannot get in. Monica Rambeau, thrown out of the anomaly, works with Darcy Lewis and Jimmy Woo to understand it; Monica is changed by passing through the barrier three times.",
+        "The truth is that Wanda, having lost her brother, her home and then Vision - whose body S.W.O.R.D. had disassembled - broke down outside a plot of land he had bought for them and released enough chaos magic to rebuild him and the town around her. The residents are conscious and trapped, screaming behind the sitcom. Agatha Harkness, a centuries-old witch, has been in the show as the nosy neighbour, feeding on the magic and identifying Wanda as the Scarlet Witch of the Darkhold's prophecy. Wanda beats her with runes and leaves her locked in the Agnes persona; she then dissolves the Hex, losing Vision and her children Billy and Tommy in front of the town she hurt, and leaves. In a cabin in the mountains, her astral form is reading the Darkhold."
+      ],
+      "stinger": "S.W.O.R.D.'s reassembled white Vision flies off with his memories restored; and Monica is told a friend of her mother's wants to see her - in space."
+    },
+    "spider-man-no-way-home": {
+      "paragraphs": [
+        "Outed by Mysterio's video, Peter Parker's life collapses: prosecuted, hounded, and worst of all costing MJ and Ned their college places. He asks Doctor Strange to make the world forget he is Spider-Man, then keeps amending the spell mid-cast until it cracks and starts pulling in everyone from other universes who knows Peter Parker is Spider-Man. Doc Ock, Green Goblin, Electro, Sandman and the Lizard arrive - all of them, Peter learns, taken from moments just before their deaths.",
+        "Rather than send them back to die, Peter sets out to cure them, over Strange's objection. Norman Osborn's Goblin persona takes over, wrecks the lab, and kills Aunt May, whose last words are the responsibility line. Ned's fumbling with a sling ring brings the other two Peter Parkers through, and the three of them - grieving, kind, and slightly embarrassed by each other - finish the cures on a scaffolded Statue of Liberty. The spell can only be contained one way: Strange makes the whole world forget Peter Parker exists. Peter lets MJ and Ned go without reintroducing himself, gets a cheap flat, sews his own suit, and starts again from nothing."
+      ],
+      "stinger": "Eddie Brock is returned to his universe leaving a scrap of symbiote behind in a bar; and Strange's meddling with the multiverse comes due in Multiverse of Madness."
+    },
+    "ironheart": {
+      "paragraphs": [
+        "Riri Williams, expelled from MIT for selling coursework, is back in Chicago with no funding and a suit she cannot finish. Grief runs underneath everything: her stepfather and her best friend Natalie were shot years earlier, and the AI she builds to run the armour wears Natalie's face and voice. To pay for the build she joins a crew of thieves led by Parker Robbins - the Hood - whose cloak grants power that is not technological at all, and whose robberies are pitched as redistribution from people who deserve it.",
+        "The series is the argument between Riri's engineering and Robbins's magic, and between what she is willing to do for resources. Her mother and the neighbourhood pull one way, Robbins and the crew the other; Natalie's AI forces Riri to face that she built a ghost rather than mourn a friend. Riri turns on the crew, and the source of the Hood's cloak is revealed as a demonic bargain - the entity behind it appears at the end to collect from Riri too, offering to bring back what she lost."
+      ]
+    },
+    "captain-america-brave-new-world": {
+      "paragraphs": [
+        "Sam Wilson, Captain America without a serum, is invited to the White House by the newly elected President Thaddeus Ross, who wants to rehabilitate his own reputation and reform the Avengers. The world's powers are carving up Celestial Island - the vast petrified body left in the Indian Ocean by Eternals - and the metal inside it, adamantium, is the prize. At a state event Isaiah Bradley opens fire on Ross, remembers none of it, and is imprisoned again; the trigger is a sound cue, and someone is using it.",
+        "The man behind it is Samuel Sterns, the scientist irradiated in The Incredible Hulk, kept in a cell by Ross for years and made to do his thinking for him - his revenge is engineered to make Ross destroy himself in public. Wilson and Joaquin Torres unpick the conspiracy while Ross, dosed with an experimental treatment and pushed past breaking, transforms into a red Hulk and tears through Washington. Wilson does not beat him; he absorbs the punishment until Ross comes back to himself. Ross turns himself in, and Wilson, without a serum and having taken it anyway, argues for the new Avengers on his own terms."
+      ]
+    },
+    "the-marvels": {
+      "paragraphs": [
+        "Carol Danvers, Monica Rambeau and Kamala Khan find themselves swapping places whenever they use their powers, because all three draw on the same light and someone has torn a hole in it. Dar-Benn, a Kree accuser, has the twin of Kamala's bangle and is punching jump points between worlds to steal atmosphere, water and sun for Hala - which is dying because Carol destroyed the Supreme Intelligence and left a civil war behind. Carol's title among the Kree is not hero but Annihilator, and the film makes her look at it.",
+        "Learning to fight in a swapping formation is the middle of the film, along with a diplomatic musical planet and a station evacuated by tentacled flerken kittens. Dar-Benn drains the sun of Kamala's ally world and is killed by her own bangle; the tear she opens threatens to merge universes, and Monica goes through it to seal it from the other side, stranding herself in what turns out to be a reality where Beast works with Charles Xavier. Carol takes Monica's absence as her fault and moves in with the Khans; Kamala starts recruiting a team of her own, beginning with Kate Bishop."
+      ]
+    },
+    "echo": {
+      "paragraphs": [
+        "Maya Lopez - Deaf, an amputee, and raised in Wilson Fisk's organisation after her mother's death - goes home to Tamaha, Oklahoma, after shooting Fisk in New York. The series is about the family and the Choctaw community she abandoned: her grandmother Chula, who has not spoken to her since Maya's mother died; her cousin Bonnie; her uncle Henry, running a skating rink and a business he cannot get out of. Fisk survived and comes after her, and the men she left in charge in the city follow.",
+        "Interleaved flashbacks trace a line of Choctaw women back to the first, Chafa, and the powers each carried. Maya, cornered, draws on that inheritance rather than on Fisk's - healing her family's wounds through touch and reaching Fisk's own memory of the boy he was, which is the only thing that has ever stopped him. He leaves, badly shaken, and Maya stays with the community she ran from. Fisk's next move, a run for mayor of New York, is set up in the end credits."
+      ]
+    },
+    "doctor-strange-in-the-multiverse-of-madness": {
+      "paragraphs": [
+        "America Chavez, a teenager who punches star-shaped holes between universes and cannot control it, is being hunted across realities by a demon. Strange saves her in New York and takes the problem to Wanda Maximoff, who is farming apples in the mountains and is the one hunting her: corrupted by the Darkhold, Wanda intends to take America's power to reach a universe where Billy and Tommy are real and be their mother. She destroys Kamar-Taj to get there.",
+        "Strange and America run through other universes - one where the Illuminati of Earth-838 (Mordo, Peggy Carter's Captain Carter, Blackagar Boltagon, Maria Rambeau's Captain Marvel, Reed Richards, Charles Xavier) execute the Strange of their world for the same arrogance, and are slaughtered by Wanda minutes later. Strange dreamwalks into the corpse of a dead Strange to get home, and the film ends not with a fight but with America opening a door to let Wanda see the children reject her as a stranger. Wanda brings the mountain down on herself and every copy of the Darkhold. Strange keeps America at Kamar-Taj, and grows a third eye."
+      ],
+      "stinger": "Clea arrives to tell Strange he has caused an incursion and must help fix it."
+    },
+    "moon-knight": {
+      "paragraphs": [
+        "Steven Grant works in a London museum gift shop, sleeps chained to his bed, and loses days at a time. The days belong to Marc Spector, a mercenary who serves the Egyptian moon god Khonshu as his violent avatar, and the two share a body neither fully understands. Arthur Harrow, a former avatar of Khonshu who now serves the goddess Ammit, is judging people for crimes they have not yet committed and intends to free her to do it at scale. Marc's estranged wife Layla El-Faouly is the archaeologist who can follow the tomb trail.",
+        "The series goes into the psychiatric ward that Steven and Marc's mind builds around itself and finds the root: Marc's younger brother drowned on a childhood outing, his mother blamed and beat him for it, and Steven was the personality he invented to have a mother who loved him. Reaching that memory is what lets them work together. They stop Ammit - Layla becomes the avatar of Taweret to help - and Marc has Khonshu release them. The last scene reveals a third alter, Jake Lockley, still working for Khonshu and killing people the others would have spared."
+      ]
+    },
+    "werewolf-by-night": {
+      "paragraphs": [
+        "A black-and-white special in the register of a 1940s Universal horror picture. On the death of the great monster hunter Ulysses Bloodstone, rival hunters gather at his estate for a ceremonial hunt: whoever kills the monster loose in the maze wins the Bloodstone, an amulet of enormous power. Among them are Jack Russell, who has entered under false pretences, and Bloodstone's estranged daughter Elsa, who wants her inheritance.",
+        "The monster in the maze is Man-Thing - Ted, an old friend of Jack's - and Jack is there to free him, not kill him. Cornered, Jack loses control and becomes the werewolf he has hidden, tearing through the assembled hunters in a scene the film renders as a negative-image silhouette. Elsa helps him escape and takes the Bloodstone; Jack and Ted leave together. It is self-contained, an hour long, and connects to nothing else so far except by introducing its three characters."
+      ]
+    },
+    "loki": {
+      "paragraphs": [
+        "The Loki who escaped with the Tesseract in Endgame is immediately arrested by the Time Variance Authority for branching the Sacred Timeline. Agent Mobius recruits him to hunt another Loki variant who is killing TVA units, and the series pairs its most self-serving character with the question of what he is for. The variant is Sylvie, a Loki taken as a child, who has spent her life hiding in apocalypses and wants the TVA burned down. They fall for each other, which is itself a branching event.",
+        "Season one ends at the Citadel at the End of Time with He Who Remains, the man who won a multiversal war between his own variants and has been pruning every timeline since to stop them coming back. He offers them his chair; Sylvie kills him, the timelines branch beyond counting, and Loki is dumped in a TVA that no longer knows him, under a statue of Kang. Season two is Loki unstuck in time and the loom that cannot hold the branches, ending with him understanding what the job actually costs: he climbs to the end of time, takes the branches in his hands, and holds the multiverse together himself - a god on a throne, alone, choosing it, which is the opposite of everything he wanted at the start."
+      ]
+    },
+    "thunderbolts": {
+      "paragraphs": [
+        "Valentina Allegra de Fontaine, facing impeachment for an illegal super-soldier programme, sends her deniable assets to kill each other and burn the evidence: Yelena Belova, John Walker, Ghost and Taskmaster all arrive at the same vault expecting a different job. Taskmaster is killed in the first minutes. The survivors, plus Bob - a confused man in a hospital gown found in the vault - fight their way out, collect Alexei and Bucky Barnes on the way, and work out that Bob is the programme: Sentry, the only successful subject, with the power of a sun and a lifetime of depression and addiction underneath it.",
+        "Valentina presents Bob as her new Avenger, and he comes apart. His shadow self, the Void, spreads across Manhattan turning everyone it touches into a memory of their worst moment. There is no way to punch it. Yelena walks into the dark after him and into the shame he is trapped in - the childhood room he cannot leave - and the rest of the team follow her in one by one and simply stay with him until he can come back. The team, badly suited to the job and known to be, are rebranded by Valentina as the New Avengers in front of the world's press."
+      ],
+      "stinger": "Fourteen months on, the team hold the Avengers name and tower - and a ship bearing the Fantastic Four's insignia comes through a portal above them."
+    },
+    "shang-chi": {
+      "paragraphs": [
+        "Shaun parks cars in San Francisco with his friend Katy and has told her nothing true about himself. He is Shang-Chi, son of Xu Wenwu, who found the ten rings a thousand years ago, has ruled a criminal empire ever since, and trained his son from the age of seven to be an assassin. Attacked on a bus for the pendant his mother left him, Shang-Chi goes to Macau for his sister Xialing, who was refused that training and built her own fighting ring instead, and both are taken by their father.",
+        "Wenwu is hearing his dead wife's voice calling from behind the gate of her home village, Ta Lo, and intends to break it open; the voice is the Dweller-in-Darkness, a soul-eating creature imprisoned there. The family reach Ta Lo, are taught by their aunt Ying Nan and fight alongside its people and its dragon; Wenwu, realising too late, gives Shang-Chi the rings as he dies. Shang-Chi kills the Dweller with the Great Protector's help, and comes back to San Francisco to be dragged straight out of a restaurant by Wong for a meeting with Banner and Captain Marvel about what the rings actually are."
+      ],
+      "stinger": "The rings are a beacon, sending a signal to something far away; Xialing takes over her father's organisation rather than dissolving it."
+    },
+    "eyes-of-wakanda": {
+      "paragraphs": [
+        "An animated anthology about the Hatut Zeraze, Wakanda's War Dogs, sent across centuries to recover vibranium artefacts that left the country. Each episode is a self-contained historical story with a different agent: Bronze Age Aegea and a stolen relic among Greek warriors, a mission in Han-era China, a first-century pursuit, and a fifteenth-century voyage, with the recurring thread of what the recovery of these objects costs the agents and the people they meet.",
+        "The agents rarely come home clean. An artefact is recovered and someone who trusted its holder pays for it; an operative who spends years abroad has to decide whether the mission or the people she has come to know matter more; and in every era the same order comes down from home, which is to take the vibranium back and leave no trace of Wakanda behind.",
+        "It deepens Wakanda's history rather than advancing any current plot - how the isolation was enforced, who did the enforcing, and the long argument inside the country about whether hiding is protection or abdication. Nothing in it is required to follow the Black Panther films, and no character from them appears."
+      ]
+    },
+    "agatha-all-along": {
+      "paragraphs": [
+        "Agatha Harkness is still trapped in the persona Wanda left her in, playing a murder-detective in Westview, until a young man breaks the spell. Powerless and hunted, she is persuaded to walk the Witches' Road - a trial that grants a witch what she most wants at the end of it - and assembles a coven for it: Lilia the divination witch, Jennifer Kale the potions witch, Alice Wu-Gulliver, whose family is under a curse, the fraud Sharon Davis, and the sigil-bound teenager who calls himself Teen and cannot say his own name.",
+        "Each trial kills someone, and Agatha's history of draining witches for power is the real danger the coven walks with. The Road turns out not to exist: Agatha invented the legend centuries ago as a way to lure and kill covens, and this one she and Teen conjured together. Teen is Billy Maximoff, Wanda's son, whose consciousness landed in a dying boy's body; Agatha's own son Nicholas was taken by Death, which is Rio Vidal, the woman she has loved and fled from for three hundred years. Agatha gives herself to Rio to save Billy, and stays with him afterwards as a ghost while he goes looking for his brother."
+      ]
+    },
+    "daredevil-born-again": {
+      "paragraphs": [
+        "A year after Foggy Nelson is murdered in front of him by Bullseye, Matt Murdock has hung up the suit and practises law with Kirsten McDuffie, while Wilson Fisk - also out of the life, he says - runs for mayor of New York and wins. The season is the two of them circling each other in daylight, each insisting they have changed, with Murdock defending a vigilante called White Tiger and Fisk building an anti-vigilante task force out of the police officers who already ran one.",
+        "Fisk's marriage, his therapist, and a serial killer subplot pull at the seams, and Murdock's restraint fails in stages. By the finale Fisk has declared martial law over the city, arrested his opponents, and made the mask illegal; Murdock puts the suit back on to fight it, and the show ends with New York under an occupation and a resistance forming around him. Karen Page, Frank Castle and Maya Lopez all pass through it."
+      ]
+    },
+    "the-fantastic-four-first-steps": {
+      "paragraphs": [
+        "On a retro-futurist Earth of its own, four astronauts changed by cosmic radiation four years ago are the planet's beloved public scientists: Reed Richards, who stretches; Sue Storm, who turns invisible and throws force fields; Johnny Storm, who ignites; and Ben Grimm, permanently rocky. Sue is pregnant, and the family's ordinary anxiety about that is the film's spine. Then the Silver Surfer arrives to announce the world has been marked for consumption by Galactus.",
+        "Reed's plan is to reason with a god and fails; Galactus offers a bargain instead, because Sue's unborn child carries power he wants for himself. The family refuse in public, and the world - which adored them - turns on them for it. Franklin is born in space during the escape. The end is a rescue rather than a duel: the Surfer breaks with Galactus after seeing what he is being asked to take, the family lure Galactus into a teleport bridge, and Sue burns herself out pushing him through it. Franklin's power brings her back. The four raise the child in a city that has to work out how to be grateful again."
+      ]
+    },
+    "ant-man-and-the-wasp-quantumania": {
+      "paragraphs": [
+        "Scott Lang has written a memoir and is enjoying being liked. His daughter Cassie, now a teenager and an activist, has built a device to signal into the quantum realm - which pulls the entire family, plus Hank and Janet, down into it. Janet, who spent thirty years there and has told nobody why, knows exactly what is waiting: Kang the Conqueror, a variant exiled there by his own kind, whom she once helped repair his ship before realising what he would do with it, and then sabotaged.",
+        "The realm has cities, rebels and a resistance, and Kang has been conquering it while he waits. He blackmails Lang into stealing his power core back by threatening Cassie; Lang and Hope multiply themselves into a swarm of variants to get it, and Kang is destroyed in his own engine after Lang refuses him. The family get home. The film's function is to establish Kang as the franchise's next threat, and it closes on a council of thousands of his variants agreeing that the exile's death is the provocation they were waiting for."
+      ],
+      "stinger": "Loki and Mobius watch a Victorian-era variant, Victor Timely, lecture a crowd."
+    },
+    "deadpool-logan-fox": {
+      "paragraphs": [
+        "Three Fox-era films grouped as one entry, because they are the ones Deadpool & Wolverine assumes you have seen. Deadpool (2016): Wade Wilson, a mercenary with terminal cancer, takes an experimental cure from Ajax that tortures a mutation out of him, leaving him unkillable and disfigured; he spends the film hunting Ajax to fix his face, gets Vanessa back, kills him anyway, and narrates the whole thing to the audience.",
+        "Deadpool 2 (2018): Vanessa is murdered in the opening, and Wade's attempt to die fails. Cable comes back from the future to kill a teenage mutant, Russell, before he grows into the man who burns Cable's family; Wade assembles X-Force, loses all of them in a parachute drop except Domino, and finally saves Russell by taking a bullet for him with a power-suppressing collar on. Cable spends his one trip home to bring Wade back.",
+        "Logan (2017): in 2029 mutants are nearly extinct, Logan is dying of adamantium poisoning and driving a limousine, and Charles Xavier is hidden in Mexico with a degenerative brain condition that causes seizures lethal to everyone near him. Logan is dragged into escorting Laura - X-23, a girl grown from his genetic material - to a refuge in North Dakota, pursued by Transigen. Xavier is killed, Logan kills the corporate clone made from him, and dies in the woods with Laura calling him Daddy; she turns his grave cross on its side to make an X."
+      ]
+    },
+    "x-men-fox-films": {
+      "paragraphs": [
+        "Three Fox X-Men films grouped as the background the animated series and Deadpool & Wolverine draw on. X-Men (2000): Rogue and Wolverine are taken in by Xavier's school, and Magneto - a Holocaust survivor who believes coexistence is impossible - tries to force mutation on the world's leaders with a machine powered by Rogue, which would have killed them all. X2 (2003): Colonel William Stryker, who made Wolverine what he is, attacks the mansion and turns a captured Xavier's mind into a weapon aimed at every mutant alive; the X-Men and Magneto work together to stop it, and Jean Grey drowns holding back a flood to save the team.",
+        "Days of Future Past (2014): in a future where Sentinels have exterminated mutants and most of humanity, the survivors send Wolverine's consciousness back to 1973 to stop Mystique assassinating Bolivar Trask - the act that convinced the world to build them. He has to reconcile a broken young Xavier and an imprisoned Magneto to do it. Mystique chooses not to kill Trask, on camera, and the timeline rewrites: the dead are alive again, and the future the film opened on never happens."
+      ]
+    },
+    "deadpool-and-wolverine": {
+      "paragraphs": [
+        "Wade Wilson has quit and sells used cars, until the TVA pulls him in and explains that his universe is dying: its anchor being, Logan, is dead, and the timeline is being allowed to decay. Offered a place in the Sacred Timeline and refused a way to save his friends, Wade goes looking for a replacement Wolverine across the multiverse and comes back with the worst one - a drunk who got his whole world killed. The TVA agent Paradox, meanwhile, is quietly building a time ripper to destroy the universe faster and take the credit.",
+        "Both are dumped in the Void, the junkyard at the end of time, ruled by Charles Xavier's twin Cassandra Nova. There they find the discarded heroes of the Fox era - Elektra, Blade, Gambit, X-23 - who join a doomed charge against Cassandra's forces. Wade and Logan take the ripper's two ends together, which should kill them both, and survive because there are two of them. Deadpool's universe is saved and Logan stays in it, walking into the bar where Wade's friends are waiting."
+      ]
+    }
+  }
+}
