@@ -34,18 +34,23 @@ language — it is a real translation by a human, not a machine rendering of our
 Coverage is uneven (a one-shot may have English and nothing else), so an empty
 answer falls back to English.
 
-**The rest of the catalog is not.** Title names stay as they are, and so do the
-80 detailed plot summaries. These are data rather than UI copy: a
-machine-translated film title helps nobody find the film, and a
-machine-translated plot summary would be worse than the English one it replaced.
-A non-English reader who opens a summary is told, in their own language, that
-what follows is English — see `spoiler.englishOnly`.
+**Title names are not**, and never will be — they are identifiers, and a
+machine-translated film title helps nobody find the film.
 
-A summary block is marked `lang="en" dir="ltr"` so an English paragraph inside a
-Persian page is laid out and pronounced as English rather than being flipped.
-The synopsis carries whichever language it *actually* came back in, for the same
-reason: when TMDB has no Persian overview and we fall back, that paragraph must
-not be laid out right to left.
+**The detailed plot summaries can be**, one language at a time. They are the
+site's own prose, so nothing stops them being translated; there is simply a lot
+of it. The structure for that is described in
+**[docs/spoiler-summaries.md](spoiler-summaries.md)** — one file per language
+under `data/summaries/`, falling back to English **per title**, so a translator
+who does five films ships five translated films rather than having to finish all
+eighty before anything appears. English is the base and is complete; Italian is
+seeded with a handful as a worked example.
+
+A reader who opens a summary that has not been translated yet is told so, in
+their own language, before and after the reveal (`spoiler.notTranslated`), and
+the block is tagged with the language it is *actually* in — an English paragraph
+inside a Persian page must not be laid out right to left or read aloud in the
+wrong voice. The TMDB synopsis carries the same tagging for the same reason.
 
 ### How the synopsis lookup is split
 

@@ -1,84 +1,150 @@
-import raw from "@data/summaries.json";
+import { readFileSync, readdirSync } from "node:fs";
+import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { getGraph } from "../graph/catalog";
 import { isReleased } from "../graph/engine";
-import { hasSummary, readingMinutes, summaryFor, SUMMARY_COUNT } from "./catalog";
-import { summaryFileSchema } from "./schema";
+import { DEFAULT_LOCALE, isLocale } from "@/i18n/config";
+import { resolveSummary, summarisedIds, summaryCount, SUMMARY_LOCALES } from "./catalog";
+import { countWords, readingMinutes, summaryFileSchema, type SummaryFile } from "./schema";
 
 const graph = getGraph();
-const parsed = summaryFileSchema.parse(raw);
+const DIR = resolve(process.cwd(), "data/summaries");
+
+function read(code: string): SummaryFile {
+  return summaryFileSchema.parse(JSON.parse(readFileSync(resolve(DIR, `${code}.json`), "utf8")));
+}
+
+const files = readdirSync(DIR)
+  .filter((name) => name.endsWith(".json"))
+  .map((name) => name.replace(/\.json$/, ""));
 
 /**
- * Released titles deliberately left unsummarised. Writing one of these up from
- * a trailer and a synopsis would produce exactly the confident, wrong text this
- * feature must not have, so they wait for someone who has actually watched
- * them. Listing them here means an *undeclared* gap still fails the suite.
+ * Released titles deliberately left unsummarised in English - see the note in
+ * scripts/validate-summaries.ts. Listing them means an *undeclared* gap fails.
  */
 const PENDING = ["spider-man-brand-new-day", "wonder-man"];
 
-/**
- * A four-minute one-shot is fully covered in a paragraph; a film or a
- * multi-season series is not. The floor scales so neither is judged by the
- * other's standard.
- */
-function minimumWords(kind: string): number {
-  return kind === "one-shot" || kind === "short" ? 60 : 120;
-}
-
 describe("summaries dataset", () => {
-  it("matches the schema", () => {
-    // `parse` above throws on a violation; this asserts the shape the app then
-    // relies on without a runtime check of its own.
-    expect(parsed.schemaVersion).toBe(1);
-    expect(Object.keys(parsed.items).length).toBeGreaterThan(0);
+  it("has a file for every registered language and vice versa", () => {
+    expect(files.sort()).toEqual([...SUMMARY_LOCALES].sort());
   });
 
-  it("only summarises titles that exist in the graph", () => {
-    for (const id of Object.keys(parsed.items)) {
-      expect(graph.byId.get(id), `unknown title "${id}"`).toBeDefined();
+  it("always has the English base, since everything falls back to it", () => {
+    expect(files).toContain(DEFAULT_LOCALE);
+  });
+
+  it("names a language it actually declares, matching its filename", () => {
+    for (const code of files) {
+      expect(read(code).locale, `${code}.json`).toBe(code);
+      expect(isLocale(code), `${code} is not a site locale`).toBe(true);
     }
   });
 
-  it("never summarises something nobody can have watched yet", () => {
-    for (const id of Object.keys(parsed.items)) {
-      const title = graph.byId.get(id)!;
-      expect(isReleased(title), `"${id}" is unreleased`).toBe(true);
+  it("only summarises titles that exist and have been released", () => {
+    for (const code of files) {
+      for (const id of Object.keys(read(code).items)) {
+        const title = graph.byId.get(id);
+        expect(title, `${code}: unknown title "${id}"`).toBeDefined();
+        expect(isReleased(title!), `${code}: "${id}" is unreleased`).toBe(true);
+      }
     }
   });
 
-  it("covers every released title except the ones declared pending", () => {
+  it("covers every released title in English except the ones declared pending", () => {
+    const english = read(DEFAULT_LOCALE);
     const missing = graph.titles
-      .filter((title) => isReleased(title) && !hasSummary(title.id))
+      .filter((title) => isReleased(title) && !(title.id in english.items))
       .map((title) => title.id)
       .sort();
     expect(missing).toEqual([...PENDING].sort());
   });
 
   it("writes summaries long enough to actually skip a title on", () => {
-    for (const [id, entry] of Object.entries(parsed.items)) {
-      const words = entry.paragraphs.join(" ").split(/\s+/).filter(Boolean).length;
-      expect(words, `"${id}" is only ${words} words`).toBeGreaterThanOrEqual(
-        minimumWords(graph.byId.get(id)!.kind),
-      );
+    for (const code of files) {
+      for (const [id, entry] of Object.entries(read(code).items)) {
+        const kind = graph.byId.get(id)!.kind;
+        const floor = kind === "one-shot" || kind === "short" ? 60 : 120;
+        // Counted with Intl.Segmenter so a space-free script is measured, not
+        // dismissed as a single word.
+        const words = countWords(entry.paragraphs.join(" "), code);
+        expect(words, `${code}: "${id}" is only ${words} words`).toBeGreaterThanOrEqual(floor);
+      }
     }
   });
 });
 
-describe("summaryFor", () => {
-  it("returns the entry for a known title", () => {
-    const entry = summaryFor("iron-man");
-    expect(entry?.paragraphs.length).toBeGreaterThan(0);
-    expect(readingMinutes(entry!)).toBeGreaterThanOrEqual(1);
+describe("resolveSummary", () => {
+  it("returns the translation when the language has one", async () => {
+    const resolved = await resolveSummary("iron-man", "it");
+    expect(resolved?.language).toBe("it");
+    // Real Italian, not the English text sitting under an "it" label.
+    expect(resolved?.entry.paragraphs[0]).toContain("Tony Stark");
+    expect(resolved?.entry.paragraphs[0]).toContain("miliardario");
   });
 
-  it("returns undefined rather than throwing for anything else", () => {
-    expect(summaryFor("not-a-title")).toBeUndefined();
-    expect(hasSummary("not-a-title")).toBe(false);
-    // Unreleased titles are a normal miss, not an error.
-    expect(hasSummary("avengers-secret-wars")).toBe(false);
+  it("falls back to English per title, not per file", async () => {
+    // The Italian file is deliberately partial. A title it has not reached must
+    // still produce a readable summary rather than an empty panel - that is the
+    // whole point of the structure.
+    const italian = Object.keys(read("it").items);
+    const untranslated = graph.titles.find(
+      (title) => isReleased(title) && !italian.includes(title.id) && title.id !== "wonder-man",
+    )!;
+
+    const resolved = await resolveSummary(untranslated.id, "it");
+    expect(resolved, `no fallback for ${untranslated.id}`).toBeDefined();
+    expect(resolved!.language).toBe(DEFAULT_LOCALE);
   });
 
-  it("counts what it holds", () => {
-    expect(SUMMARY_COUNT).toBe(Object.keys(parsed.items).length);
+  it("reports the language it actually returned, so the page can tag it", async () => {
+    // Without this the caller cannot know whether to mark the block lang="en"
+    // dir="ltr" inside a right-to-left page.
+    expect((await resolveSummary("iron-man", "it"))!.language).toBe("it");
+    expect((await resolveSummary("thor", "it"))!.language).toBe("en");
+  });
+
+  it("falls back to English for a language with no summary file at all", async () => {
+    const resolved = await resolveSummary("iron-man", "fa");
+    expect(resolved?.language).toBe(DEFAULT_LOCALE);
+    expect(resolved?.entry.paragraphs.length).toBeGreaterThan(0);
+  });
+
+  it("ignores a locale the site does not offer rather than throwing", async () => {
+    const resolved = await resolveSummary("iron-man", "klingon");
+    expect(resolved?.language).toBe(DEFAULT_LOCALE);
+  });
+
+  it("returns undefined only when nobody has written it in any language", async () => {
+    expect(await resolveSummary("avengers-secret-wars", "it")).toBeUndefined();
+    expect(await resolveSummary("wonder-man", "en")).toBeUndefined();
+    expect(await resolveSummary("not-a-title", "en")).toBeUndefined();
+  });
+});
+
+describe("summaryCount", () => {
+  it("counts what a reader can actually read, not just the translated part", async () => {
+    // A reader on the Italian site can read all 80: five in Italian and the
+    // rest in English. Reporting "5" would badly understate the feature.
+    const english = await summarisedIds(DEFAULT_LOCALE);
+    expect(await summaryCount("it")).toBe(english.length);
+    expect(await summaryCount("en")).toBe(english.length);
+    expect(await summaryCount("fa")).toBe(english.length);
+  });
+});
+
+describe("readingMinutes", () => {
+  it("is at least a minute and scales with length", async () => {
+    const short = { paragraphs: ["word ".repeat(50)] };
+    const long = { paragraphs: ["word ".repeat(1200)] };
+    expect(readingMinutes(short)).toBe(1);
+    expect(readingMinutes(long)).toBeGreaterThan(readingMinutes(short));
+  });
+
+  it("measures a space-free script instead of calling it one word", () => {
+    // Whitespace splitting reports this as a single word and so as a 1 min
+    // read; Intl.Segmenter sees the actual words.
+    const japanese = { paragraphs: ["彼は街を歩いて店に入り、友人と話してから家に帰った。".repeat(40)] };
+    expect(countWords(japanese.paragraphs[0]!, "ja")).toBeGreaterThan(100);
+    expect(readingMinutes(japanese, "ja")).toBeGreaterThan(1);
   });
 });

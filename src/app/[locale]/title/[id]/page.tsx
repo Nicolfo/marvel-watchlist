@@ -7,6 +7,7 @@ import { getDictionary } from "@/i18n/dictionary";
 import { translate, type Dictionary } from "@/i18n/translate";
 import { graphData, getGraph } from "@/lib/graph/catalog";
 import { directPrerequisites } from "@/lib/graph/engine";
+import { summaryMetaFor } from "@/lib/summaries/catalog";
 import { imdbUrl } from "@/lib/streaming";
 import { absoluteUrl, alternatesFor, localeUrl, SITE_NAME } from "@/lib/site";
 import type { Title } from "@/lib/graph/schema";
@@ -87,6 +88,12 @@ export default async function TitlePage({
   const title = graph.byId.get(id);
   if (!title) notFound();
 
+  // Metadata only - which language the reader will get and how long it is.
+  // The prose is fetched from /api/summary/[id] on reveal, because a prop would
+  // be serialised into this page's flight payload and put the spoiler in the
+  // page source. Falls back to English per title.
+  const summary = await summaryMetaFor(id, locale);
+
   const isSeries = title.kind === "series" || title.kind === "animation";
 
   return (
@@ -108,7 +115,7 @@ export default async function TitlePage({
       {/* The synopsis is fetched by the client from /api/artwork/[id]/meta
           rather than awaited here: resolving it on the server would need a TMDB
           key at request time, which would make all of these dynamic. */}
-      <TitleDetail id={id} />
+      <TitleDetail id={id} summary={summary} />
     </>
   );
 }

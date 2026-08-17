@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "locale": "it",
+  "updatedAt": "2026-08-17",
+  "note": "Riassunti dettagliati in italiano. Traduzione parziale, ed è normale che lo sia: i titoli non ancora tradotti ricadono automaticamente sull'inglese, uno per uno, quindi aggiungerne anche solo uno è un miglioramento immediato. Aggiungi una voce con la stessa chiave usata in en.json e lancia `npm run summaries:validate`.",
+  "items": {
+    "iron-man": {
+      "paragraphs": [
+        "Tony Stark, miliardario produttore di armi ed erede della Stark Industries, sta presentando un nuovo missile in Afghanistan quando il suo convoglio viene attaccato e lui viene preso in ostaggio dai Dieci Anelli. Le schegge di una sua stessa arma gli si conficcano vicino al cuore; un altro prigioniero, Yinsen, lo tiene in vita prima con un elettromagnete e poi con un reattore arc costruito nella grotta. Costretto a fabbricare un missile per i suoi rapitori, Stark costruisce invece un'armatura. Yinsen muore per dargli il tempo di accenderla, e Stark incendia il campo e se ne va a piedi nel deserto.",
+        "Tornato a casa, chiude la divisione armi contro il parere del vecchio socio di suo padre, Obadiah Stane, e trasforma l'armatura nella più agile Mark III rosso e oro. Volare in Afghanistan per distruggere le proprie armi lo mette in rotta di collisione con Stane, che vendeva ai Dieci Anelli da sempre. Stane fa ricostruire l'armatura della grotta in una versione enorme, strappa il reattore dal petto di Stark e lo affronta sopra la Stark Industries. Pepper Potts sovraccarica il grande reattore dello stabilimento, uccidendolo. Alla conferenza stampa in cui dovrebbe dare la colpa dello scontro a una guardia del corpo, Stark legge il foglietto, lo mette da parte e lo dice ad alta voce: sono Iron Man."
+      ],
+      "stinger": "Nick Fury lo aspetta in casa per parlargli di una certa Iniziativa Avengers."
+    },
+    "the-avengers": {
+      "paragraphs": [
+        "Loki arriva sulla Terra attraverso il Tesseract, che lo S.H.I.E.L.D. sta studiando in una base nel deserto, se ne impossessa, soggioga Occhio di Falco ed Erik Selvig con lo scettro e rade al suolo la struttura mentre fugge. Nick Fury attiva l'Iniziativa Avengers: Natasha Romanoff recluta Bruce Banner, Coulson va a prendere Tony Stark e Steve Rogers viene staccato dal suo sacco da boxe. Thor arriva per riportare a casa il fratello e finisce per azzuffarsi con Stark e Rogers in una foresta. Sull'elivelivolo il gruppo litiga ferocemente, in parte perché lo scettro sta lavorando su di loro e in parte perché lo S.H.I.E.L.D. costruiva di nascosto armi ricavate dal Tesseract.",
+        "Il piano di Loki è farsi catturare: i suoi uomini attaccano l'elivelivolo dall'interno, Banner si trasforma e precipita, Thor viene rinchiuso ed espulso, e Coulson viene trafitto dallo scettro nel tentativo di fermarlo. Fury usa le figurine insanguinate di Coulson per rimettere insieme i superstiti. Selvig apre un portale sopra la Stark Tower e ne esce un esercito Chitauri. In sei tengono Manhattan strada per strada mentre Romanoff capisce come chiudere il portale; Stark intercetta il missile nucleare che il Consiglio di Sicurezza ha lanciato sulla città, lo porta oltre il portale dentro la flotta Chitauri e ricade indietro privo di sensi mentre il varco si richiude. Loki viene riportato ad Asgard in catene insieme al Tesseract, e la squadra si scioglie."
+      ],
+      "stinger": "Il misterioso mandante dei Chitauri si rivela essere Thanos, che sorride all'idea di corteggiare la morte; nella seconda scena la squadra esausta mangia shawarma in silenzio."
+    },
+    "captain-america-the-winter-soldier": {
+      "paragraphs": [
+        "Steve Rogers lavora per lo S.H.I.E.L.D. e ne è sempre più a disagio. Durante un salvataggio di ostaggi scopre che Natasha Romanoff era lì per estrarre dati su ordini diversi dai suoi; Nick Fury gli mostra il Progetto Insight, tre elivelivoli progettati per individuare ed eliminare minacce in anticipo. Fury, incapace di decifrare il drive sottratto da Romanoff, viene assalito per strada da un sicario chiamato Soldato d'Inverno e apparentemente ucciso. Alexander Pierce dichiara Rogers fuggitivo, e lui si apre la strada fuori dal Triskelion combattendo.",
+        "Con Romanoff e il veterano Sam Wilson, Rogers trova un bunker che conserva la coscienza di Arnim Zola su nastro: l'HYDRA non è mai morta, è cresciuta dentro lo S.H.I.E.L.D. dal giorno in cui l'Operazione Paperclip ne portò in America gli scienziati, e l'algoritmo di Insight è fatto per uccidere venti milioni di persone che potrebbero opporsi. Il Soldato d'Inverno è Bucky Barnes, tenuto in vita, plagiato e ricongelato per settant'anni. Fury è vivo. Riversano ogni file dello S.H.I.E.L.D. e dell'HYDRA su internet, e Rogers sale sugli elivelivoli per sostituire i chip di puntamento, rifiutandosi di combattere Bucky e dicendogli che resterà con lui fino alla fine. Bucky lo tira fuori dal fiume e se ne va a capire chi sia. Lo S.H.I.E.L.D. è finito; Rogers e Wilson partono a cercarlo."
+      ],
+      "stinger": "Il Barone von Strucker ha lo scettro di Loki e due gemelli potenziati - Pietro e Wanda Maximoff - in un laboratorio HYDRA."
+    },
+    "avengers-infinity-war": {
+      "paragraphs": [
+        "Il film si apre sul relitto della nave dei profughi asgardiani: Thanos ha la Gemma del Potere, prende quella dello Spazio da Loki, uccide Loki e Heimdall e lascia Thor per morto. I suoi figli setacciano la Terra in cerca delle Gemme del Tempo e della Mente, e il gruppo si divide: Stark, Strange e Parker finiscono nello spazio su un'astronave a ciambella; Thor viene raccolto dai Guardiani e portato a Nidavellir a forgiare Stormbreaker; Rogers, Romanoff, Wilson, Barnes e gli altri difendono Visione in Wakanda. Gamora, l'unica a sapere dove sia la Gemma dell'Anima, viene catturata, e Thanos la getta da una rupe su Vormir per pagarne il prezzo.",
+        "L'esercito wakandiano trattiene le forze di Thanos e Visione supplica Wanda di distruggere la gemma che ha in fronte; lei lo fa, e Thanos annulla tutto con la Gemma del Tempo e se la prende comunque. Su Titano, Strange guarda quattordici milioni di futuri e ne trova uno vincente, poi cede la Gemma del Tempo per salvare la vita a Stark. Con tutte e sei le gemme Thanos schiocca le dita e metà di tutto ciò che vive diventa polvere: Bucky, T'Challa, Groot, Wanda, Strange, Peter Parker che muore tra le braccia di Stark dicendo che non si sente bene. Thanos, ferito e ormai a posto, guarda il sole sorgere su un universo riconoscente."
+      ],
+      "stinger": "Nick Fury lancia un segnale mentre si dissolve; il cercapersone sull'asfalto mostra l'insegna di Captain Marvel."
+    },
+    "wandavision": {
+      "paragraphs": [
+        "Wanda Maximoff e Visione vivono dentro una sitcom nella cittadina di Westview, e a ogni episodio il decennio avanza. Le crepe si vedono subito - un apicoltore che sale da un tombino, una voce alla radio che chiede chi le stia facendo questo - e fuori lo S.W.O.R.D. ha circondato il paese senza riuscire a entrare. Monica Rambeau, espulsa dall'anomalia, lavora con Darcy Lewis e Jimmy Woo per capirla; attraversare la barriera tre volte cambia Monica.",
+        "La verità è che Wanda, dopo aver perso il fratello, la casa e poi Visione - il cui corpo era stato smontato dallo S.W.O.R.D. - è crollata davanti al terreno che lui aveva comprato per loro e ha liberato abbastanza magia del caos da ricostruire lui e il paese attorno a sé. Gli abitanti sono coscienti e intrappolati, e urlano dietro la sitcom. Agatha Harkness, una strega vecchia di secoli, è nella serie come la vicina impicciona, si nutre di quella magia e riconosce in Wanda la Scarlet Witch della profezia del Darkhold. Wanda la sconfigge con le rune e la lascia chiusa nella parte di Agnes; poi dissolve l'Esagono, perdendo Visione e i figli Billy e Tommy davanti alla città che ha ferito, e se ne va. In una baita di montagna, la sua forma astrale sta leggendo il Darkhold."
+      ],
+      "stinger": "Il Visione bianco riassemblato dallo S.W.O.R.D. vola via con i ricordi ripristinati; e a Monica viene detto che un'amica di sua madre vuole vederla - nello spazio."
+    }
+  }
+}

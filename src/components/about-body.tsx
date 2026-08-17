@@ -5,7 +5,6 @@ import { useI18n, useLocalePath } from "@/i18n/context";
 import { Rich } from "@/i18n/rich";
 import { LOCALES } from "@/i18n/config";
 import { DATA_VERSION, EDGE_TYPE_META, SOURCE, graphData } from "@/lib/graph/catalog";
-import { SUMMARY_COUNT } from "@/lib/summaries/catalog";
 import type { EdgeType } from "@/lib/graph/schema";
 import { EDGE_STYLES, edgeKey } from "./ui";
 
@@ -20,7 +19,7 @@ import { EDGE_STYLES, edgeKey } from "./ui";
  * Every sentence with a link or a bold run in it is a single dictionary value
  * with `{slots}`, not three concatenated fragments - see `Rich` for why.
  */
-export function AboutBody() {
+export function AboutBody({ summaryCount }: { summaryCount: number }) {
   const { t, n } = useI18n();
   const path = useLocalePath();
 
@@ -163,7 +162,7 @@ export function AboutBody() {
         <h2 className="text-lg font-semibold">{t("about.summaries.heading")}</h2>
         <p className="mt-3 text-sm leading-relaxed text-muted">
           <Rich
-            text={t("about.summaries.body1", { count: SUMMARY_COUNT })}
+            text={t("about.summaries.body1", { count: summaryCount })}
             slots={{
               strong: <strong className="text-text">{t("about.summaries.body1.strong")}</strong>,
             }}
@@ -182,7 +181,7 @@ export function AboutBody() {
           <Rich
             text={t("about.summaries.body3")}
             slots={{
-              file: code("data/summaries.json"),
+              file: code("data/summaries/"),
               command: code("npm run summaries:validate"),
             }}
           />
