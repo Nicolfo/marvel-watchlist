@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { ArtworkProvider } from "@/lib/artwork-context";
+import { SpoilerProvider } from "@/lib/spoiler-context";
 import { WatchlistProvider } from "@/lib/watchlist/provider";
 import { AppShell } from "@/components/app-shell";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
@@ -70,9 +71,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className="antialiased">
         <ArtworkProvider>
-          <WatchlistProvider>
-            <AppShell>{children}</AppShell>
-          </WatchlistProvider>
+          <SpoilerProvider>
+            <WatchlistProvider>
+              <AppShell>{children}</AppShell>
+            </WatchlistProvider>
+          </SpoilerProvider>
         </ArtworkProvider>
       </body>
     </html>
