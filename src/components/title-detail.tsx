@@ -15,6 +15,7 @@ import {
 import { useWatchlist } from "@/lib/watchlist/provider";
 import { ImdbLink, WatchLinks } from "./links";
 import { Poster } from "./poster";
+import { SpoilerSummary } from "./spoiler-summary";
 import { StrictnessPicker } from "./strictness-picker";
 import { Badge, EdgeBadge, KIND_LABELS, ProgressBar, TitleMeta } from "./ui";
 
@@ -185,6 +186,11 @@ export function TitleDetail({ id }: { id: string }) {
           </div>
         </div>
       </header>
+
+      {/* Sits directly under the header, where the spoiler-free synopsis just
+          was, because the reader deciding whether to skip this title is deciding
+          it right here - and stays shut until they say so. */}
+      <SpoilerSummary title={title} />
 
       <section className="panel rounded-2xl p-5 sm:p-6">
         <div className="flex flex-wrap items-baseline justify-between gap-3">

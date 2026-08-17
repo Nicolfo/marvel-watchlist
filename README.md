@@ -37,6 +37,12 @@ Endgame*?" is a graph traversal rather than a guess.
   region-aware "where to watch" resolver.
 - **Artwork**: real posters from TMDB when a key is configured, and designed
   generated posters otherwise, so a fresh clone looks finished with zero setup.
+- **Detailed summaries, behind a spoiler gate**: every released title has a
+  full plot summary - ending included - so you can skip it and still follow what
+  comes next. It is never shown unless you ask: the text is not in the page at
+  all until you press the button, and the short spoiler-free synopsis stays
+  exactly where it was. An opt-in preference remembers if you would rather
+  always see them.
 
 ## Quick start
 
@@ -46,10 +52,11 @@ npm run dev            # http://localhost:3000
 ```
 
 ```bash
-npm test               # engine + dataset invariants (20 tests)
+npm test                   # engine + dataset invariants
 npm run typecheck
-npm run graph:validate # dataset integrity (also runs as a prebuild step)
-npm run graph:stats    # print the computed watch order
+npm run graph:validate     # dataset integrity (also runs as a prebuild step)
+npm run summaries:validate # summary coverage (also runs as a prebuild step)
+npm run graph:stats        # print the computed watch order
 ```
 
 ## Updating the data
@@ -60,6 +67,15 @@ order is computed. Full guide: **[docs/updating-the-graph.md](docs/updating-the-
 
 The validator rejects unknown ids, duplicate/self edges and **dependency
 cycles** before a build can ship, so bad data cannot reach a release.
+
+### Detailed summaries
+
+Full detail: **[docs/spoiler-summaries.md](docs/spoiler-summaries.md)**.
+
+Summaries live in **one file** (`data/summaries.json`), keyed by title id, as
+original prose written for this project. Add or fix one and run
+`npm run summaries:validate`, which rejects unknown ids, summaries on titles
+that have not been released, and prose too thin to skip a title on.
 
 ### Posters, IMDb and streaming
 
@@ -105,8 +121,10 @@ npm run graph:export:cypher  # Neo4j CREATE statements
 
 ```
 data/marvel-graph.json     source of truth: titles + typed dependency edges
+data/summaries.json        detailed spoiler summaries, keyed by title id
 src/lib/graph/schema.ts    zod schema + integrity checks (cycles, dangling ids)
 src/lib/graph/engine.ts    topological sort, transitive prerequisites, progress
+src/lib/summaries/         summary schema + client-safe accessor
 src/lib/watchlist/         WatchlistAdapter interface + localStorage impl + React provider
 src/app/                   Next.js App Router pages (all 91 routes prerendered)
 prisma/                    optional Postgres schema + seed for the future logged-in mode
