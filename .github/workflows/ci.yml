@@ -34,6 +34,11 @@ jobs:
       - name: Validate dataset
         run: npm run graph:validate
 
+      # Catches summaries keyed to a title that does not exist, and summaries
+      # written for something that has not been released yet.
+      - name: Validate summaries
+        run: npm run summaries:validate
+
       - name: Typecheck
         run: npm run typecheck
 

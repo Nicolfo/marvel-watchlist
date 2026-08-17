@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { DATA_VERSION, EDGE_TYPE_META, SOURCE, graphData } from "@/lib/graph/catalog";
+import { SUMMARY_COUNT } from "@/lib/summaries/catalog";
 import { EDGE_STYLES } from "@/components/ui";
 import type { EdgeType } from "@/lib/graph/schema";
 
@@ -122,6 +123,32 @@ export default function AboutPage() {
           Streaming rights are regional and change constantly, so the platform chips are a hint
           rather than a promise. The <strong className="text-text">Where to watch</strong> link on
           every title resolves availability for your country, and is the answer to trust.
+        </p>
+      </section>
+
+      <section className="panel rounded-2xl p-6">
+        <h2 className="text-lg font-semibold">Detailed summaries, and spoilers</h2>
+        <p className="mt-3 text-sm leading-relaxed text-muted">
+          A watch order is only useful if you are allowed to skip things. So every released title
+          carries a <strong className="text-text">detailed summary</strong>: what actually happens,
+          ending included, written so you can miss the title entirely and still follow the ones that
+          depend on it. {SUMMARY_COUNT} are written so far; the rest are either not out yet or
+          waiting for someone who has actually watched them.
+        </p>
+        <p className="mt-3 text-sm leading-relaxed text-muted">
+          It is <em>never</em> shown unless you ask. The short, spoiler-free synopsis stays in the
+          header where it always was; the detailed one sits below it behind a button, and its text
+          is not in the page at all until you press it - no blur to read through and nothing for a
+          screen reader to stumble into. If you would rather always see them, there is a checkbox
+          next to the button, remembered in your browser under{" "}
+          <code className="text-text">marvel-watchlist:spoilers:v1</code> and reversible from the
+          same spot. Titles that have not come out yet have no summary, by design.
+        </p>
+        <p className="mt-3 text-sm leading-relaxed text-muted">
+          The summaries are original prose written for this project and live in{" "}
+          <code className="text-text">data/summaries.json</code>. Corrections and missing entries
+          are welcome - edit that one file and run{" "}
+          <code className="text-text">npm run summaries:validate</code>.
         </p>
       </section>
 
