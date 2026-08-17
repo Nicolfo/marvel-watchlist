@@ -78,7 +78,7 @@ One file per language, under `data/summaries/`, mirroring
 ```
 data/summaries/
   en.json    the base - complete, and what everything else falls back to
-  it.json    a partial translation, which is the normal state
+  it.json    a full translation of it; a partial one is equally normal
 ```
 
 **Resolution falls back per title, not per file.** `resolveSummary(id, locale)`
@@ -183,5 +183,13 @@ wait for someone who has actually watched them. They are listed in
 `PENDING`, so an *undeclared* gap still fails - a new release that nobody writes
 up will be caught.
 
-Italian currently covers 5 of 82 released titles. That is a deliberate seed to
-prove the fallback works end to end, not an abandoned effort.
+Italian covers all 80 summarised titles — the same set as English, so the two
+files only differ where English itself is deliberately silent. The translation
+is a full rendering of the English prose rather than a machine pass, but it has
+not been reviewed by a second Italian speaker: corrections to a phrasing that
+reads oddly are exactly the contribution the file needs next.
+
+The per-title fallback is not dead code just because Italian is complete. A new
+release lands in `en.json` first, and Italian falls back for that one title
+until somebody translates it — which is the state every other language is in for
+all eighty.
