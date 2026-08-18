@@ -36,6 +36,7 @@ const loaders: Record<string, () => Promise<{ default: unknown }>> = {
   ja: () => import("@data/summaries/ja.json"),
   ko: () => import("@data/summaries/ko.json"),
   ar: () => import("@data/summaries/ar.json"),
+  fa: () => import("@data/summaries/fa.json"),
 };
 
 /** The languages a summary can currently be written in. */

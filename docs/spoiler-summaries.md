@@ -79,6 +79,7 @@ One file per language, under `data/summaries/`, mirroring
 data/summaries/
   en.json    the base - complete, and what everything else falls back to
   it.json    a full translation of it; a partial one is equally normal
+  ...        one per site language, all thirteen currently complete
 ```
 
 **Resolution falls back per title, not per file.** `resolveSummary(id, locale)`
@@ -183,13 +184,15 @@ wait for someone who has actually watched them. They are listed in
 `PENDING`, so an *undeclared* gap still fails - a new release that nobody writes
 up will be caught.
 
-Italian covers all 80 summarised titles — the same set as English, so the two
-files only differ where English itself is deliberately silent. The translation
-is a full rendering of the English prose rather than a machine pass, but it has
-not been reviewed by a second Italian speaker: corrections to a phrasing that
-reads oddly are exactly the contribution the file needs next.
+Every one of the site's thirteen other languages now covers the same 80 titles,
+so the files differ from English only where English itself is deliberately
+silent. Each is a full rendering of the English prose rather than a machine
+pass — names and terms follow that language's own dubs and comics, and clause
+order was rebuilt for the language rather than tracked sentence by sentence —
+but none has been reviewed by a second speaker of it. Corrections to a phrasing
+that reads oddly are exactly the contribution these files need next.
 
-The per-title fallback is not dead code just because Italian is complete. A new
-release lands in `en.json` first, and Italian falls back for that one title
-until somebody translates it — which is the state every other language is in for
-all eighty.
+The per-title fallback is not dead code just because every language is
+complete. A new release lands in `en.json` first, and all thirteen fall back for
+that one title until somebody translates it, which is the state the resolver is
+built for and the state the corpus returns to on every release.

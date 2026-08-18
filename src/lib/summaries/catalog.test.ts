@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { getGraph } from "../graph/catalog";
 import { isReleased } from "../graph/engine";
-import { DEFAULT_LOCALE, isLocale } from "@/i18n/config";
+import { DEFAULT_LOCALE, isLocale, LOCALE_CODES } from "@/i18n/config";
 import { resolveSummary, summarisedIds, summaryCount, SUMMARY_LOCALES } from "./catalog";
 import { countWords, readingMinutes, summaryFileSchema, type SummaryFile } from "./schema";
 
@@ -129,16 +129,20 @@ describe("resolveSummary", () => {
 
   it("reports the language it actually returned, so the page can tag it", async () => {
     // Without this the caller cannot know whether to mark the block lang="en"
-    // dir="ltr" inside a right-to-left page. Persian has no summary file, so it
-    // is the language that always exercises the English side of the contract.
+    // dir="ltr" inside a right-to-left page - which is exactly the case that
+    // matters for Persian and Arabic, so they are the ones checked here.
     expect((await resolveSummary("thor", "it"))!.language).toBe("it");
-    expect((await resolveSummary("thor", "fa"))!.language).toBe(DEFAULT_LOCALE);
+    expect((await resolveSummary("thor", "fa"))!.language).toBe("fa");
+    expect((await resolveSummary("thor", "ar"))!.language).toBe("ar");
   });
 
-  it("falls back to English for a language with no summary file at all", async () => {
-    const resolved = await resolveSummary("iron-man", "fa");
-    expect(resolved?.language).toBe(DEFAULT_LOCALE);
-    expect(resolved?.entry.paragraphs.length).toBeGreaterThan(0);
+  it("offers a summary file in every language the site offers", () => {
+    // This used to be a fallback test, with Persian standing in for a site
+    // language nobody had translated yet. Every one of them ships a file now,
+    // so what is left to check is that it stays that way: a locale added to
+    // i18n/config.ts without a summary file falls back to English silently,
+    // and this is what makes that silence visible.
+    expect(LOCALE_CODES.filter((code) => !SUMMARY_LOCALES.includes(code))).toEqual([]);
   });
 
   it("ignores a locale the site does not offer rather than throwing", async () => {
@@ -161,7 +165,8 @@ describe("summaryCount", () => {
     const english = await summarisedIds(DEFAULT_LOCALE);
     expect(await summaryCount("it")).toBe(english.length);
     expect(await summaryCount("en")).toBe(english.length);
-    expect(await summaryCount("fa")).toBe(english.length);
+    // A language with nothing of its own still reports what English gives it.
+    expect(await summaryCount("klingon")).toBe(english.length);
   });
 });
 
