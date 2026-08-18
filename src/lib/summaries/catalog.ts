@@ -25,6 +25,7 @@ import { readingMinutes, type ResolvedSummary, type SummaryEntry, type SummaryFi
 const loaders: Record<string, () => Promise<{ default: unknown }>> = {
   en: () => import("@data/summaries/en.json"),
   es: () => import("@data/summaries/es.json"),
+  "pt-BR": () => import("@data/summaries/pt-BR.json"),
   it: () => import("@data/summaries/it.json"),
 };
 
