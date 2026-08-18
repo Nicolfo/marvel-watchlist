@@ -85,7 +85,7 @@ blocked on somebody doing all of it.
 | | Where | Size | State |
 | --- | --- | --- | --- |
 | 1. Reviewing existing translations | `src/i18n/dictionaries/*.json` | ~185 strings each | All 14 written, none reviewed by a speaker |
-| 2. Translating plot summaries | `data/summaries/<locale>.json` | 80 titles, ~15,000 words | English complete; 4 translations complete, unreviewed |
+| 2. Translating plot summaries | `data/summaries/<locale>.json` | 80 titles, ~15,000 words | English complete; 5 translations complete, unreviewed |
 | 3. Adding a new language | both of the above | — | 14 supported |
 
 ### Fixing a word or a sentence
@@ -153,7 +153,7 @@ and none has been reviewed by a second speaker yet:
 | Español (es) | 80/80 | 简体中文 (zh-Hans) | — |
 | Português do Brasil (pt-BR) | 80/80 | 日本語 (ja) | — |
 | Français (fr) | 80/80 | 한국어 (ko) | — |
-| Deutsch (de) | — | العربية (ar) | — |
+| Deutsch (de) | 80/80 | العربية (ar) | — |
 | Italiano (it) | 80/80 | فارسی (fa) | — |
 | Türkçe (tr) | — | हिन्दी (hi) | — |
 | Русский (ru) | — | | |
