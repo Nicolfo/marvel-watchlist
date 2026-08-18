@@ -69,15 +69,32 @@ describe("summaries dataset", () => {
     }
   });
 
-  it("writes summaries long enough to actually skip a title on", () => {
-    for (const code of files) {
+  it("writes English summaries long enough to actually skip a title on", () => {
+    for (const [id, entry] of Object.entries(read(DEFAULT_LOCALE).items)) {
+      const kind = graph.byId.get(id)!.kind;
+      const floor = kind === "one-shot" || kind === "short" ? 60 : 120;
+      // Counted with Intl.Segmenter so a space-free script is measured, not
+      // dismissed as a single word.
+      const words = countWords(entry.paragraphs.join(" "), DEFAULT_LOCALE);
+      expect(words, `"${id}" is only ${words} words`).toBeGreaterThanOrEqual(floor);
+    }
+  });
+
+  it("does not let a translation lose a paragraph on the way over", () => {
+    // Translations are held against their own original rather than the floor
+    // above, because a word is not the same size in every language: a complete
+    // Korean summary lands near 0.7x the English word count, a Turkish one near
+    // 0.8x, and judging either by an English-calibrated floor flags finished
+    // work. Half the original is far below anything density explains, and is
+    // what a dropped paragraph actually looks like.
+    const english = read(DEFAULT_LOCALE).items;
+    for (const code of files.filter((name) => name !== DEFAULT_LOCALE)) {
       for (const [id, entry] of Object.entries(read(code).items)) {
-        const kind = graph.byId.get(id)!.kind;
-        const floor = kind === "one-shot" || kind === "short" ? 60 : 120;
-        // Counted with Intl.Segmenter so a space-free script is measured, not
-        // dismissed as a single word.
+        const original = countWords(english[id].paragraphs.join(" "), DEFAULT_LOCALE);
         const words = countWords(entry.paragraphs.join(" "), code);
-        expect(words, `${code}: "${id}" is only ${words} words`).toBeGreaterThanOrEqual(floor);
+        expect(words, `${code}: "${id}" is ${words} words against ${original} in English`).toBeGreaterThanOrEqual(
+          original * 0.5,
+        );
       }
     }
   });

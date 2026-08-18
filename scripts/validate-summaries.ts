@@ -37,6 +37,20 @@ function minimumWords(kind: Title["kind"]): number {
   return kind === "one-shot" || kind === "short" ? 60 : 120;
 }
 
+/**
+ * Translations are measured against their own English original rather than
+ * against the absolute floor above, because a word is not the same size in
+ * every language. Korean and Turkish pack roughly a third more meaning into
+ * each space-separated token than English does, so a complete Korean summary
+ * lands at about 0.7x the English word count and would trip a floor calibrated
+ * on English - nine times over, in Korean's case, with nothing actually
+ * missing. What the floor is really guarding against is a translator who
+ * dropped a paragraph, and that shows up as a ratio far below anything
+ * language density explains: the thinnest complete translation in the corpus
+ * sits at 0.6, while losing one of two paragraphs would land near 0.35.
+ */
+const MIN_TRANSLATION_RATIO = 0.5;
+
 function main() {
   const graph = loadGraphData();
   const titles = new Map(graph.titles.map((title) => [title.id, title]));
@@ -72,7 +86,9 @@ function main() {
     errors.push(`data/summaries/${DEFAULT_LOCALE}.json is missing - it is the fallback for every other language`);
   }
 
-  const englishIds = new Set<string>();
+  // id -> word count of the English original, filled in on the first pass and
+  // read by every translation afterwards, which is why English is sorted first.
+  const englishWords = new Map<string, number>();
 
   for (const code of files) {
     const path = resolve(SUMMARIES_DIR, `${code}.json`);
@@ -102,7 +118,7 @@ function main() {
       if (!isReleased(title)) {
         errors.push(`${code}: "${id}" is not released yet, so it must not have a summary`);
       }
-      if (code !== DEFAULT_LOCALE && !englishIds.has(id) && files.includes(DEFAULT_LOCALE)) {
+      if (code !== DEFAULT_LOCALE && !englishWords.has(id) && files.includes(DEFAULT_LOCALE)) {
         // Not fatal - a translated summary is still readable - but it means the
         // base is missing one, which is where a reader in any other language
         // will land.
@@ -112,17 +128,23 @@ function main() {
       // Counted with Intl.Segmenter, so Chinese and Japanese - which put no
       // spaces between words - are measured rather than dismissed as one word.
       const words = countWords(entry.paragraphs.join(" "), code);
-      if (words < minimumWords(title.kind)) {
-        warnings.push(`${code}: "${id}" is only ${words} words - too thin to skip the title on`);
+      const original = englishWords.get(id);
+      if (code === DEFAULT_LOCALE) {
+        englishWords.set(id, words);
+        if (words < minimumWords(title.kind)) {
+          warnings.push(`${code}: "${id}" is only ${words} words - too thin to skip the title on`);
+        }
+      } else if (original !== undefined && words < original * MIN_TRANSLATION_RATIO) {
+        warnings.push(
+          `${code}: "${id}" is ${words} words against ${original} in English - looks like a paragraph went missing`,
+        );
       }
     }
 
     const ids = Object.keys(parsed.data.items);
     if (code === DEFAULT_LOCALE) {
-      for (const id of ids) englishIds.add(id);
-
       const missing = graph.titles
-        .filter((title) => isReleased(title) && !englishIds.has(title.id) && !PENDING.has(title.id))
+        .filter((title) => isReleased(title) && !englishWords.has(title.id) && !PENDING.has(title.id))
         .map((title) => title.id);
       for (const id of missing) {
         errors.push(`${DEFAULT_LOCALE}: "${id}" is released but has no summary and is not declared pending`);
@@ -148,7 +170,7 @@ function main() {
   }
 
   console.log(
-    `\nok: ${files.length} language(s), ${englishIds.size} titles summarised in ${DEFAULT_LOCALE}, ` +
+    `\nok: ${files.length} language(s), ${englishWords.size} titles summarised in ${DEFAULT_LOCALE}, ` +
       `${PENDING.size} declared pending, ${warnings.length} warning(s)`,
   );
 }
