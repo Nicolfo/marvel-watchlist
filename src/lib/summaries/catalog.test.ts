@@ -59,13 +59,14 @@ describe("summaries dataset", () => {
     expect(missing).toEqual([...PENDING].sort());
   });
 
-  it("keeps the Italian translation level with the English base", () => {
-    // Italian is a complete translation of the base, so a gap here is a title
-    // added to English and not yet translated - reported, not fatal, since the
-    // resolver falls back per title.
+  it("keeps every translation level with the English base", () => {
+    // Every language shipped so far is a complete translation of the base, so a
+    // gap here is a title added to English and not yet translated - which the
+    // resolver survives, falling back per title, but which somebody should fix.
     const english = Object.keys(read(DEFAULT_LOCALE).items).sort();
-    const italian = Object.keys(read("it").items).sort();
-    expect(italian).toEqual(english);
+    for (const code of files.filter((name) => name !== DEFAULT_LOCALE)) {
+      expect(Object.keys(read(code).items).sort(), `${code}.json`).toEqual(english);
+    }
   });
 
   it("writes summaries long enough to actually skip a title on", () => {

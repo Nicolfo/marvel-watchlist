@@ -85,7 +85,7 @@ blocked on somebody doing all of it.
 | | Where | Size | State |
 | --- | --- | --- | --- |
 | 1. Reviewing existing translations | `src/i18n/dictionaries/*.json` | ~185 strings each | All 14 written, none reviewed by a speaker |
-| 2. Translating plot summaries | `data/summaries/<locale>.json` | 80 titles, ~15,000 words | English complete; Italian complete, unreviewed |
+| 2. Translating plot summaries | `data/summaries/<locale>.json` | 80 titles, ~15,000 words | English complete; Spanish and Italian complete, unreviewed |
 | 3. Adding a new language | both of the above | — | 14 supported |
 
 ### Fixing a word or a sentence
@@ -141,8 +141,22 @@ Both commands print it. As of the last update:
 ```
 UI strings   all 14 languages at 92-99% (the remainder are strings that are
              correctly identical to English)
-Summaries    en 80/82 released titles · it 80/82
+Summaries    en 80/82 released titles  ← the base, everything falls back to it
 ```
+
+Summary translation, language by language. Each one is a complete rendering of
+the English base, adapted to the names that language's own dubs and comics use,
+and none has been reviewed by a second speaker yet:
+
+| Language | Summaries | Language | Summaries |
+| --- | --- | --- | --- |
+| Español (es) | 80/80 | 简体中文 (zh-Hans) | — |
+| Português do Brasil (pt-BR) | — | 日本語 (ja) | — |
+| Français (fr) | — | 한국어 (ko) | — |
+| Deutsch (de) | — | العربية (ar) | — |
+| Italiano (it) | 80/80 | فارسی (fa) | — |
+| Türkçe (tr) | — | हिन्दी (hi) | — |
+| Русский (ru) | — | | |
 
 The two titles missing from English — `wonder-man` and
 `spider-man-brand-new-day` — are deliberately unwritten rather than forgotten,
