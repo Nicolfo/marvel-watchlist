@@ -41,9 +41,14 @@ function main() {
   const graph = loadGraphData();
   const titles = new Map(graph.titles.map((title) => [title.id, title]));
 
+  // English first, whatever the directory order: the per-title checks below
+  // compare each translation against the set of English ids, and a language
+  // whose code sorts before "en" - de, ar - would otherwise be measured against
+  // an empty set and reported as having no English original at all.
   const files = readdirSync(SUMMARIES_DIR)
     .filter((name) => name.endsWith(".json"))
-    .map((name) => name.replace(/\.json$/, ""));
+    .map((name) => name.replace(/\.json$/, ""))
+    .sort((a, b) => Number(b === DEFAULT_LOCALE) - Number(a === DEFAULT_LOCALE));
 
   const errors: string[] = [];
   const warnings: string[] = [];
