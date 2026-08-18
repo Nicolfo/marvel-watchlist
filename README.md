@@ -47,9 +47,10 @@ Endgame*?" is a graph traversal rather than a guess.
   have a full plot summary - ending included - so you can skip one and still
   follow what comes next. It is never shown unless you ask, and the text is not
   sent to the browser at all until you press the button; the short spoiler-free
-  synopsis stays exactly where it was. Summaries are translatable per title,
-  falling back to English. An opt-in preference remembers if you would rather
-  always see them.
+  synopsis stays exactly where it was. All 80 exist in all 14 languages, and
+  translation falls back to English per title, so a new release is readable
+  everywhere the day it lands. An opt-in preference remembers if you would
+  rather always see them.
 
 ## Quick start
 
@@ -85,7 +86,7 @@ blocked on somebody doing all of it.
 | | Where | Size | State |
 | --- | --- | --- | --- |
 | 1. Reviewing existing translations | `src/i18n/dictionaries/*.json` | ~185 strings each | All 14 written, none reviewed by a speaker |
-| 2. Translating plot summaries | `data/summaries/<locale>.json` | 80 titles, ~15,000 words | English complete; 12 translations complete, unreviewed |
+| 2. Translating plot summaries | `data/summaries/<locale>.json` | 80 titles, ~15,000 words | English complete; all 13 translations complete, unreviewed |
 | 3. Adding a new language | both of the above | — | 14 supported |
 
 ### Fixing a word or a sentence
@@ -141,7 +142,8 @@ Both commands print it. As of the last update:
 ```
 UI strings   all 14 languages at 92-99% (the remainder are strings that are
              correctly identical to English)
-Summaries    en 80/82 released titles  ← the base, everything falls back to it
+Summaries    all 14 languages at 80/82 released titles - the two missing from
+             English are declared pending, not forgotten
 ```
 
 Summary translation, language by language. Each one is a complete rendering of
@@ -154,7 +156,7 @@ and none has been reviewed by a second speaker yet:
 | Português do Brasil (pt-BR) | 80/80 | 日本語 (ja) | 80/80 |
 | Français (fr) | 80/80 | 한국어 (ko) | 80/80 |
 | Deutsch (de) | 80/80 | العربية (ar) | 80/80 |
-| Italiano (it) | 80/80 | فارسی (fa) | — |
+| Italiano (it) | 80/80 | فارسی (fa) | 80/80 |
 | Türkçe (tr) | 80/80 | हिन्दी (hi) | 80/80 |
 | Русский (ru) | 80/80 | | |
 
