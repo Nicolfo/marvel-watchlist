@@ -16,7 +16,7 @@ import { Badge, kindKey } from "./ui";
  * the header tells you whether you want to watch it, and this tells you what
  * happens so the next title still makes sense without you having watched it.
  *
- * Only the *metadata* - which language, how long - arrives as a prop. The prose
+ * Only the *metadata* (which language, how long) arrives as a prop. The prose
  * is fetched from `/api/summary/[id]` on reveal, and that is what makes rule 1
  * literally true rather than approximately true: looking it up in this component
  * would put every summary in every language into the JS bundle, and taking it as
@@ -25,7 +25,7 @@ import { Badge, kindKey } from "./ui";
  * Three rules the implementation exists to enforce:
  *
  * 1. It is never open unless asked for. Not "collapsed with a blur over it", and
- *    not "in the page but not rendered" - the text has not been sent to the
+ *    not "in the page but not rendered": the text has not been sent to the
  *    browser at all until the reader asks, so it cannot be glimpsed
  *    mid-animation, selected through a blur, dragged out by find-in-page, read
  *    aloud by a screen reader walking the page, or found in view-source.

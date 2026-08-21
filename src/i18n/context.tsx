@@ -7,8 +7,8 @@ import { formatNumber, translate, type Dictionary, type Vars } from "./translate
 /**
  * Carries the active locale and its dictionary to the client components.
  *
- * Almost every component in this app is a client component - the watchlist is
- * interactive from the first paint - so the strings have to cross the boundary
+ * Almost every component in this app is a client component, and the watchlist
+ * is interactive from the first paint, so the strings have to cross the boundary
  * somewhere. They cross once, here, at the root layout, rather than each
  * component reaching for a global.
  */

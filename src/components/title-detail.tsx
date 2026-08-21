@@ -222,7 +222,7 @@ export function TitleDetail({ id, summary }: { id: string; summary?: SummaryMeta
 
       {/* Sits directly under the header, where the spoiler-free synopsis just
           was, because the reader deciding whether to skip this title is deciding
-          it right here - and stays shut until they say so. */}
+          it right here, and stays shut until they say so. */}
       <SpoilerSummary title={title} summary={summary} />
 
       <section className="panel rounded-2xl p-5 sm:p-6">
@@ -384,7 +384,7 @@ export function TitleDetail({ id, summary }: { id: string; summary?: SummaryMeta
 /**
  * The hero backdrop, layered over the gradient rather than replacing it.
  * Artwork is resolved per request now, so whether one exists is only known
- * once the image either loads or 404s - and either way the gradient underneath
+ * once the image either loads or 404s, and either way the gradient underneath
  * is already a finished-looking header.
  */
 function Backdrop({ id }: { id: string }) {

@@ -12,7 +12,7 @@ const q = (value: string) => `'${value.replace(/\\/g, "\\\\").replace(/'/g, "\\'
 
 const lines: string[] = [
   `// Marvel watch-order graph, dataset ${data.dataVersion} (${data.updatedAt})`,
-  `// Source: ${data.source.name} by ${data.source.author} - ${data.source.url}`,
+  `// Source: ${data.source.name} by ${data.source.author}, ${data.source.url}`,
   "",
   "CREATE CONSTRAINT title_id IF NOT EXISTS FOR (t:Title) REQUIRE t.id IS UNIQUE;",
   "",

@@ -6,7 +6,7 @@ import type { GraphData } from "./schema";
  * The bundled dataset.
  *
  * The JSON file is the source of truth and ships with the app, so the whole
- * catalog is available on both server and client without a round trip - which
+ * catalog is available on both server and client without a round trip, which
  * is what lets the localStorage watchlist stay instant. It is validated
  * against `graphDataSchema` by `npm run graph:validate` (which also runs as a
  * prebuild step and in the test suite), so the cast here is checked upstream

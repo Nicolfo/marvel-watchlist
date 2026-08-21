@@ -25,7 +25,7 @@ import {
  *
  * The credential never leaves the server. Only `/api/artwork/[id]/[variant]`
  * calls in here, and all a browser ever receives is a redirect to a public
- * image.tmdb.org URL - which needs no key to fetch.
+ * image.tmdb.org URL, which needs no key to fetch.
  */
 
 // A hard guard rather than a comment: bundling this into client code would ship
@@ -170,21 +170,21 @@ export async function resolveArtwork(id: string): Promise<ArtworkEntry | null> {
 /**
  * The short, spoiler-free synopsis for one title, in one language.
  *
- * TMDB is translated - it takes a `language` parameter and answers with a
- * community-supplied overview in that language - so a Persian reader should get
+ * TMDB is translated: it takes a `language` parameter and answers with a
+ * community-supplied overview in that language, so a Persian reader should get
  * a Persian synopsis rather than the English one. That is a separate call from
  * `resolveArtwork` on purpose: a poster is a poster in every language, so the
  * expensive part (search, match, IMDb id) is looked up once and cached by id,
  * and only this one field is fetched per language.
  *
- * Coverage on TMDB is uneven - a one-shot may have an English overview and
- * nothing else - so an empty answer falls back to English rather than leaving a
+ * Coverage on TMDB is uneven (a one-shot may have an English overview and
+ * nothing else), so an empty answer falls back to English rather than leaving a
  * gap where the synopsis should be.
  */
 export interface ResolvedOverview {
   text: string | null;
   /**
-   * Which language the text actually came back in - not which was asked for.
+   * Which language the text actually came back in, not which was asked for.
    *
    * The caller needs this: an English synopsis shown on a Persian page has to
    * be marked `lang="en" dir="ltr"`, or the browser lays an English paragraph

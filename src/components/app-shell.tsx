@@ -89,7 +89,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <span className="grid h-8 w-8 shrink-0 place-items-center rounded-md bg-accent text-sm font-black tracking-tighter text-white">
               M
             </span>
-            {/* The product name is a brand, so it is not translated - but it is
+            {/* The product name is a brand, so it is not translated, but it is
                 marked `ltr` so it does not get reordered inside an RTL bar. */}
             <span dir="ltr" className="truncate text-base font-semibold tracking-tight">
               Marvel<span className="text-muted"> Watchlist</span>

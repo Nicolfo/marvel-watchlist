@@ -5,13 +5,13 @@ import { readingMinutes, type ResolvedSummary, type SummaryEntry, type SummaryFi
  * Loading and resolving the plot summaries.
  *
  * **Server-side only, on purpose.** The summaries are the largest text in the
- * repository - the English file alone is tens of thousands of words - and this
+ * repository (the English file alone is tens of thousands of words) and this
  * module used to be imported by a client component, which meant shipping the
  * whole corpus to every browser to display one title's worth of it. With a file
  * per language that would have become fourteen corpora.
  *
  * So resolution happens here, on the server. The title page renders from
- * `summaryMetaFor` - language and reading time, no prose - and the text itself
+ * `summaryMetaFor` (language and reading time, no prose) and the text itself
  * is served by `/api/summary/[id]` when a reader actually reveals it. Passing
  * the prose down as a prop would have been the other obvious move, and it leaks:
  * React serialises props into the flight payload, so the spoiler ends up in the
@@ -80,7 +80,7 @@ export async function resolveSummary(
 }
 
 /**
- * Whether a summary exists for this title, and what to say about it - without
+ * Whether a summary exists for this title, and what to say about it, without
  * handing the caller the prose. This is what the title page renders with.
  */
 export async function summaryMetaFor(
@@ -108,7 +108,7 @@ export async function summarisedIds(locale: string): Promise<string[]> {
  * How many titles a reader in this language can actually read a summary for.
  *
  * The union of the language's own entries and English's, because a reader gets
- * a summary either way - that is what the fallback is for, and reporting only
+ * a summary either way. That is what the fallback is for, and reporting only
  * the translated count would tell a Persian reader "3 summaries" when eighty
  * are in front of them.
  */

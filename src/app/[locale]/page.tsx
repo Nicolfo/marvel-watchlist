@@ -11,7 +11,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const dictionary = await getDictionary(locale);
 
   // The real computed order, not the order titles happen to sit in the data
-  // file - the list below claims to be the suggested order, so it must be.
+  // file, since the list below claims to be the suggested order.
   const order = suggestedOrder(getGraph(), "should");
 
   return (
@@ -31,8 +31,8 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               inLanguage: locale,
             },
             {
-              // The catalog itself, so the ordering - the thing this site is
-              // actually for - is legible as data and not just as markup.
+              // The catalog itself, so the ordering (the thing this site is
+              // actually for) is legible as data and not just as markup.
               "@type": "ItemList",
               name: translate(dictionary, locale, "meta.home.title"),
               numberOfItems: graphData.titles.length,

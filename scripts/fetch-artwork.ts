@@ -8,7 +8,7 @@
  * app renders its own generated poster art, so this step is entirely optional.
  *
  * Titles that TMDB cannot confidently match are reported and skipped rather
- * than guessed at - a wrong poster with a wrong IMDb link is worse than none.
+ * than guessed at, since a wrong poster with a wrong IMDb link is worse than none.
  */
 import { readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
@@ -36,7 +36,7 @@ if (!apiKey) {
     "TMDB_API_KEY is not set.\n" +
       "Get a free key at https://www.themoviedb.org/settings/api, then:\n" +
       "  TMDB_API_KEY=xxxxx npm run artwork:fetch\n\n" +
-      "This step is optional - without it the app draws its own poster art.",
+      "This step is optional; without it the app draws its own poster art.",
   );
   process.exit(1);
 }
@@ -110,7 +110,7 @@ async function main() {
   };
 
   if (DRY_RUN) {
-    console.log(`\ndry run - would write ${Object.keys(items).length} entries`);
+    console.log(`\ndry run: would write ${Object.keys(items).length} entries`);
   } else {
     writeFileSync(ARTWORK_PATH, `${JSON.stringify(output, null, 2)}\n`);
     console.log(`\nwrote ${Object.keys(items).length} entries to ${ARTWORK_PATH}`);

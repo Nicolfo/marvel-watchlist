@@ -6,8 +6,8 @@
  *
  * It runs as a prebuild step and in CI. English is the base and is held to a
  * completeness standard; every other language is an overlay that may be as
- * partial as its translator has got, because resolution falls back per title -
- * so a thin translation is reported as coverage, never as an error.
+ * partial as its translator has got. Resolution falls back per title, so a thin
+ * translation is reported as coverage, never as an error.
  */
 import { readFileSync, readdirSync } from "node:fs";
 import { resolve } from "node:path";
@@ -43,7 +43,7 @@ function minimumWords(kind: Title["kind"]): number {
  * every language. Korean and Turkish pack roughly a third more meaning into
  * each space-separated token than English does, so a complete Korean summary
  * lands at about 0.7x the English word count and would trip a floor calibrated
- * on English - nine times over, in Korean's case, with nothing actually
+ * on English, nine times over in Korean's case, with nothing actually
  * missing. What the floor is really guarding against is a translator who
  * dropped a paragraph, and that shows up as a ratio far below anything
  * language density explains: the thinnest complete translation in the corpus
@@ -57,7 +57,7 @@ function main() {
 
   // English first, whatever the directory order: the per-title checks below
   // compare each translation against the set of English ids, and a language
-  // whose code sorts before "en" - de, ar - would otherwise be measured against
+  // whose code sorts before "en" (de, ar) would otherwise be measured against
   // an empty set and reported as having no English original at all.
   const files = readdirSync(SUMMARIES_DIR)
     .filter((name) => name.endsWith(".json"))
@@ -83,7 +83,7 @@ function main() {
     }
   }
   if (!files.includes(DEFAULT_LOCALE)) {
-    errors.push(`data/summaries/${DEFAULT_LOCALE}.json is missing - it is the fallback for every other language`);
+    errors.push(`data/summaries/${DEFAULT_LOCALE}.json is missing; it is the fallback for every other language`);
   }
 
   // id -> word count of the English original, filled in on the first pass and
@@ -104,7 +104,7 @@ function main() {
     // A pt.json that declares itself Spanish would quietly serve the wrong
     // language to every Portuguese reader, and nothing else would notice.
     if (parsed.data.locale !== code) {
-      errors.push(`${code}.json declares "locale": "${parsed.data.locale}" - they must match`);
+      errors.push(`${code}.json declares "locale": "${parsed.data.locale}"; the two must match`);
     }
 
     for (const [id, entry] of Object.entries(parsed.data.items)) {
@@ -119,24 +119,24 @@ function main() {
         errors.push(`${code}: "${id}" is not released yet, so it must not have a summary`);
       }
       if (code !== DEFAULT_LOCALE && !englishWords.has(id) && files.includes(DEFAULT_LOCALE)) {
-        // Not fatal - a translated summary is still readable - but it means the
+        // Not fatal, since a translated summary is still readable, but it means the
         // base is missing one, which is where a reader in any other language
         // will land.
         warnings.push(`${code}: "${id}" is translated but has no English original`);
       }
 
-      // Counted with Intl.Segmenter, so Chinese and Japanese - which put no
-      // spaces between words - are measured rather than dismissed as one word.
+      // Counted with Intl.Segmenter, so Chinese and Japanese, which put no
+      // spaces between words, are measured rather than dismissed as one word.
       const words = countWords(entry.paragraphs.join(" "), code);
       const original = englishWords.get(id);
       if (code === DEFAULT_LOCALE) {
         englishWords.set(id, words);
         if (words < minimumWords(title.kind)) {
-          warnings.push(`${code}: "${id}" is only ${words} words - too thin to skip the title on`);
+          warnings.push(`${code}: "${id}" is only ${words} words, too thin to skip the title on`);
         }
       } else if (original !== undefined && words < original * MIN_TRANSLATION_RATIO) {
         warnings.push(
-          `${code}: "${id}" is ${words} words against ${original} in English - looks like a paragraph went missing`,
+          `${code}: "${id}" is ${words} words against ${original} in English, so a paragraph may be missing`,
         );
       }
     }

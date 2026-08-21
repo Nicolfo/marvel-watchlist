@@ -1,13 +1,13 @@
 import { z } from "zod";
 
 /**
- * The schema for the files in `data/summaries/` - the detailed, spoiler-heavy
+ * The schema for the files in `data/summaries/`: the detailed, spoiler-heavy
  * plot summaries shown behind the reveal on a title page.
  *
  * One file per language, `<locale>.json`, mirroring `src/i18n/dictionaries/`.
  * English is the base and is expected to be complete; every other language is
  * an overlay that may cover as few titles as its translator has reached, and
- * resolution falls back **per title** rather than per file - see
+ * resolution falls back **per title** rather than per file. See
  * `resolveSummary`. A translator who does five films ships five translated
  * films, not a language that looks broken for the other seventy-five.
  *
@@ -35,8 +35,8 @@ const slug = z
 export const summaryEntrySchema = z.object({
   /**
    * The summary itself, one string per rendered paragraph. Long enough to
-   * genuinely replace watching the thing - the whole point is that a reader can
-   * skip a title and still follow the next one - so a one-line logline is
+   * genuinely replace watching the thing. The whole point is that a reader can
+   * skip a title and still follow the next one, so a one-line logline is
    * rejected rather than quietly shipped as a "detailed" summary.
    */
   paragraphs: z.array(z.string().min(40)).min(1),
@@ -71,7 +71,7 @@ export type SummaryFile = z.infer<typeof summaryFileSchema>;
  *
  * The second field is the point of the whole structure. When a reader on the
  * Persian site opens a title nobody has translated yet, they get the English
- * text - and the page has to know that, so it can mark the block
+ * text, and the page has to know that, so it can mark the block
  * `lang="en" dir="ltr"` and say so above it. Returning the entry alone would
  * leave the caller guessing.
  */
@@ -85,7 +85,7 @@ export interface ResolvedSummary {
  * one: which language the reader will get, and how long it is.
  *
  * This is the shape that crosses to the client during render. The prose itself
- * is fetched from `/api/summary/[id]` when the reader reveals it - a prop would
+ * is fetched from `/api/summary/[id]` when the reader reveals it, since a prop would
  * be serialised into the page's flight payload, putting the spoiler in the page
  * source of a page whose entire premise is that it is not there.
  */

@@ -6,7 +6,7 @@ import type { Title } from "./graph/schema";
  *
  * Why TMDB and not IMDb: IMDb publishes no image API and its artwork may not be
  * hotlinked. TMDB's API is free, explicitly permits this use, and exposes the
- * IMDb id for every entry - so we get posters *and* exact IMDb links from one
+ * IMDb id for every entry, so we get posters *and* exact IMDb links from one
  * source.
  *
  * This module is shared by the build-time script (`scripts/fetch-artwork.ts`)
@@ -33,7 +33,7 @@ export interface TmdbResult {
  * How a request proves itself to TMDB.
  *
  * TMDB accepts two credential formats. A v4 read access token (a JWT) can go in
- * an `Authorization` header, which keeps it out of the URL - and therefore out
+ * an `Authorization` header, which keeps it out of the URL, and therefore out
  * of access logs, error messages and stack traces. A v3 API key only works as a
  * query parameter, so URLs built with one are themselves secret; anything that
  * might log or return such a URL must put it through `redact` first.
@@ -160,7 +160,7 @@ export function pickBestMatch(title: Title, results: TmdbResult[]): TmdbResult |
     if (name === wanted) score += 100;
     else if (name.startsWith(wanted) || wanted.startsWith(name)) score += 60;
     else if (name.includes(wanted) || wanted.includes(name)) score += 30;
-    else continue; // unrelated title - never match on popularity alone
+    else continue; // unrelated title: never match on popularity alone
 
     const year = resultYear(result);
     if (year !== null) {
@@ -188,7 +188,7 @@ export function backdropUrl(path: string | null | undefined, size = "w1280"): st
 
 /**
  * Guards the redirect target. Everything we hand a browser must be a TMDB image
- * CDN URL - never an arbitrary string that reached us from a data file.
+ * CDN URL, never an arbitrary string that reached us from a data file.
  */
 export function isTmdbImageUrl(url: string): boolean {
   return url.startsWith(`${TMDB_IMAGE}/`);

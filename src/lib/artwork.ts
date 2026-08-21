@@ -4,18 +4,18 @@ import type { Title } from "./graph/schema";
 /**
  * Artwork resolution.
  *
- * Tier 1: a real poster from TMDB - either baked into the image by
+ * Tier 1: a real poster from TMDB, either baked into the image by
  *         `npm run artwork:fetch`, or resolved at request time from a
  *         TMDB_API_KEY in the server's environment.
  * Tier 2: a generated poster derived from the title itself.
  *
- * Tier 2 is not a grey placeholder box - it is a deterministic, designed
+ * Tier 2 is not a grey placeholder box. It is a deterministic, designed
  * treatment (hue from the title id, palette family from the phase), so a clone
  * with no API key still looks finished rather than broken.
  *
  * This module is safe to import from client code: it holds only the baked-in
- * file and pure drawing helpers. The runtime lookup - and the API key it needs
- * - lives in `artwork-server.ts`, which the browser never sees.
+ * file and pure drawing helpers. The runtime lookup, and the API key it needs,
+ * live in `artwork-server.ts`, which the browser never sees.
  */
 
 export interface ArtworkEntry {
@@ -62,7 +62,7 @@ function hash(value: string): number {
 
 /**
  * Each phase gets a well-separated hue band, so the grid reads as eras at a
- * glance. Bands are kept far apart on the wheel - adjacent phases that differ
+ * glance. Bands are kept far apart on the wheel, since adjacent phases that differ
  * by only a few degrees are indistinguishable once the scrim is over them.
  */
 const PHASE_HUES: Record<string, [number, number]> = {

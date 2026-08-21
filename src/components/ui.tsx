@@ -4,7 +4,7 @@ import { useI18n } from "@/i18n/context";
 import type { EdgeType, Title } from "@/lib/graph/schema";
 
 /**
- * Colours stay module constants - they are not language. The labels that used
+ * Colours stay module constants, because they are not language. The labels that used
  * to live beside them are now dictionary keys, looked up at render time, so
  * "Must watch" can be "باید ببینید" without the colour mapping knowing.
  */

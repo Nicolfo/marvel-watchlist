@@ -19,7 +19,7 @@ const files = readdirSync(DIR)
   .map((name) => name.replace(/\.json$/, ""));
 
 /**
- * Released titles deliberately left unsummarised in English - see the note in
+ * Released titles deliberately left unsummarised in English. See the note in
  * scripts/validate-summaries.ts. Listing them means an *undeclared* gap fails.
  */
 const PENDING = ["spider-man-brand-new-day", "wonder-man"];
@@ -61,7 +61,7 @@ describe("summaries dataset", () => {
 
   it("keeps every translation level with the English base", () => {
     // Every language shipped so far is a complete translation of the base, so a
-    // gap here is a title added to English and not yet translated - which the
+    // gap here is a title added to English and not yet translated, which the
     // resolver survives, falling back per title, but which somebody should fix.
     const english = Object.keys(read(DEFAULT_LOCALE).items).sort();
     for (const code of files.filter((name) => name !== DEFAULT_LOCALE)) {
@@ -111,7 +111,7 @@ describe("resolveSummary", () => {
 
   it("falls back to English per title, not per file", async () => {
     // A title a translation has not reached must still produce a readable
-    // summary rather than an empty panel - that is the whole point of the
+    // summary rather than an empty panel, which is the whole point of the
     // structure, and it stays true however far along a translation is. Italian
     // happens to be complete now, so this asserts the rule over whatever it has
     // not reached rather than over one hand-picked title.
@@ -129,7 +129,7 @@ describe("resolveSummary", () => {
 
   it("reports the language it actually returned, so the page can tag it", async () => {
     // Without this the caller cannot know whether to mark the block lang="en"
-    // dir="ltr" inside a right-to-left page - which is exactly the case that
+    // dir="ltr" inside a right-to-left page, which is exactly the case that
     // matters for Persian and Arabic, so they are the ones checked here.
     expect((await resolveSummary("thor", "it"))!.language).toBe("it");
     expect((await resolveSummary("thor", "fa"))!.language).toBe("fa");
@@ -160,7 +160,7 @@ describe("resolveSummary", () => {
 describe("summaryCount", () => {
   it("counts what a reader can actually read, not just the translated part", async () => {
     // A reader gets a summary either way, so the count is the union of the
-    // language's own entries and English's - a partial translation must not
+    // language's own entries and English's, because a partial translation must not
     // report a number smaller than what is actually in front of the reader.
     const english = await summarisedIds(DEFAULT_LOCALE);
     expect(await summaryCount("it")).toBe(english.length);

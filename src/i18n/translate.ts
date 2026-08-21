@@ -67,7 +67,7 @@ function interpolate(
  *
  * When `vars.count` is a number the key is treated as pluralised. A missing key
  * returns the key itself: visible in the UI, obvious in a screenshot, and
- * caught by `npm run i18n:validate` long before that - which beats rendering an
+ * caught by `npm run i18n:validate` long before that, which beats rendering an
  * empty space that nobody notices for six months.
  */
 export function translate(
@@ -89,7 +89,7 @@ export function translate(
  * Latin numerals dropped into the middle of their own script.
  *
  * Grouping is off. Every number this app shows is either a small count or a
- * release year, and grouping turns "2008" into "2,008" - which is wrong for a
+ * release year, and grouping turns "2008" into "2,008", which is wrong for a
  * year in every language that has the separator.
  */
 export function formatNumber(locale: string, value: number): string {

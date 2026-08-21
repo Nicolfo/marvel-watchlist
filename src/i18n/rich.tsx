@@ -1,8 +1,8 @@
 import { Fragment } from "react";
 
 /**
- * Renders a translated string that contains React nodes - a link, a bold run, a
- * `<code>` - without breaking the sentence into fragments.
+ * Renders a translated string that contains React nodes (a link, a bold run, a
+ * `<code>`) without breaking the sentence into fragments.
  *
  * The alternative, concatenating `t("about.body.part1") + <Link/> + t("about.body.part2")`,
  * quietly assumes every language puts the link in the same place. It does not:
@@ -15,7 +15,7 @@ import { Fragment } from "react";
  *
  * A slot the translation does not mention simply is not rendered, and a slot
  * the translation mentions but the caller did not supply renders as the literal
- * placeholder - visible, and caught by `npm run i18n:validate`.
+ * placeholder: visible, and caught by `npm run i18n:validate`.
  */
 export function Rich({
   text,

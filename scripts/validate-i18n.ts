@@ -11,12 +11,12 @@
  *    one that actually breaks a page: `{count}` typo'd as `{cont}` renders the
  *    literal text "{cont}" to a reader, and a `{link}` slot that a translator
  *    removed silently deletes the link from the sentence.
- * 2. Keys English has that a locale does not - reported as coverage, not as an
+ * 2. Keys English has that a locale does not, reported as coverage, not as an
  *    error, because English is merged underneath every locale and a partial
  *    translation is a normal, shippable state.
  * 3. Keys a locale has that English does not, excluding the plural forms a
  *    language legitimately needs more of than English (Russian's `.few`,
- *    Arabic's `.two`) - those are the point, not a mistake.
+ *    Arabic's `.two`), because those are the point, not a mistake.
  */
 import { readFileSync, readdirSync } from "node:fs";
 import { resolve } from "node:path";

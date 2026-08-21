@@ -17,8 +17,8 @@ for **Arabic** and **Persian**.
 | 简体中文 | `zh-Hans` |
 | 日本語 | `ja` |
 | 한국어 | `ko` |
-| العربية | `ar` — right to left |
-| فارسی | `fa` — right to left |
+| العربية | `ar` (right to left) |
+| فارسی | `fa` (right to left) |
 
 ## What is translated, and what is not
 
@@ -30,32 +30,32 @@ page titles and meta descriptions, `aria-label`s, and the phase names
 `language` parameter and answers with a community-supplied overview in that
 language, so the spoiler-free synopsis in the page header is one of the few
 pieces of *catalog* text this app can legitimately show in the reader's own
-language — it is a real translation by a human, not a machine rendering of ours.
+language: it is a real translation by a human, not a machine rendering of ours.
 Coverage is uneven (a one-shot may have English and nothing else), so an empty
 answer falls back to English.
 
-**Title names are not**, and never will be — they are identifiers, and a
+**Title names are not**, and never will be: they are identifiers, and a
 machine-translated film title helps nobody find the film.
 
 **The detailed plot summaries can be**, one language at a time. They are the
 site's own prose, so nothing stops them being translated; there is simply a lot
 of it. The structure for that is described in
-**[docs/spoiler-summaries.md](spoiler-summaries.md)** — one file per language
+**[docs/spoiler-summaries.md](spoiler-summaries.md)**: one file per language
 under `data/summaries/`, falling back to English **per title**, so a translator
 who does five films ships five translated films rather than having to finish all
 eighty before anything appears. English is the base and is complete, and every
-one of the other thirteen languages is now a full translation of it — each
+one of the other thirteen languages is now a full translation of it, each
 awaiting review by a second speaker of that language.
 
 A reader who opens a summary that has not been translated yet is told so, in
 their own language, before and after the reveal (`spoiler.notTranslated`), and
-the block is tagged with the language it is *actually* in — an English paragraph
-inside a Persian page must not be laid out right to left or read aloud in the
-wrong voice. The TMDB synopsis carries the same tagging for the same reason.
+the block is tagged with the language it is *actually* in, because an English
+paragraph inside a Persian page must not be laid out right to left or read aloud
+in the wrong voice. The TMDB synopsis carries the same tagging for the same reason.
 
 ### How the synopsis lookup is split
 
-`resolveArtwork(id)` is language-neutral and cached by id — a poster is a poster
+`resolveArtwork(id)` is language-neutral and cached by id, since a poster is a poster
 in every language, and the expensive part (search, match, IMDb id) should happen
 once. `resolveOverview(id, locale)` reuses that result's `tmdbId` and makes one
 extra call per (title, non-English locale), cached 24h for a hit and 1h for a
@@ -67,9 +67,9 @@ the locale rides in as a query parameter rather than a path segment.
 
 `tmdbLanguage()` maps our locale codes to what TMDB expects. A region-qualified
 tag (`pt-BR`) passes through; `zh-Hans` must become `zh-CN`, because a *script*
-subtag is meaningless to TMDB and it answers in English without erroring — the
-kind of failure that looks like "translation just doesn't work" rather than an
-error anyone would notice.
+subtag is meaningless to TMDB and it answers in English without erroring, which
+is the kind of failure that looks like "translation just doesn't work" rather
+than an error anyone would notice.
 
 ## URLs
 
@@ -88,7 +88,7 @@ Which locale a bare URL resolves to, in order:
 
 1. the `NEXT_LOCALE` cookie, if the reader has chosen a language;
 2. their browser's `Accept-Language`, negotiated by quality value, with a
-   fallback on the primary subtag — `pt-PT` lands on `pt-BR` rather than falling
+   fallback on the primary subtag, so `pt-PT` lands on `pt-BR` rather than falling
    all the way to English;
 3. English.
 
@@ -99,7 +99,7 @@ Which locale a bare URL resolves to, in order:
 Every page carries a canonical for its own language plus `hreflang` alternates
 naming all fourteen, with `x-default` on English. Without those, a crawler reads
 fourteen translations of one page as fourteen pages competing for one query. The
-sitemap lists every locale of every page with the same alternates map — 1,246
+sitemap lists every locale of every page with the same alternates map, 1,246
 URLs, generated from the catalog and the locale list, so neither can drift.
 
 ## Right to left
@@ -136,8 +136,8 @@ so localising it would leave the two tags disagreeing about the same film.
 
 `t()` selects the plural form with `Intl.PluralRules`, not `n === 1`:
 
-- Russian needs `one` / `few` / `many` — 1 сезон, 3 сезона, 7 сезонов;
-- Arabic needs six categories, and uses `two` for a genuine dual — موسمان;
+- Russian needs `one` / `few` / `many`: 1 сезон, 3 сезона, 7 сезонов;
+- Arabic needs six categories, and uses `two` for a genuine dual: موسمان;
 - Chinese, Japanese and Korean need exactly one form and must never be given an
   English-shaped "1 item / 2 items" split.
 
@@ -172,8 +172,9 @@ entirely. A `{slot}` lets the translator put it where their grammar needs it.
 1. Copy `src/i18n/dictionaries/en.json` to `<code>.json` and translate the
    values. Leave the keys and the `{placeholders}` exactly as they are.
 2. Add a row to `LOCALES` in `src/i18n/config.ts`, with the language's name
-   **in that language** — a menu written in a script you cannot read is useless
-   to the person who most needs it — and `rtl: true` if it reads right to left.
+   **in that language**, because a menu written in a script you cannot read is
+   useless to the person who most needs it, and `rtl: true` if it reads right to
+   left.
 3. Add the importer line in `src/i18n/dictionary.ts`.
 4. Run `npm run i18n:validate`.
 
@@ -184,7 +185,7 @@ Untranslated keys fall back to English rather than rendering a raw
 
 Runs in the prebuild and in CI. It fails the build on:
 
-- a placeholder a translation dropped, renamed or invented — `{cont}` for
+- a placeholder a translation dropped, renamed or invented, since `{cont}` for
   `{count}` prints literal text to a reader, and a dropped `{link}` silently
   deletes a link from a sentence;
 - a key that does not exist in `en.json`, ignoring the extra plural forms a

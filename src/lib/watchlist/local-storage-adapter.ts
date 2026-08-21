@@ -23,7 +23,7 @@ export class LocalStorageAdapter implements WatchlistAdapter {
       return migrate(JSON.parse(raw));
     } catch {
       // Corrupt or unavailable storage (private mode, quota, hand-edited JSON)
-      // should never take the app down - start fresh instead.
+      // should never take the app down. Start fresh instead.
       return emptyWatchlist();
     }
   }
@@ -33,7 +33,7 @@ export class LocalStorageAdapter implements WatchlistAdapter {
     try {
       window.localStorage.setItem(this.key, JSON.stringify(state));
     } catch {
-      /* storage full or blocked - the in-memory state stays correct */
+      /* storage full or blocked; the in-memory state stays correct */
     }
   }
 
