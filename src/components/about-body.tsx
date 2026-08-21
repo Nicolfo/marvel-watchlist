@@ -17,7 +17,7 @@ import { EDGE_STYLES, edgeKey } from "./ui";
  * nothing beyond the strings it displays.
  *
  * Every sentence with a link or a bold run in it is a single dictionary value
- * with `{slots}`, not three concatenated fragments - see `Rich` for why.
+ * with `{slots}`, not three concatenated fragments. See `Rich` for why.
  */
 export function AboutBody({ summaryCount }: { summaryCount: number }) {
   const { t, n } = useI18n();

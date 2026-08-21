@@ -28,7 +28,7 @@ function describe(title: Title, dictionary: Dictionary, locale: string): string 
   const prerequisites = directPrerequisites(getGraph(), title.id).length;
   // The year is passed as a string on purpose. Everywhere else a number handed
   // to `translate` renders in the locale's own digits, which is right inside a
-  // Persian sentence - but here it sits directly beside the untranslated
+  // Persian sentence, but here it sits directly beside the untranslated
   // English title, and `og:title` writes it in Latin digits, so localising it
   // would leave the two tags disagreeing about the same film.
   const vars = { title: title.title, year: String(title.year), count: prerequisites };
@@ -59,7 +59,7 @@ export async function generateMetadata({
     title: heading,
     description,
     // Without this every title page would inherit the site-wide canonical and
-    // Google would treat all 86 as duplicates of the home page - and now also
+    // Google would treat all 86 as duplicates of the home page, and now also
     // treat the fourteen languages of each as duplicates of one another.
     alternates: alternatesFor(`/title/${title.id}`, locale),
     openGraph: {
@@ -88,7 +88,7 @@ export default async function TitlePage({
   const title = graph.byId.get(id);
   if (!title) notFound();
 
-  // Metadata only - which language the reader will get and how long it is.
+  // Metadata only: which language the reader will get and how long it is.
   // The prose is fetched from /api/summary/[id] on reveal, because a prop would
   // be serialised into this page's flight payload and put the spoiler in the
   // page source. Falls back to English per title.

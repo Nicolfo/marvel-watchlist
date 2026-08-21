@@ -12,15 +12,15 @@ export const dynamic = "force-dynamic";
  * JavaScript bundle until a reader actually asks for it.
  *
  * Both of the obvious alternatives leak it. Looking the summary up inside the
- * client component puts the entire corpus - every title, and with translations
- * every language - into a chunk the browser downloads on arrival. Passing it
+ * client component puts the entire corpus (every title, and with translations
+ * every language) into a chunk the browser downloads on arrival. Passing it
  * down from the server component as a prop is worse in a different way: React
  * serialises props into the flight payload, so the text sits in the page source
  * of a page whose whole design promise is that it does not.
  *
  * Fetching it on reveal is the only version where "the text is not in the
  * document until you ask for it" is literally true, and it is why the title
- * page passes down the *metadata* - language and reading time - and nothing
+ * page passes down the *metadata* (language and reading time) and nothing
  * else.
  *
  * Falls back to English per title; the response says which language it is
@@ -50,7 +50,7 @@ export async function GET(
     },
     {
       // The summaries are a build-time dataset, so this is as cacheable as the
-      // page itself - but it must never be cached by anything shared, since a
+      // page itself, but it must never be cached by anything shared, since a
       // reader who never opens one should never have it fetched on their behalf.
       headers: { "Cache-Control": "private, max-age=86400" },
     },

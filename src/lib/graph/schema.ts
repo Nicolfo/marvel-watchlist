@@ -2,7 +2,7 @@ import { z } from "zod";
 
 /**
  * The dataset schema. This is the single source of truth for the shape of
- * `data/marvel-graph.json` - the validation script, the Prisma seed, the
+ * `data/marvel-graph.json`: the validation script, the Prisma seed, the
  * Cypher/SQL exporters and the app itself all derive from it.
  */
 
@@ -43,7 +43,7 @@ export const titleSchema = z.object({
   /**
    * Primary tie-break bucket for the suggested order; release date orders
    * titles within a bucket. Defaults to 0 (the MCU spine). Raise it for
-   * side material - legacy Fox films, non-MCU animation - that would
+   * side material (legacy Fox films, non-MCU animation) that would
    * otherwise lead the list purely by being old.
    */
   orderGroup: z.number().int().min(0).optional(),
@@ -58,7 +58,7 @@ export const titleSchema = z.object({
     .optional(),
   /**
    * Streaming platforms known to carry the title. Availability is regional and
-   * changes constantly, so this is a hint - the UI always also offers a
+   * changes constantly, so this is a hint. The UI always also offers a
    * region-aware JustWatch link as the authoritative answer.
    */
   providers: z.array(z.string().min(1)).optional(),

@@ -13,7 +13,7 @@ const num = (value: number | undefined) => (value === undefined ? "NULL" : Strin
 
 const lines: string[] = [
   `-- Marvel watch-order graph, dataset ${data.dataVersion} (${data.updatedAt})`,
-  `-- Source: ${data.source.name} by ${data.source.author} - ${data.source.url}`,
+  `-- Source: ${data.source.name} by ${data.source.author}, ${data.source.url}`,
   "BEGIN;",
   "",
   `INSERT INTO "Dataset" (version, "updatedAt", "sourceUrl") VALUES (${lit(

@@ -12,7 +12,7 @@ import type { Title } from "@/lib/graph/schema";
  * The generated art is always rendered underneath rather than as an either/or,
  * because artwork is now resolved per request: we cannot know at render time
  * whether a poster exists. So the designed art shows immediately and the real
- * poster fades in on top if one arrives - and a 404 simply leaves what is
+ * poster fades in on top if one arrives, and a 404 simply leaves what is
  * already there, with no flash and no broken-image icon.
  */
 export function Poster({
@@ -64,7 +64,7 @@ export function Poster({
 }
 
 /**
- * Purely graphic - no title or year text. Every caller already labels the
+ * Purely graphic: no title or year text. Every caller already labels the
  * poster next to it, and drawing the title twice made the two collide.
  */
 function GeneratedPosterArt({ title, glow }: { title: Title; glow: string }) {

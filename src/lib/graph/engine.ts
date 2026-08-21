@@ -113,7 +113,7 @@ export interface PrerequisiteStep {
 
 /**
  * Every title you need to have watched before `id`, transitively, in suggested
- * order. Watched titles prune the traversal - their own prerequisites are
+ * order. Watched titles prune the traversal, since their own prerequisites are
  * assumed satisfied, which is what makes the "what's left before I can watch
  * this" answer shrink as you tick things off.
  */
@@ -155,7 +155,7 @@ export function prerequisitesFor(
     .sort((a, b) => (position.get(a.title.id) ?? 0) - (position.get(b.title.id) ?? 0));
 }
 
-/** Prerequisites that are still unwatched - the "you're missing these" list. */
+/** Prerequisites that are still unwatched: the "you're missing these" list. */
 export function missingPrerequisites(
   graph: Graph,
   id: string,

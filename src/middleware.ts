@@ -6,7 +6,7 @@ import { DEFAULT_LOCALE, isLocale, negotiateLocale } from "@/i18n/config";
  *
  * Two jobs:
  *
- * 1. A request with no locale prefix (`/`, `/title/loki` - the URLs this site
+ * 1. A request with no locale prefix (`/`, `/title/loki`, the URLs this site
  *    had before it spoke more than one language) is redirected to the same path
  *    under a locale. Old links and existing search results therefore keep
  *    working rather than 404ing, which is why this is a redirect and not a

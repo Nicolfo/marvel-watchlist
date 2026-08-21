@@ -14,7 +14,7 @@ import { translate } from "@/i18n/translate";
 /**
  * The root layout. It lives under `[locale]` rather than at `app/` because
  * `<html lang>` and `<html dir>` are the two attributes that make a translated
- * page actually work - they drive font selection, hyphenation, quotation marks,
+ * page actually work: they drive font selection, hyphenation, quotation marks,
  * screen-reader voice and, for Arabic and Persian, which way the entire layout
  * runs. None of that can be decided above the segment that knows the language.
  *

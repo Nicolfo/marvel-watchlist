@@ -28,7 +28,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const pages: Array<{ path: string; changeFrequency: "weekly" | "monthly" | "yearly"; priority: number }> = [
     { path: "/", changeFrequency: "weekly", priority: 1 },
     { path: "/about", changeFrequency: "yearly", priority: 0.5 },
-    // Real page, but its value is in a visitor's own localStorage - nothing a
+    // Real page, but its value is in a visitor's own localStorage, so nothing a
     // crawler sees. Listed, ranked low.
     { path: "/watchlist", changeFrequency: "yearly", priority: 0.3 },
     ...graphData.titles.map((title) => ({

@@ -44,7 +44,7 @@ Endgame*?" is a graph traversal rather than a guess.
   one/few/many, Arabic's dual), and the language is part of the URL so a shared
   link opens in the language it was shared in.
 - **Detailed summaries, behind a spoiler gate**: 80 of the 82 released titles
-  have a full plot summary - ending included - so you can skip one and still
+  have a full plot summary, ending included, so you can skip one and still
   follow what comes next. It is never shown unless you ask, and the text is not
   sent to the browser at all until you press the button; the short spoiler-free
   synopsis stays exactly where it was. All 80 exist in all 14 languages, and
@@ -65,6 +65,7 @@ npm run typecheck
 npm run graph:validate     # dataset integrity (also runs as a prebuild step)
 npm run summaries:validate # summary coverage (also runs as a prebuild step)
 npm run i18n:validate      # dictionary keys and placeholders (prebuild step)
+npm run prose:check        # house style: no dash used as a pause (prebuild step)
 npm run graph:stats        # print the computed watch order
 ```
 
@@ -78,8 +79,8 @@ blocked on somebody doing all of it.
 > **A warning worth reading first.** Every non-English string currently in this
 > repository was written by an AI, not by a native speaker. It is careful, and
 > it is not the same thing as being right. If you speak one of these languages,
-> the most valuable thing you can do is read what is there and correct it —
-> that is a bigger contribution than adding a fifteenth language.
+> the most valuable thing you can do is read what is there and correct it.
+> That is a bigger contribution than adding a fifteenth language.
 
 ### Where help is most needed, in order
 
@@ -87,7 +88,7 @@ blocked on somebody doing all of it.
 | --- | --- | --- | --- |
 | 1. Reviewing existing translations | `src/i18n/dictionaries/*.json` | ~185 strings each | All 14 written, none reviewed by a speaker |
 | 2. Translating plot summaries | `data/summaries/<locale>.json` | 80 titles, ~15,000 words | English complete; all 13 translations complete, unreviewed |
-| 3. Adding a new language | both of the above | — | 14 supported |
+| 3. Adding a new language | both of the above | n/a | 14 supported |
 
 ### Fixing a word or a sentence
 
@@ -96,15 +97,21 @@ blocked on somebody doing all of it.
 npm run i18n:validate
 ```
 
-Keep the key and the `{placeholders}` exactly as they are — the validator fails
+Keep the key and the `{placeholders}` exactly as they are. The validator fails
 the build if a placeholder is dropped, renamed or invented, because `{cont}` for
 `{count}` prints literal text to a reader and a dropped `{link}` silently
 deletes a link from a sentence.
 
+One house-style rule is enforced too: **no dash used as a dramatic pause**, in
+any language. `npm run prose:check` fails the build on an em dash, an en dash,
+or a spaced hyphen standing in for one. Use whatever the sentence actually
+wants instead: a comma, a colon, a semicolon, brackets, or a full stop. Hyphens
+inside words and ranges are fine.
+
 Two things that are *not* mistakes: a string identical to English (“IMDb”,
 “Netflix”, “Menu” are correct as-is in several languages), and a language
-needing **more** plural forms than English — Russian's `few`/`many` and Arabic's
-`two` are the point. See
+needing **more** plural forms than English, since Russian's `few`/`many` and
+Arabic's `two` are the point. See
 [docs/internationalisation.md](docs/internationalisation.md) for plurals and for
 sentences with a link inside them.
 
@@ -117,7 +124,7 @@ npm run summaries:validate
 
 Create the file if your language does not have one yet (copy the header from
 `data/summaries/it.json`, set `"locale"`, and register it in
-`src/lib/summaries/catalog.ts`). **Translate as few as you like** — a title you
+`src/lib/summaries/catalog.ts`). **Translate as few as you like**: a title you
 have not reached falls back to the English summary, and the reader is told, in
 their own language, that this one is not translated yet.
 
@@ -128,7 +135,7 @@ plot, ending included. That is what the section is for. Full guide:
 ### Adding a language
 
 1. Copy `src/i18n/dictionaries/en.json` to `<code>.json` and translate it.
-2. Add a row to `LOCALES` in `src/i18n/config.ts` — with the language's name
+2. Add a row to `LOCALES` in `src/i18n/config.ts`, with the language's name
    **in that language**, and `rtl: true` if it reads right to left.
 3. Add the importer line in `src/i18n/dictionary.ts`.
 4. Optionally add `data/summaries/<code>.json` and register it in
@@ -142,7 +149,7 @@ Both commands print it. As of the last update:
 ```
 UI strings   all 14 languages at 92-99% (the remainder are strings that are
              correctly identical to English)
-Summaries    all 14 languages at 80/82 released titles - the two missing from
+Summaries    all 14 languages at 80/82 released titles. The two missing from
              English are declared pending, not forgotten
 ```
 
@@ -160,8 +167,8 @@ and none has been reviewed by a second speaker yet:
 | Türkçe (tr) | 80/80 | हिन्दी (hi) | 80/80 |
 | Русский (ru) | 80/80 | | |
 
-The two titles missing from English — `wonder-man` and
-`spider-man-brand-new-day` — are deliberately unwritten rather than forgotten,
+The two titles missing from English, `wonder-man` and
+`spider-man-brand-new-day`, are deliberately unwritten rather than forgotten,
 and are declared as such so an *undeclared* gap still fails the build. If you
 have actually watched either, that is a contribution nobody else can make.
 
@@ -189,7 +196,7 @@ rather than having to finish all eighty first. Add or fix one and run
 Full detail: **[docs/internationalisation.md](docs/internationalisation.md)**.
 
 The **interface** is fully translated into all 14. **Title names are not, and
-will not be** — they are identifiers, and a machine-translated film title helps
+will not be**: they are identifiers, and a machine-translated film title helps
 nobody find the film. The **plot summaries** can be translated and English is
 the fallback; see [Help wanted](#help-wanted-translations).
 
@@ -208,11 +215,11 @@ and exact IMDb links from one lookup. IMDb is used for linking.
 There are two ways to supply a key, and they compose:
 
 ```bash
-# Build time - bakes URLs into data/artwork.json, so builds stay offline
+# Build time: bakes URLs into data/artwork.json, so builds stay offline
 TMDB_API_KEY=xxxxx npm run artwork:fetch                      # real posters + IMDb ids
 TMDB_API_KEY=xxxxx npm run artwork:fetch -- --only=loki --dry-run
 
-# Runtime - the server resolves artwork per request, no image rebuild
+# Runtime: the server resolves artwork per request, no image rebuild
 TMDB_API_KEY=xxxxx npm start
 ```
 

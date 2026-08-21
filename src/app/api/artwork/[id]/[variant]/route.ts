@@ -13,7 +13,7 @@ export const dynamic = "force-dynamic";
  * image.tmdb.org for the bytes, which need no key. So the credential stays
  * server-side and we do not pay to stream megabytes of posters through the app.
  *
- * A 404 is a normal outcome, not an error - it means "no artwork for this
+ * A 404 is a normal outcome, not an error: it means "no artwork for this
  * title", and the client falls back to its generated poster art.
  */
 
@@ -46,12 +46,12 @@ export async function GET(
   if (variant === META_VARIANT) {
     // TMDB is translated, so the synopsis is per-language. The locale rides in
     // as a query parameter rather than being read from the path, because this
-    // endpoint sits outside the [locale] segment - it serves images to every
+    // endpoint sits outside the [locale] segment because it serves images to every
     // language and only this one variant cares which.
     const locale = new URL(request.url).searchParams.get("lang") ?? DEFAULT_LOCALE;
     const { text, language } = await resolveOverview(id, locale);
 
-    // Only the fields safe to hand a browser - never the credential, and not
+    // Only the fields safe to hand a browser: never the credential, and not
     // the raw entry, so adding a field to ArtworkEntry cannot leak it by default.
     return NextResponse.json(
       { overview: text, language },

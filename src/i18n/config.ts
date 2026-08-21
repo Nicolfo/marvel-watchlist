@@ -3,8 +3,8 @@
  *
  * Adding one is two steps: drop a `src/i18n/dictionaries/<code>.json` next to
  * the others (copy `en.json` and translate the values), then add a row here.
- * Everything else - the routes, the sitemap, the hreflang tags, the language
- * menu - is derived from this list, so nothing has to be kept in step by hand.
+ * Everything else (the routes, the sitemap, the hreflang tags, the language
+ * menu) is derived from this list, so nothing has to be kept in step by hand.
  * `npm run i18n:validate` will tell you if the new file is missing a key.
  */
 
@@ -13,7 +13,7 @@ export const DEFAULT_LOCALE = "en";
 export interface LocaleMeta {
   /** BCP 47 tag, also the URL segment: /fa/title/loki. */
   code: string;
-  /** The language's name in that language - never in English. A language menu
+  /** The language's name in that language, never in English. A language menu
    *  written in a language you cannot read is useless to the person who needs
    *  it most. */
   name: string;

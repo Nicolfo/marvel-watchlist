@@ -4,7 +4,7 @@
 
 A watch order is only useful if you are allowed to skip things. Eighty-six
 titles is a lot, most people will not watch all of them, and the honest answer
-to "can I skip this one?" is not yes or no - it is *here is what happens in it,
+to "can I skip this one?" is not yes or no. It is *here is what happens in it,
 now decide*.
 
 So every released title carries a **detailed summary**: what actually happens,
@@ -39,15 +39,15 @@ want to watch it.
    worth recording because both *look* correct:
 
    - **Looking it up in the client component** renders nothing until revealed,
-     but the static import puts the entire corpus - every title, and once there
-     are translations, every language - into a JS chunk the browser downloads on
+     but the static import puts the entire corpus (every title, and once there
+     are translations, every language) into a JS chunk the browser downloads on
      arrival. Not in the DOM; very much on the machine.
    - **Passing it down as a prop** from the server component keeps it out of the
      bundle, but React serialises props into the flight payload, so the spoiler
      is in the page source. `curl | grep` finds it.
 
    What actually works is fetching it on reveal from `/api/summary/[id]`. The
-   page renders from metadata only - which language, how many minutes - and the
+   page renders from metadata only (which language, how many minutes) and the
    prose crosses the wire when, and only when, a reader presses the button. It
    is deliberately not prefetched on hover or on idle either: a request that
    fires before the decision has already moved the text to the reader's machine
@@ -77,7 +77,7 @@ One file per language, under `data/summaries/`, mirroring
 
 ```
 data/summaries/
-  en.json    the base - complete, and what everything else falls back to
+  en.json    the base: complete, and what everything else falls back to
   it.json    a full translation of it; a partial one is equally normal
   ...        one per site language, all thirteen currently complete
 ```
@@ -95,7 +95,7 @@ decides whether to show the "not translated yet" line.
 
 **It resolves on the server.** The summaries are the largest text in the repo,
 so the page resolves the one summary it needs and passes it down as a prop.
-Looking it up in the client component - which is what it used to do - would ship
+Looking it up in the client component, which is what it used to do, would ship
 every summary in every language to the browser to display one of them.
 
 ## Adding a language
@@ -106,7 +106,7 @@ every summary in every language to the browser to display one of them.
 2. Register it in `loaders` in `src/lib/summaries/catalog.ts`.
 3. Run `npm run summaries:validate`.
 
-The locale must be one the site already offers — see
+The locale must be one the site already offers; see
 [docs/internationalisation.md](internationalisation.md).
 
 ## Adding or fixing a summary
@@ -130,7 +130,7 @@ Each file is keyed by title id:
 ```
 
 - **`paragraphs`** is one string per rendered paragraph. Aim for 120-250 words
-  for a film, more for a multi-season series, and cover the *ending* - a summary
+  for a film, more for a multi-season series, and cover the *ending*. A summary
   that stops before the twist is worse than none, because the reader trusted it.
 - **`stinger`** is the mid- or post-credits scene, rendered in its own box. It is
   separate because it is often the only part of a skippable title that anything
@@ -155,8 +155,8 @@ title missing from English that is not declared pending.
 It **warns**, without failing, on prose too thin to skip a title on (the floor
 scales with format: 60 words for a four-minute one-shot, 120 for anything
 longer) and on a translation whose English original is missing. Word counts go
-through `Intl.Segmenter`, so Chinese and Japanese — which put no spaces between
-words — are measured rather than dismissed as a single word.
+through `Intl.Segmenter`, so Chinese and Japanese, which put no spaces between
+words, are measured rather than dismissed as a single word.
 
 Partial translations are reported as coverage, never as an error. That is the
 expected state of a community translation and the whole reason the fallback is
@@ -167,7 +167,7 @@ per title.
 The English summaries are **original prose written for this project**, and
 translations contributed here are expected to be original renderings of them on
 the same terms. They are not
-copied from Wikipedia, a fan wiki, or a press kit - partly because a plot
+copied from Wikipedia, a fan wiki, or a press kit, partly because a plot
 summary lifted from a CC BY-SA source would drag a share-alike obligation into
 an MIT-licensed repository, and partly because a summary written for this
 purpose can say "you can skip this, here is the one thing that matters later",
@@ -181,16 +181,17 @@ they have no summary in any language: `wonder-man` and
 produce exactly the confident, wrong text this feature must not have, so they
 wait for someone who has actually watched them. They are listed in
 `src/lib/summaries/catalog.test.ts` and in `scripts/validate-summaries.ts` as
-`PENDING`, so an *undeclared* gap still fails - a new release that nobody writes
+`PENDING`, so an *undeclared* gap still fails: a new release that nobody writes
 up will be caught.
 
 Every one of the site's thirteen other languages now covers the same 80 titles,
 so the files differ from English only where English itself is deliberately
 silent. Each is a full rendering of the English prose rather than a machine
-pass — names and terms follow that language's own dubs and comics, and clause
-order was rebuilt for the language rather than tracked sentence by sentence —
-but none has been reviewed by a second speaker of it. Corrections to a phrasing
-that reads oddly are exactly the contribution these files need next.
+pass. Names and terms follow that language's own dubs and comics, and clause
+order was rebuilt for the language rather than tracked sentence by sentence.
+None of them has been reviewed by a second speaker of it, though, and
+corrections to a phrasing that reads oddly are exactly the contribution these
+files need next.
 
 The per-title fallback is not dead code just because every language is
 complete. A new release lands in `en.json` first, and all thirteen fall back for

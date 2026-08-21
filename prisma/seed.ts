@@ -1,7 +1,7 @@
 /**
  * Loads data/marvel-graph.json into Postgres: `npm run db:seed`
  *
- * Idempotent - upserts titles and replaces the edge set, so re-running it
+ * Idempotent: upserts titles and replaces the edge set, so re-running it
  * after editing the JSON is the supported way to ship a data update.
  */
 import { PrismaClient } from "@prisma/client";
