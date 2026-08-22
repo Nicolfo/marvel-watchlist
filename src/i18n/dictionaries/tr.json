@@ -172,6 +172,8 @@
   "about.data.titles": "Yapımlar",
   "about.data.dependencies": "Bağımlılıklar",
   "about.data.dataset": "Veri kümesi",
+  "about.repo.heading": "Kaynak kod",
+  "about.repo.body": "Hepsi açık kaynak, MIT lisanslı ve {link} üzerinde duruyor: uygulama, bağımlılık grafı, özetler ve bu çeviriler. Issue ve pull request’ler memnuniyetle karşılanır; şemada eksik kalmış bir ok, hâlâ izlemiş birini bekleyen yapımlardan birinin özeti ya da sitenin henüz konuşmadığı bir dil olabilir.",
   "about.legal.heading": "Yasal",
   "about.legal.body": "Resmî olmayan bir hayran projesi. Marvel, MCU ve tüm yapım adları Marvel Characters, Inc. ve The Walt Disney Company’nin ticari markalarıdır; bu proje onlarla bağlantılı değildir, onlar tarafından onaylanmamış ve desteklenmemiştir. Hiçbir video içeriği saklamaz; yalnızca yapım adlarını ve aralarındaki ilişkileri tutar.",
   "phase.Phase One": "Birinci Aşama",

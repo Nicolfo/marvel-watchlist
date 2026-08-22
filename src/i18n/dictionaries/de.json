@@ -172,6 +172,8 @@
   "about.data.titles": "Titel",
   "about.data.dependencies": "Abhängigkeiten",
   "about.data.dataset": "Datensatz",
+  "about.repo.heading": "Quellcode",
+  "about.repo.body": "Das Ganze ist quelloffen, unter MIT-Lizenz, und liegt auf {link}: die Anwendung, der Abhängigkeitsgraph, die Zusammenfassungen und diese Übersetzungen. Issues und Pull Requests sind willkommen, ob ein Pfeil, der in der Vorlage fehlt, eine Zusammenfassung für einen der Titel, die noch auf jemanden warten, der sie gesehen hat, oder eine Sprache, die die Seite noch nicht spricht.",
   "about.legal.heading": "Rechtliches",
   "about.legal.body": "Ein inoffizielles Fan-Projekt. Marvel, das MCU und alle Titelnamen sind Marken von Marvel Characters, Inc. und The Walt Disney Company; dieses Projekt ist weder mit ihnen verbunden noch von ihnen unterstützt oder gesponsert. Es speichert keine Medien, nur Titelnamen und die Beziehungen zwischen ihnen.",
   "phase.Phase One": "Phase 1",

@@ -166,6 +166,8 @@
   "about.data.titles": "作品数",
   "about.data.dependencies": "依赖数",
   "about.data.dataset": "数据集",
+  "about.repo.heading": "源代码",
+  "about.repo.body": "整个项目都是开源的，采用 MIT 许可证，放在 {link} 上：应用本身、依赖关系图、剧情梗概，以及这些译文。欢迎提交 issue 和 pull request，无论是原图里漏掉的一条箭头、某部仍在等人看完才能写梗概的作品，还是本站尚未支持的语言。",
   "about.legal.heading": "法律声明",
   "about.legal.body": "非官方粉丝项目。漫威、漫威电影宇宙及所有作品名称均为 Marvel Characters, Inc. 与华特迪士尼公司的商标；本项目与它们无关，未获其认可或赞助。项目不存储任何影视内容，只保存作品名称及其相互关系。",
   "phase.Phase One": "第一阶段",

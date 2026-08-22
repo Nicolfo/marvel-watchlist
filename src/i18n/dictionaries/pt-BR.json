@@ -172,6 +172,8 @@
   "about.data.titles": "Títulos",
   "about.data.dependencies": "Dependências",
   "about.data.dataset": "Conjunto de dados",
+  "about.repo.heading": "Código-fonte",
+  "about.repo.body": "Tudo isto é código aberto, sob licença MIT, e mora no {link}: o aplicativo, o grafo de dependências, os resumos e estas traduções. Issues e pull requests são bem-vindos, seja uma seta que falta no diagrama, o resumo de algum dos títulos que ainda espera por alguém que o tenha assistido, ou um idioma que o site ainda não fala.",
   "about.legal.heading": "Aviso legal",
   "about.legal.body": "Projeto de fãs não oficial. Marvel, o MCU e todos os nomes de títulos são marcas da Marvel Characters, Inc. e da The Walt Disney Company; este projeto não é afiliado, endossado nem patrocinado por elas. Não armazena nenhum conteúdo audiovisual, apenas nomes de títulos e as relações entre eles.",
   "phase.Phase One": "Fase Um",

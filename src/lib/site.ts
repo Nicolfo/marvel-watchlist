@@ -15,6 +15,13 @@ export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://marvel.nic
 
 export const SITE_NAME = "Marvel Watchlist";
 
+/**
+ * Where the source lives. Named here rather than inlined in the About page so
+ * the footer, the docs and anything else that wants to point at it agree on one
+ * value, and a fork changes it in one place.
+ */
+export const REPO_URL = "https://github.com/Nicolfo/marvel-watchlist";
+
 export const SITE_DESCRIPTION =
   "Explore every Marvel Studios film and series in a suggested order, and see exactly what you still need to watch before any title.";
 

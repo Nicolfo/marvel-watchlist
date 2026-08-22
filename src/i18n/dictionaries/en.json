@@ -172,6 +172,8 @@
   "about.data.titles": "Titles",
   "about.data.dependencies": "Dependencies",
   "about.data.dataset": "Dataset",
+  "about.repo.heading": "Source code",
+  "about.repo.body": "The whole thing is open source, MIT licensed, and lives on {link}: the app, the dependency graph, the summaries and these translations. Issues and pull requests are welcome, whether that is an arrow the chart is missing, a summary for one of the titles still waiting for someone who has watched it, or a language the site does not speak yet.",
   "about.legal.heading": "Legal",
   "about.legal.body": "An unofficial fan project. Marvel, the MCU and all title names are trademarks of Marvel Characters, Inc. and The Walt Disney Company; this project is not affiliated with, endorsed by, or sponsored by them. It stores no media, only title names and the relationships between them.",
   "phase.Phase One": "Phase One",
