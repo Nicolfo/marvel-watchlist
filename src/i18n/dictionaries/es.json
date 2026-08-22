@@ -172,6 +172,8 @@
   "about.data.titles": "Títulos",
   "about.data.dependencies": "Dependencias",
   "about.data.dataset": "Conjunto de datos",
+  "about.repo.heading": "Código fuente",
+  "about.repo.body": "Todo esto es software libre, con licencia MIT, y vive en {link}: la aplicación, el grafo de dependencias, los resúmenes y estas traducciones. Las incidencias y los pull requests son bienvenidos, ya sea una flecha que falta en el gráfico, el resumen de alguno de los títulos que sigue esperando a alguien que lo haya visto, o un idioma que el sitio todavía no habla.",
   "about.legal.heading": "Aviso legal",
   "about.legal.body": "Proyecto de fans no oficial. Marvel, el UCM y todos los nombres de títulos son marcas registradas de Marvel Characters, Inc. y The Walt Disney Company; este proyecto no está afiliado a ellas, ni respaldado ni patrocinado por ellas. No almacena ningún contenido audiovisual, solo nombres de títulos y las relaciones entre ellos.",
   "phase.Phase One": "Fase Uno",

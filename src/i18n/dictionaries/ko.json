@@ -166,6 +166,8 @@
   "about.data.titles": "작품 수",
   "about.data.dependencies": "의존 관계",
   "about.data.dataset": "데이터셋",
+  "about.repo.heading": "소스 코드",
+  "about.repo.body": "전체가 오픈 소스이고 MIT 라이선스를 따르며 {link}에 올라가 있습니다. 앱 자체, 의존 관계 그래프, 줄거리 요약, 그리고 이 번역들까지 전부 들어 있습니다. 이슈와 풀 리퀘스트는 언제든 환영합니다. 원래 도표에서 빠진 화살표든, 아직 본 사람을 기다리고 있는 작품의 요약이든, 이 사이트가 아직 하지 못하는 언어든 좋습니다.",
   "about.legal.heading": "법적 고지",
   "about.legal.body": "비공식 팬 프로젝트입니다. 마블, MCU, 모든 작품 이름은 Marvel Characters, Inc.와 월트 디즈니 컴퍼니의 상표이며, 이 프로젝트는 그들과 제휴하거나 승인·후원을 받지 않았습니다. 어떤 영상도 저장하지 않고, 작품 이름과 그 사이의 관계만을 담습니다.",
   "phase.Phase One": "페이즈 1",

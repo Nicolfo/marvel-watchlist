@@ -5,6 +5,7 @@ import { useI18n, useLocalePath } from "@/i18n/context";
 import { Rich } from "@/i18n/rich";
 import { LOCALES } from "@/i18n/config";
 import { DATA_VERSION, EDGE_TYPE_META, SOURCE, graphData } from "@/lib/graph/catalog";
+import { REPO_URL } from "@/lib/site";
 import type { EdgeType } from "@/lib/graph/schema";
 import { EDGE_STYLES, edgeKey } from "./ui";
 
@@ -238,6 +239,24 @@ export function AboutBody({ summaryCount }: { summaryCount: number }) {
             </dd>
           </div>
         </dl>
+      </section>
+
+      <section className="panel rounded-2xl p-6">
+        <h2 className="text-lg font-semibold">{t("about.repo.heading")}</h2>
+        <p className="mt-3 text-sm leading-relaxed text-muted">
+          <Rich text={t("about.repo.body")} slots={{ link: external(REPO_URL, "GitHub") }} />
+        </p>
+        {/* Spelled out as well as linked, the same way the source chart is: a
+            URL someone can copy, and one that stays left-to-right in Arabic
+            and Persian because it is an address, not prose. */}
+        <p
+          dir="ltr"
+          className="mt-3 break-all rounded-lg border border-edge bg-panel-2/40 p-3 text-start font-mono text-xs text-muted"
+        >
+          <a href={REPO_URL} target="_blank" rel="noreferrer noopener" className="hover:text-accent-soft">
+            {REPO_URL}
+          </a>
+        </p>
       </section>
 
       <section className="panel rounded-2xl p-6">
