@@ -146,7 +146,14 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
-          cache-to: type=gha,mode=max
+          # A cache is an optimisation, and losing one is not a broken build.
+          # The GitHub Actions cache backend failed an export here with
+          # "error writing layer blob: not_found" *after* the image had been
+          # built and all three tags pushed to GHCR, turning a published image
+          # into a red run and skipping the summary. ignore-error keeps a
+          # failed export to a warning, so the job's verdict reflects whether
+          # the image was produced and published.
+          cache-to: type=gha,mode=max,ignore-error=true
 
       - name: Summarise
         run: |
