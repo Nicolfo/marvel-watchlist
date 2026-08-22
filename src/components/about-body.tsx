@@ -180,7 +180,9 @@ export function AboutBody({ summaryCount }: { summaryCount: number }) {
         </p>
         <p className="mt-3 text-sm leading-relaxed text-muted">
           <Rich
-            text={t("about.summaries.body3")}
+            // Every language but English, which is the base being counted
+            // against, so the sentence stays true as languages are added.
+            text={t("about.summaries.body3", { count: LOCALES.length - 1 })}
             slots={{
               file: code("data/summaries/"),
               command: code("npm run summaries:validate"),
