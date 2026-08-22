@@ -16,7 +16,7 @@
  * (`120-250`) are untouched, because those are not the pause. Markdown list
  * markers and table rules are skipped for the same reason.
  */
-import { readFileSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { resolve, relative } from "node:path";
 
 const ROOT = process.cwd();
@@ -24,14 +24,40 @@ const ROOT = process.cwd();
 /** Every dash a writing tool will happily insert for you. */
 const DASHES = ["—", "–", "―", "‒"];
 
-function filesToCheck(): string[] {
-  const out = ["README.md"];
-  for (const dir of ["docs", "data/summaries", "src/i18n/dictionaries"]) {
-    for (const name of readdirSync(resolve(ROOT, dir))) {
-      if (name.endsWith(".md") || name.endsWith(".json")) out.push(`${dir}/${name}`);
+/**
+ * The prose this tree actually contains.
+ *
+ * Every location is optional, because `prebuild` runs this inside the Docker
+ * image build as well, and that build context deliberately has no
+ * documentation in it: `.dockerignore` drops `docs` and every `*.md` but the
+ * README, none of which the server needs to serve the site. Insisting on a
+ * directory nobody shipped failed the image build over prose that was not in
+ * it, which is how this check first broke CI.
+ *
+ * Tolerating an absence is not the same as tolerating a no-op, so `main`
+ * refuses to pass on an empty list, and the summary line names the count. The
+ * `build` job in CI runs against the full checkout and is what actually holds
+ * the documentation to the rule.
+ */
+function filesToCheck(): { files: string[]; skipped: string[] } {
+  const files: string[] = [];
+  const skipped: string[] = [];
+
+  for (const path of ["README.md", "docs", "data/summaries", "src/i18n/dictionaries"]) {
+    if (!existsSync(resolve(ROOT, path))) {
+      skipped.push(path);
+      continue;
+    }
+    if (path.endsWith(".md")) {
+      files.push(path);
+      continue;
+    }
+    for (const name of readdirSync(resolve(ROOT, path))) {
+      if (name.endsWith(".md") || name.endsWith(".json")) files.push(`${path}/${name}`);
     }
   }
-  return out;
+
+  return { files, skipped };
 }
 
 /**
@@ -45,7 +71,14 @@ function isMarkdownFurniture(line: string): boolean {
 function main() {
   const problems: string[] = [];
 
-  for (const file of filesToCheck()) {
+  const { files, skipped } = filesToCheck();
+  if (files.length === 0) {
+    console.error(`error:   no prose found under ${ROOT}; is this the repository root?`);
+    process.exit(1);
+  }
+  for (const skip of skipped) console.log(`note: ${skip} is not in this tree, so it is not checked`);
+
+  for (const file of files) {
     const lines = readFileSync(resolve(ROOT, file), "utf8").split("\n");
     lines.forEach((line, i) => {
       const where = `${file}:${i + 1}`;
@@ -68,7 +101,7 @@ function main() {
     process.exit(1);
   }
 
-  console.log(`ok: ${filesToCheck().length} prose files, no dash used as a pause`);
+  console.log(`ok: ${files.length} prose file(s), no dash used as a pause`);
 }
 
 main();
