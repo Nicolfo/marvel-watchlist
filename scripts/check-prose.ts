@@ -62,8 +62,8 @@ function main() {
 
   if (problems.length > 0) {
     console.error(
-      `\n${problems.length} dash(es) used as a pause. Use a comma, colon, semicolon,` +
-        ` brackets or a full stop instead - whichever the sentence actually wants.`,
+      `\n${problems.length} dash(es) used as a pause. Use whichever the sentence` +
+        ` actually wants: a comma, a colon, a semicolon, brackets or a full stop.`,
     );
     process.exit(1);
   }
