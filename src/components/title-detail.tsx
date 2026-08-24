@@ -299,8 +299,15 @@ export function TitleDetail({ id, summary }: { id: string; summary?: SummaryMeta
         )}
       </section>
 
+      {/* min-w-0 on both cards is load-bearing, not tidiness. A grid item
+          defaults to min-width:auto, so it refuses to shrink below its own
+          min-content width, and the film titles below are nowrap (they are
+          `truncate` links). One long name therefore pushed a card past the
+          viewport instead of ellipsing inside it: 34 of the 86 titles scrolled
+          sideways on a 360px screen, and because the grid is a single column
+          there, the two cards came out visibly different widths. */}
       <div className="grid gap-6 lg:grid-cols-2">
-        <section className="panel rounded-2xl p-5">
+        <section className="panel min-w-0 rounded-2xl p-5">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-muted">
             {t("detail.pointsInto")}
           </h2>
@@ -329,7 +336,7 @@ export function TitleDetail({ id, summary }: { id: string; summary?: SummaryMeta
           )}
         </section>
 
-        <section className="panel rounded-2xl p-5">
+        <section className="panel min-w-0 rounded-2xl p-5">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-muted">
             {t("detail.unlocks")}
           </h2>
