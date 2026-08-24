@@ -92,10 +92,6 @@ export function TitleTile({ data, priority = false }: { data: TitleCardData; pri
           {n(position)}
         </span>
 
-        <div className="absolute end-2 top-2">
-          <WatchToggle title={title} watched={watched} size="sm" />
-        </div>
-
         <div className="pointer-events-none absolute inset-x-0 bottom-0 p-2.5">
           <h3
             className={`line-clamp-2 text-sm font-semibold leading-tight text-white ${
@@ -125,16 +121,6 @@ export function TitleTile({ data, priority = false }: { data: TitleCardData; pri
             )}
           </div>
         </div>
-
-        {/* Hover/focus panel with the external links. */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 translate-y-2 p-2.5 opacity-0 transition-all duration-200 group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:translate-y-0 group-focus-within:opacity-100">
-          <div className="rounded-lg bg-black/85 p-2 backdrop-blur">
-            <div className="flex flex-wrap items-center gap-1.5">
-              <ImdbLink title={title} compact />
-              <WatchLinks title={title} />
-            </div>
-          </div>
-        </div>
       </div>
 
       <Link
@@ -144,6 +130,41 @@ export function TitleTile({ data, priority = false }: { data: TitleCardData; pri
       >
         <span className="sr-only">{title.title}</span>
       </Link>
+
+      {/* Everything interactive sits after the stretched link, and outside
+          `.tile`, so it paints on top of it. Ordering is the only thing that
+          works here: `.group:hover .tile` sets a transform, a transform makes
+          `.tile` a stacking context, and a z-index inside a stacking context
+          cannot lift anything above a later sibling of that context. A z-10 on
+          the toggle therefore fixed the tap and left the hover still opening
+          the title page. */}
+      <div className="absolute end-2 top-2">
+        <WatchToggle title={title} watched={watched} size="sm" />
+      </div>
+
+      {/* Hover/focus panel with the external links.
+
+          Only the visible black box takes pointer events, never the
+          positioning wrapper around it. The wrapper spans the full width of
+          the card and its p-2.5 is transparent, so making *it* interactive on
+          hover put an invisible catcher over the bottom strip of the card and
+          swallowed clicks meant for the card link underneath.
+
+          The reveal keys off focus *inside the panel*, not group-focus-within.
+          Tailwind gates hover behind `@media (hover: hover)` but not
+          focus-within, so with the card-wide version a tap on the tick focused
+          the button, the card matched :focus-within, and a panel of external
+          links slid over the title on every tap. Keyboard access is unchanged:
+          the chips are still in the tab order, and tabbing to one opens the
+          panel that contains it. */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 translate-y-2 p-2.5 opacity-0 transition-all duration-200 focus-within:translate-y-0 focus-within:opacity-100 group-hover:translate-y-0 group-hover:opacity-100">
+        <div className="pointer-events-none rounded-lg bg-black/85 p-2 backdrop-blur focus-within:pointer-events-auto group-hover:pointer-events-auto">
+          <div className="flex flex-wrap items-center gap-1.5">
+            <ImdbLink title={title} compact />
+            <WatchLinks title={title} />
+          </div>
+        </div>
+      </div>
     </li>
   );
 }
