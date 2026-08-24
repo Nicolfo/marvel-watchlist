@@ -22,7 +22,7 @@ const files = readdirSync(DIR)
  * Released titles deliberately left unsummarised in English. See the note in
  * scripts/validate-summaries.ts. Listing them means an *undeclared* gap fails.
  */
-const PENDING = ["spider-man-brand-new-day", "wonder-man"];
+const PENDING = ["spider-man-brand-new-day", "wonder-man", "punisher-special-presentation"];
 
 describe("summaries dataset", () => {
   it("has a file for every registered language and vice versa", () => {

@@ -124,6 +124,44 @@ describe("TMDB matching", () => {
     expect(pickBestMatch(iron, [])).toBeNull();
   });
 
+  it("matches a title TMDB files under another name, via tmdbQuery", () => {
+    // "Agent Carter (one-shot)" is the right thing to show a reader, but TMDB
+    // has it as "Marvel One-Shot: Agent Carter", and the parenthetical puts
+    // the two names outside every substring rule the scorer has. Without the
+    // override this loses the poster, the synopsis and the IMDb id together.
+    const carter = title("agent-carter-one-shot");
+    const results: TmdbResult[] = [
+      { id: 3, title: "Marvel One-Shot: Agent Carter", release_date: "2013-09-08", popularity: 12 },
+    ];
+    expect(carter.tmdbQuery).toBe("Marvel One-Shot: Agent Carter");
+    expect(pickBestMatch(carter, results)?.id).toBe(3);
+    // URLSearchParams spells a space "+", so compare against what it builds
+    // rather than against encodeURIComponent's "%20".
+    expect(searchUrl(carter, v3)).toContain(new URLSearchParams({ query: carter.tmdbQuery! }).toString());
+
+    // The sibling one-shots carry no override and must not need one: their
+    // display title sits inside TMDB's, which the substring rule already
+    // covers. If that stops being true the override is the fix, not a looser
+    // scorer.
+    const consultant = title("the-consultant");
+    expect(consultant.tmdbQuery).toBeUndefined();
+    expect(
+      pickBestMatch(consultant, [
+        { id: 4, title: "Marvel One-Shot: The Consultant", release_date: "2011-09-13", popularity: 8 },
+      ])?.id,
+    ).toBe(4);
+  });
+
+  it("still refuses a wrong film when an override points at one", () => {
+    // The override changes what we ask for, not how strict we are about the
+    // answer, so a careless one degrades to generated art rather than pairing
+    // a title with someone else's poster and IMDb link.
+    const carter = title("agent-carter-one-shot");
+    expect(
+      pickBestMatch(carter, [{ id: 5, title: "Captain America", release_date: "2013-01-01", popularity: 900 }]),
+    ).toBeNull();
+  });
+
   it("handles tv-shaped payloads that use name/first_air_date", () => {
     const loki = title("loki");
     const results: TmdbResult[] = [{ id: 7, name: "Loki", first_air_date: "2021-06-09" }];

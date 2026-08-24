@@ -26,7 +26,7 @@ export const SUMMARIES_DIR = resolve(process.cwd(), "data/summaries");
  * feature must not have, so they wait for someone who has actually watched
  * them. Listing them here means an *undeclared* gap still fails the build.
  */
-const PENDING = new Set(["spider-man-brand-new-day", "wonder-man"]);
+const PENDING = new Set(["spider-man-brand-new-day", "wonder-man", "punisher-special-presentation"]);
 
 /**
  * A four-minute one-shot is fully covered in a paragraph; a film or a

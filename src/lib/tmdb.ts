@@ -69,9 +69,18 @@ export function mediaTypeFor(title: Title): "movie" | "tv" {
   return title.kind === "series" || title.kind === "animation" ? "tv" : "movie";
 }
 
+/**
+ * The name to match TMDB on. Both the query we send and the scoring we apply
+ * to the answers have to use the same string, or an override would fetch the
+ * right candidate and then reject it for not looking like the display title.
+ */
+export function tmdbSearchName(title: Title): string {
+  return title.tmdbQuery ?? title.title;
+}
+
 export function searchUrl(title: Title, auth: TmdbAuth): string {
   const type = mediaTypeFor(title);
-  const params = new URLSearchParams({ ...auth.query, query: title.title });
+  const params = new URLSearchParams({ ...auth.query, query: tmdbSearchName(title) });
   // A year filter kills most of the ambiguity (there are several "Daredevil"s).
   if (title.releaseDate) {
     params.set(type === "movie" ? "primary_release_year" : "first_air_date_year", String(title.year));
@@ -149,7 +158,7 @@ function normalise(value: string): string {
  * wrong poster and a wrong IMDb link.
  */
 export function pickBestMatch(title: Title, results: TmdbResult[]): TmdbResult | null {
-  const wanted = normalise(title.title);
+  const wanted = normalise(tmdbSearchName(title));
   let best: { result: TmdbResult; score: number } | null = null;
 
   for (const result of results) {

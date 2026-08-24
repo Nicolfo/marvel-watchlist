@@ -48,6 +48,23 @@ export const titleSchema = z.object({
    */
   orderGroup: z.number().int().min(0).optional(),
   /**
+   * What to ask TMDB for, when TMDB files the title under a different name.
+   *
+   * The display title is what a reader should see; it is not always what the
+   * catalogue calls the thing. "Agent Carter (one-shot)" is clear on a card,
+   * but TMDB has it as "Marvel One-Shot: Agent Carter", and the parenthetical
+   * pushes the two names far enough apart that the matcher refuses them, which
+   * costs the poster, the synopsis and the IMDb id in one go. The other
+   * one-shots survive on the substring rule ("The Consultant" is inside
+   * "Marvel One-Shot: The Consultant"); this one does not.
+   *
+   * Only for that mismatch. It is not a licence to point a title at whatever
+   * poster looks nice: it still goes through the same scoring, and a bad
+   * override fails to match rather than matching the wrong film.
+   */
+  tmdbQuery: z.string().min(1).optional(),
+
+  /**
    * IMDb title id ("tt0371746"). Optional: when absent the UI falls back to an
    * IMDb search link, which always lands somewhere useful. `npm run
    * artwork:fetch` can fill these in from TMDB.
