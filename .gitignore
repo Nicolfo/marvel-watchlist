@@ -18,3 +18,7 @@ tsconfig.tsbuildinfo
 
 # generated exports
 /generated/
+
+# editor state
+.idea/
+.vscode/
