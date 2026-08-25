@@ -117,7 +117,7 @@ offline; leaving it empty keeps the repo free of third-party URLs.
 - **Absent** → links to an IMDb *search* for the title, scoped to film or TV.
   Never a dead link.
 
-45 of the 86 titles ship with a hand-verified id. The rest use the search
+45 of the 90 titles ship with a hand-verified id. The rest use the search
 fallback until either you add one by hand or `artwork:fetch` fills it in from
 TMDB. Tests assert every stored id is well-formed and that no id is reused
 across two titles.

@@ -61,7 +61,11 @@ describe("suggestedOrder", () => {
     const order = suggestedOrder(graph, "could");
     const index = new Map(order.map((t, i) => [t.id, i]));
     expect(index.get("x-men-the-animated-series")!).toBeGreaterThan(index.get("iron-man")!);
-    expect(index.get("deadpool-logan-fox")!).toBeGreaterThan(index.get("avengers-endgame")!);
+    // The Fox films used to be two bundled entries; they are six real titles
+    // now, and every one of them still has to stay out of the MCU spine.
+    for (const id of ["x-men", "x2-x-men-united", "x-men-days-of-future-past", "deadpool", "logan", "deadpool-2"]) {
+      expect(index.get(id), id).toBeGreaterThan(index.get("avengers-endgame")!);
+    }
   });
 
   it("breaks ties by order group, then release date, then title", () => {

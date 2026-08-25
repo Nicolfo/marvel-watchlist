@@ -43,7 +43,7 @@ of it. The structure for that is described in
 **[docs/spoiler-summaries.md](spoiler-summaries.md)**: one file per language
 under `data/summaries/`, falling back to English **per title**, so a translator
 who does five films ships five translated films rather than having to finish all
-eighty before anything appears. English is the base and is complete, and every
+eighty-four before anything appears. English is the base and is complete, and every
 one of the other thirteen languages is now a full translation of it, each
 awaiting review by a second speaker of that language.
 
@@ -99,7 +99,7 @@ Which locale a bare URL resolves to, in order:
 Every page carries a canonical for its own language plus `hreflang` alternates
 naming all fourteen, with `x-default` on English. Without those, a crawler reads
 fourteen translations of one page as fourteen pages competing for one query. The
-sitemap lists every locale of every page with the same alternates map, 1,246
+sitemap lists every locale of every page with the same alternates map, 1,302
 URLs, generated from the catalog and the locale list, so neither can drift.
 
 ## Right to left

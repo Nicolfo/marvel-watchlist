@@ -6,7 +6,7 @@ Status: accepted · Date: 2026-08-15
 
 The app needs to hold two very different things:
 
-1. **The catalog**, ~86 titles and ~139 dependency edges transcribed from the
+1. **The catalog**, ~90 titles and ~146 dependency edges transcribed from the
    community watch-order chart. Read-only at runtime, changes a handful of
    times a year when Marvel ships something new.
 2. **The watchlist**, which titles a given person has watched. Written

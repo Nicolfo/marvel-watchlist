@@ -175,16 +175,16 @@ which an encyclopaedia entry cannot.
 
 ## Known gaps
 
-Two released titles are deliberately unsummarised **in English**, which means
-they have no summary in any language: `wonder-man` and
-`spider-man-brand-new-day`. Writing those up from a trailer and a synopsis would
+Three released titles are deliberately unsummarised **in English**, which means
+they have no summary in any language: `wonder-man`, `spider-man-brand-new-day`
+and `punisher-special-presentation`. Writing those up from a trailer and a synopsis would
 produce exactly the confident, wrong text this feature must not have, so they
 wait for someone who has actually watched them. They are listed in
 `src/lib/summaries/catalog.test.ts` and in `scripts/validate-summaries.ts` as
 `PENDING`, so an *undeclared* gap still fails: a new release that nobody writes
 up will be caught.
 
-Every one of the site's thirteen other languages now covers the same 80 titles,
+Every one of the site's thirteen other languages now covers the same 84 titles,
 so the files differ from English only where English itself is deliberately
 silent. Each is a full rendering of the English prose rather than a machine
 pass. Names and terms follow that language's own dubs and comics, and clause

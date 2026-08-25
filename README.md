@@ -17,7 +17,7 @@ Endgame*?" is a graph traversal rather than a guess.
 
 ## Features
 
-- **Suggested order**: a topological sort of 86 titles and 139 dependencies,
+- **Suggested order**: a topological sort of 90 titles and 146 dependencies,
   with ties broken by release date.
 - **Three strictness levels**: the chart's *must / should / could* arrows are
   a user-facing setting. Both the order and the missing-prerequisite lists
@@ -43,7 +43,7 @@ Endgame*?" is a graph traversal rather than a guess.
   properly mirrored layout, plurals go through `Intl.PluralRules` (Russian's
   one/few/many, Arabic's dual), and the language is part of the URL so a shared
   link opens in the language it was shared in.
-- **Detailed summaries, behind a spoiler gate**: 80 of the 82 released titles
+- **Detailed summaries, behind a spoiler gate**: 84 of the 87 released titles
   have a full plot summary, ending included, so you can skip one and still
   follow what comes next. It is never shown unless you ask, and the text is not
   sent to the browser at all until you press the button; the short spoiler-free
@@ -87,7 +87,7 @@ blocked on somebody doing all of it.
 | | Where | Size | State |
 | --- | --- | --- | --- |
 | 1. Reviewing existing translations | `src/i18n/dictionaries/*.json` | ~185 strings each | All 14 written, none reviewed by a speaker |
-| 2. Translating plot summaries | `data/summaries/<locale>.json` | 80 titles, ~15,000 words | English complete; all 13 translations complete, unreviewed |
+| 2. Translating plot summaries | `data/summaries/<locale>.json` | 84 titles, ~17,000 words | English complete; all 13 translations complete, unreviewed |
 | 3. Adding a new language | both of the above | n/a | 14 supported |
 
 ### Fixing a word or a sentence
@@ -149,8 +149,8 @@ Both commands print it. As of the last update:
 ```
 UI strings   all 14 languages at 92-99% (the remainder are strings that are
              correctly identical to English)
-Summaries    all 14 languages at 80/82 released titles. The two missing from
-             English are declared pending, not forgotten
+Summaries    all 14 languages at 84/87 released titles. The three missing
+             from English are declared pending, not forgotten
 ```
 
 Summary translation, language by language. Each one is a complete rendering of
@@ -188,7 +188,7 @@ Full detail: **[docs/spoiler-summaries.md](docs/spoiler-summaries.md)**.
 Summaries live in `data/summaries/`, **one file per language**, keyed by title
 id, as original prose written for this project. Resolution falls back to English
 **per title**, so a translator who does five films ships five translated films
-rather than having to finish all eighty first. Add or fix one and run
+rather than having to finish all eighty-four first. Add or fix one and run
 `npm run summaries:validate`.
 
 ### Languages
