@@ -123,26 +123,35 @@ describe("prerequisites", () => {
   });
 
   it("stops walking past titles you have already watched", () => {
-    // Agatha's only prerequisite is WandaVision, so ticking WandaVision off
-    // must collapse the whole chain behind it rather than just one step.
-    const cold = missingPrerequisites(graph, "agatha-all-along", new Set(), "must");
+    // Secret Wars' only must-prerequisite is Doomsday, so ticking Doomsday off
+    // must collapse the whole chain behind it rather than just one step. This
+    // used to run on Agatha and WandaVision, which stopped being a deep chain
+    // once WandaVision's two incoming arrows were corrected to "should".
+    const cold = missingPrerequisites(graph, "avengers-secret-wars", new Set(), "must");
     expect(cold.length).toBeGreaterThan(5);
     expect(cold.map((s) => s.title.id)).toContain("avengers-endgame");
 
-    const warm = missingPrerequisites(graph, "agatha-all-along", new Set(["wandavision"]), "must");
+    const warm = missingPrerequisites(
+      graph,
+      "avengers-secret-wars",
+      new Set(["avengers-doomsday"]),
+      "must",
+    );
     expect(warm).toEqual([]);
   });
 
   it("keeps a prerequisite that is still reachable by another branch", () => {
-    // Endgame reaches The Avengers through Infinity War *and* through the
-    // Ant-Man / Civil War branch, so watching one branch is not enough.
+    // Vol. 3 reaches the first Guardians through Vol. 2 *and* through the
+    // Holiday Special, so watching one branch is not enough. This used to run
+    // on Endgame and The Avengers, whose second branch went through Civil War
+    // to Ant-Man and the Wasp, an arrow the chart draws as "should".
     const missing = missingPrerequisites(
       graph,
-      "avengers-endgame",
-      new Set(["avengers-infinity-war"]),
+      "guardians-of-the-galaxy-vol-3",
+      new Set(["guardians-of-the-galaxy-vol-2"]),
       "must",
     ).map((s) => s.title.id);
-    expect(missing).toContain("the-avengers");
+    expect(missing).toContain("guardians-of-the-galaxy");
   });
 
   it("returns prerequisites in suggested order", () => {
