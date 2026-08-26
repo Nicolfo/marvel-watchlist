@@ -107,15 +107,19 @@ describe("prerequisites", () => {
     );
     expect(ids).toContain("avengers-infinity-war");
     expect(ids).toContain("the-avengers");
-    expect(ids).toContain("iron-man"); // three levels up
+    // Four levels up: Endgame <- Infinity War <- Ragnarok <- The Dark World <- Thor.
+    // Iron Man used to stand here, and no longer qualifies: the chart marks
+    // Iron Man 2 -> The Avengers as "should", so at must-only strictness the
+    // chain up the Iron Man branch stops before it.
+    expect(ids).toContain("thor");
   });
 
   it("marks direct prerequisites", () => {
     const steps = prerequisitesFor(graph, "avengers-endgame", new Set(), "must");
     const infinityWar = steps.find((s) => s.title.id === "avengers-infinity-war");
-    const ironMan = steps.find((s) => s.title.id === "iron-man");
+    const thor = steps.find((s) => s.title.id === "thor");
     expect(infinityWar?.direct).toBe(true);
-    expect(ironMan?.direct).toBe(false);
+    expect(thor?.direct).toBe(false);
   });
 
   it("stops walking past titles you have already watched", () => {
