@@ -75,6 +75,33 @@ npm test                    # engine + dataset invariants
 It warns (without failing) on titles with no edges at all and on a `year` that
 disagrees with `releaseDate`.
 
+## Checking an arrow is the *right* arrow
+
+Everything above proves the dataset is well formed. None of it can tell you an
+arrow is the wrong strength, because `must` and `could` are equally valid
+values, and none of it can tell you an arrow is missing, because the graph is
+perfectly valid without it. That half needs the chart open next to you:
+
+```bash
+npm run graph:inspect avengers-endgame
+npm run graph:inspect "civil war"          # part of a name works too
+```
+
+It prints one title's direct arrows, in and out, and nothing transitive,
+because the direct ones are exactly what the chart draws. Each arrow carries
+the colour it is drawn in, since that is the thing you are comparing, and the
+last line says which arrowhead colours the box should show.
+
+Compare colours, not counts: the chart merges same-colour arrows into a single
+arrowhead, so four blue arrows in the data are one blue arrowhead in the
+image. A box that takes green and blue in the data and a red arrowhead in the
+image is wrong, and that mismatch is what a whole class of transcription
+errors looked like.
+
+An arrow with a `note` is one somebody added by hand rather than read off the
+chart. `graph:inspect` prints the note and says how many there are, so you do
+not go hunting for them in the image.
+
 Bump `dataVersion` and `updatedAt` when you make a change: the About page and
 `/api/health` both surface `dataVersion`, so you can tell at a glance which
 dataset a deployment is running.

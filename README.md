@@ -67,6 +67,7 @@ npm run summaries:validate # summary coverage (also runs as a prebuild step)
 npm run i18n:validate      # dictionary keys and placeholders (prebuild step)
 npm run prose:check        # house style: no dash used as a pause (prebuild step)
 npm run graph:stats        # print the computed watch order
+npm run graph:inspect <id> # one title's direct arrows, to check against the chart
 ```
 
 ## Help wanted: translations

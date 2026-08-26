@@ -12,6 +12,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "graph:validate": "tsx scripts/validate-graph.ts",
+    "graph:inspect": "tsx scripts/inspect-title.ts",
     "summaries:validate": "tsx scripts/validate-summaries.ts",
     "i18n:validate": "tsx scripts/validate-i18n.ts",
     "graph:stats": "tsx scripts/graph-stats.ts",
