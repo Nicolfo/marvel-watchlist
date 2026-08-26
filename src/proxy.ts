@@ -25,7 +25,7 @@ const COOKIE = "NEXT_LOCALE";
  */
 const EXEMPT = /^\/(?:api|_next|favicon\.ico|robots\.txt|sitemap\.xml|og\.png|.*\.[a-z0-9]+$)/i;
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   if (EXEMPT.test(pathname)) return NextResponse.next();
 
