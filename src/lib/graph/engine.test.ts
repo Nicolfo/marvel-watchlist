@@ -106,52 +106,52 @@ describe("prerequisites", () => {
       (step) => step.title.id,
     );
     expect(ids).toContain("avengers-infinity-war");
-    expect(ids).toContain("the-avengers");
-    // Four levels up: Endgame <- Infinity War <- Ragnarok <- The Dark World <- Thor.
-    // Iron Man used to stand here, and no longer qualifies: the chart marks
-    // Iron Man 2 -> The Avengers as "should", so at must-only strictness the
-    // chain up the Iron Man branch stops before it.
-    expect(ids).toContain("thor");
+    expect(ids).toContain("captain-america-civil-war");
+    // Four levels up: Endgame <- Infinity War <- Civil War <- Winter Soldier
+    // <- The First Avenger. The Avengers used to stand here and no longer
+    // qualifies: the chart draws Age of Ultron -> Civil War as "should", so at
+    // must-only strictness the chain up the Avengers branch stops before it.
+    expect(ids).toContain("captain-america-the-first-avenger");
   });
 
   it("marks direct prerequisites", () => {
     const steps = prerequisitesFor(graph, "avengers-endgame", new Set(), "must");
     const infinityWar = steps.find((s) => s.title.id === "avengers-infinity-war");
-    const thor = steps.find((s) => s.title.id === "thor");
+    const firstAvenger = steps.find((s) => s.title.id === "captain-america-the-first-avenger");
     expect(infinityWar?.direct).toBe(true);
-    expect(thor?.direct).toBe(false);
+    expect(firstAvenger?.direct).toBe(false);
   });
 
   it("stops walking past titles you have already watched", () => {
-    // Secret Wars' only must-prerequisite is Doomsday, so ticking Doomsday off
-    // must collapse the whole chain behind it rather than just one step. This
-    // used to run on Agatha and WandaVision, which stopped being a deep chain
-    // once WandaVision's two incoming arrows were corrected to "should".
-    const cold = missingPrerequisites(graph, "avengers-secret-wars", new Set(), "must");
-    expect(cold.length).toBeGreaterThan(5);
-    expect(cold.map((s) => s.title.id)).toContain("avengers-endgame");
+    // Endgame's only must-prerequisite is Infinity War, so ticking Infinity War
+    // off must collapse the whole chain behind it rather than just one step.
+    // This used to run on Secret Wars and Doomsday, which stopped being a deep
+    // chain once Endgame -> Doomsday was corrected to "could".
+    const cold = missingPrerequisites(graph, "avengers-endgame", new Set(), "must");
+    expect(cold.length).toBeGreaterThan(3);
+    expect(cold.map((s) => s.title.id)).toContain("captain-america-the-first-avenger");
 
     const warm = missingPrerequisites(
       graph,
-      "avengers-secret-wars",
-      new Set(["avengers-doomsday"]),
+      "avengers-endgame",
+      new Set(["avengers-infinity-war"]),
       "must",
     );
     expect(warm).toEqual([]);
   });
 
   it("keeps a prerequisite that is still reachable by another branch", () => {
-    // Vol. 3 reaches the first Guardians through Vol. 2 *and* through the
-    // Holiday Special, so watching one branch is not enough. This used to run
-    // on Endgame and The Avengers, whose second branch went through Civil War
-    // to Ant-Man and the Wasp, an arrow the chart draws as "should".
+    // Civil War reaches The First Avenger through the Winter Soldier *and*
+    // through Age of Ultron -> The Avengers, so watching one branch is not
+    // enough. This used to run on Vol. 3 and the first Guardians, whose second
+    // branch went through the Holiday Special, an arrow the chart draws green.
     const missing = missingPrerequisites(
       graph,
-      "guardians-of-the-galaxy-vol-3",
-      new Set(["guardians-of-the-galaxy-vol-2"]),
-      "must",
+      "captain-america-civil-war",
+      new Set(["captain-america-the-winter-soldier"]),
+      "should",
     ).map((s) => s.title.id);
-    expect(missing).toContain("guardians-of-the-galaxy");
+    expect(missing).toContain("captain-america-the-first-avenger");
   });
 
   it("returns prerequisites in suggested order", () => {
