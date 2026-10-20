@@ -5,7 +5,9 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useI18n, useLocalePath } from "@/i18n/context";
 import { useWatchlist } from "@/lib/watchlist/provider";
+import { SUPPORT_URL } from "@/lib/site";
 import { LanguageSwitcher } from "./language-switcher";
+import { SupportSection } from "./support-section";
 import { ProgressBar } from "./ui";
 
 /**
@@ -127,17 +129,20 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         {children}
       </main>
 
-      <footer className="mx-auto w-full max-w-6xl border-t border-edge px-3 py-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] text-xs text-muted sm:px-6">
-        {t("shell.footer.prefix")}{" "}
-        <a
-          className="text-accent-soft underline underline-offset-2"
-          href="https://www.reddit.com/r/marvelstudios/s/Yc9CunxbWr"
-          target="_blank"
-          rel="noreferrer noopener"
-        >
-          {t("shell.footer.link")}
-        </a>
-        {t("shell.footer.suffix")}
+      <footer className="mx-auto w-full max-w-6xl space-y-4 border-t border-edge px-3 py-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] text-xs text-muted sm:px-6">
+        {pathname !== path("/about") && <SupportSection href={SUPPORT_URL} />}
+        <p>
+          {t("shell.footer.prefix")}{" "}
+          <a
+            className="text-accent-soft underline underline-offset-2"
+            href="https://www.reddit.com/r/marvelstudios/s/Yc9CunxbWr"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            {t("shell.footer.link")}
+          </a>
+          {t("shell.footer.suffix")}
+        </p>
       </footer>
 
       <Drawer open={open} onClose={() => setOpen(false)} pathname={pathname} panelRef={panelRef} />

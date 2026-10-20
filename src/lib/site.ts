@@ -22,6 +22,9 @@ export const SITE_NAME = "Marvel Watchlist";
  */
 export const REPO_URL = "https://github.com/Nicolfo/marvel-watchlist";
 
+/** Set a donation profile URL to activate the footer's "Buy me a coffee" button. */
+export const SUPPORT_URL: string | null = "https://buymeacoffee.com/nicolfo";
+
 export const SITE_DESCRIPTION =
   "Explore every Marvel Studios film and series in a suggested order, and see exactly what you still need to watch before any title.";
 

@@ -5,8 +5,9 @@ import { useI18n, useLocalePath } from "@/i18n/context";
 import { Rich } from "@/i18n/rich";
 import { LOCALES } from "@/i18n/config";
 import { DATA_VERSION, EDGE_TYPE_META, SOURCE, graphData } from "@/lib/graph/catalog";
-import { REPO_URL } from "@/lib/site";
+import { REPO_URL, SUPPORT_URL } from "@/lib/site";
 import type { EdgeType } from "@/lib/graph/schema";
+import { SupportSection } from "./support-section";
 import { EDGE_STYLES, edgeKey } from "./ui";
 
 /**
@@ -52,6 +53,10 @@ export function AboutBody({ summaryCount }: { summaryCount: number }) {
           />
         </p>
       </section>
+
+      <div className="panel rounded-2xl p-6">
+        <SupportSection href={SUPPORT_URL} />
+      </div>
 
       <section className="panel rounded-2xl p-6">
         <h2 className="text-lg font-semibold">{t("about.source.heading")}</h2>

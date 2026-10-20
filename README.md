@@ -1,7 +1,25 @@
+<div align="center">
+
+<img src="src/app/icon.svg" alt="Marvel Watchlist logo" width="96" height="96">
+
 # Marvel Watchlist
 
 Explore every Marvel Studios film and series in a **suggested order**, and for any
 one title see exactly **what you still need to watch first**.
+
+[![Live site](https://img.shields.io/badge/live-marvel.nicolfo.it-e23636?style=flat-square)](https://marvel.nicolfo.it)
+[![CI](https://img.shields.io/github/actions/workflow/status/Nicolfo/marvel-watchlist/ci.yml?branch=main&style=flat-square&label=CI)](https://github.com/Nicolfo/marvel-watchlist/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/github/license/Nicolfo/marvel-watchlist?style=flat-square)](LICENSE)
+[![Next.js 16](https://img.shields.io/badge/Next.js-16-000000?style=flat-square&logo=nextdotjs)](https://nextjs.org)
+[![React 19](https://img.shields.io/badge/React-19-61dafb?style=flat-square&logo=react&logoColor=black)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Languages](https://img.shields.io/badge/languages-14-3fbf87?style=flat-square)](#help-wanted-translations)
+[![Container image](https://img.shields.io/badge/ghcr.io-marvel--watchlist-2496ed?style=flat-square&logo=docker&logoColor=white)](https://github.com/Nicolfo/marvel-watchlist/pkgs/container/marvel-watchlist)
+[![Buy me a coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee-ffdd00?style=flat-square&logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/nicolfo)
+
+**[Open the app](https://marvel.nicolfo.it)** · [Features](#features) · [Quick start](#quick-start) · [Translations](#help-wanted-translations) · [Deployment](#deployment)
+
+</div>
 
 The catalog is not a flat list, it is a directed graph of story dependencies.
 The order you see is a topological sort of that graph, so nothing ever appears
