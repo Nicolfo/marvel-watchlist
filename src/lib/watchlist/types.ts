@@ -1,3 +1,4 @@
+import { LEGACY_SHOW_IDS } from "@/lib/graph/catalog";
 import type { Strictness } from "@/lib/graph/engine";
 
 export const WATCHLIST_SCHEMA_VERSION = 1;
@@ -38,7 +39,13 @@ export interface WatchlistAdapter {
   clear(): Promise<void>;
 }
 
-/** Tolerant parse: unknown/older payloads degrade to an empty list. */
+/**
+ * Tolerant parse: unknown/older payloads degrade to an empty list.
+ *
+ * An entry naming a show that has since been split into seasons stands for the
+ * whole show, so it becomes one entry per season with the same timestamp.
+ * Ticking "Daredevil" before the split meant having watched Daredevil.
+ */
 export function migrate(input: unknown): WatchlistState {
   if (!input || typeof input !== "object") return emptyWatchlist();
   const candidate = input as Partial<WatchlistState>;
@@ -51,12 +58,12 @@ export function migrate(input: unknown): WatchlistState {
     if (!entry || typeof entry !== "object") continue;
     const { titleId, watchedAt } = entry as Partial<WatchEntry>;
     if (typeof titleId !== "string" || titleId.length === 0) continue;
-    if (seen.has(titleId)) continue;
-    seen.add(titleId);
-    entries.push({
-      titleId,
-      watchedAt: typeof watchedAt === "string" ? watchedAt : new Date().toISOString(),
-    });
+    const at = typeof watchedAt === "string" ? watchedAt : new Date().toISOString();
+    for (const id of LEGACY_SHOW_IDS.get(titleId) ?? [titleId]) {
+      if (seen.has(id)) continue;
+      seen.add(id);
+      entries.push({ titleId: id, watchedAt: at });
+    }
   }
 
   const strictness: Strictness =

@@ -2,8 +2,8 @@
 
 ## Why the feature exists
 
-A watch order is only useful if you are allowed to skip things. Eighty-six
-titles is a lot, most people will not watch all of them, and the honest answer
+A watch order is only useful if you are allowed to skip things. More than a
+hundred titles is a lot, most people will not watch all of them, and the honest answer
 to "can I skip this one?" is not yes or no. It is *here is what happens in it,
 now decide*.
 
@@ -85,7 +85,7 @@ data/summaries/
 **Resolution falls back per title, not per file.** `resolveSummary(id, locale)`
 looks for the title in the requested language and, failing that, returns the
 English one along with the language it actually found. A translator who does
-five films ships five translated films; the other seventy-five keep working in
+five films ships five translated films; the other ninety-two keep working in
 English rather than the language looking broken until somebody finishes it.
 
 That is why the resolver returns `{ entry, language }` rather than just the
@@ -184,7 +184,7 @@ wait for someone who has actually watched them. They are listed in
 `PENDING`, so an *undeclared* gap still fails: a new release that nobody writes
 up will be caught.
 
-Every one of the site's thirteen other languages now covers the same 84 titles,
+Every one of the site's thirteen other languages now covers the same 97 titles,
 so the files differ from English only where English itself is deliberately
 silent. Each is a full rendering of the English prose rather than a machine
 pass. Names and terms follow that language's own dubs and comics, and clause

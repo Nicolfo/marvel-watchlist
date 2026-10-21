@@ -8,13 +8,12 @@ import { translate, type Dictionary } from "@/i18n/translate";
 import { graphData, getGraph } from "@/lib/graph/catalog";
 import { directPrerequisites } from "@/lib/graph/engine";
 import { summaryMetaFor } from "@/lib/summaries/catalog";
-import { imdbUrl } from "@/lib/streaming";
 import { absoluteUrl, alternatesFor, localeUrl, SITE_NAME } from "@/lib/site";
 import type { Title } from "@/lib/graph/schema";
 
 /**
  * The catalog and the language list are both fixed at build time, so every
- * detail page is prerendered in every language: 86 titles × 14 locales.
+ * detail page is prerendered in every language: 103 titles × 14 locales.
  */
 export function generateStaticParams() {
   return LOCALES.flatMap((locale) =>
@@ -59,7 +58,7 @@ export async function generateMetadata({
     title: heading,
     description,
     // Without this every title page would inherit the site-wide canonical and
-    // Google would treat all 86 as duplicates of the home page, and now also
+    // Google would treat all 103 as duplicates of the home page, and now also
     // treat the fourteen languages of each as duplicates of one another.
     alternates: alternatesFor(`/title/${title.id}`, locale),
     openGraph: {
@@ -95,22 +94,36 @@ export default async function TitlePage({
   const summary = await summaryMetaFor(id, locale);
 
   const isSeries = title.kind === "series" || title.kind === "animation";
+  // Links the entry to its IMDb record, which is how a search engine
+  // reconciles "Daredevil" here with "Daredevil" everywhere else. IMDb files a
+  // show once, so a season links through the show it is part of.
+  const sameAs = title.imdbId ? `https://www.imdb.com/title/${title.imdbId}/` : undefined;
+  const common = {
+    "@context": "https://schema.org",
+    name: title.title,
+    url: absoluteUrl(localeUrl(`/title/${title.id}`, locale)),
+    datePublished: title.releaseDate ?? undefined,
+    inLanguage: locale,
+  };
 
   return (
     <>
       <JsonLd
-        data={{
-          "@context": "https://schema.org",
-          "@type": isSeries ? "TVSeries" : "Movie",
-          name: title.title,
-          url: absoluteUrl(localeUrl(`/title/${title.id}`, locale)),
-          datePublished: title.releaseDate ?? undefined,
-          inLanguage: locale,
-          // Links the entry to its IMDb record, which is how a search engine
-          // reconciles "Daredevil" here with "Daredevil" everywhere else.
-          sameAs: title.imdbId ? imdbUrl(title) : undefined,
-          numberOfSeasons: isSeries ? title.seasons : undefined,
-        }}
+        data={
+          title.season
+            ? {
+                ...common,
+                "@type": "TVSeason",
+                seasonNumber: title.season,
+                partOfSeries: { "@type": "TVSeries", name: title.tmdbQuery, sameAs },
+              }
+            : {
+                ...common,
+                "@type": isSeries ? "TVSeries" : "Movie",
+                sameAs,
+                numberOfSeasons: isSeries ? title.seasons : undefined,
+              }
+        }
       />
       {/* The synopsis is fetched by the client from /api/artwork/[id]/meta
           rather than awaited here: resolving it on the server would need a TMDB

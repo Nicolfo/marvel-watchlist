@@ -39,6 +39,18 @@ export const titleSchema = z.object({
   phase: z.string().min(1),
   saga: z.string().min(1),
   seasons: z.number().int().positive().optional(),
+  /**
+   * For one season of a multi-season show: the id the whole show used to have,
+   * and which season this is. Set both or neither.
+   *
+   * A show whose seasons sit at different points in the order (Daredevil S2,
+   * then The Defenders, then Daredevil S3) has to be split, because one entry
+   * has one premiere date and one set of edges. The show id is kept rather than
+   * reused as a title, so old links and watchlists that name it can be
+   * redirected and expanded to its seasons. See `LEGACY_SHOW_IDS` in catalog.ts.
+   */
+  show: slug.optional(),
+  season: z.number().int().positive().optional(),
   runtimeMinutes: z.number().int().positive().optional(),
   /**
    * Primary tie-break bucket for the suggested order; release date orders
@@ -147,6 +159,8 @@ export function checkIntegrity(data: GraphData): ValidationIssue[] {
     }
   }
 
+  issues.push(...checkSeasons(data, ids));
+
   const seen = new Set<string>();
   for (const edge of data.edges) {
     const key = `${edge.from}->${edge.to}`;
@@ -180,6 +194,55 @@ export function checkIntegrity(data: GraphData): ValidationIssue[] {
         level: "warning",
         message: `"${id}" has no dependencies in either direction (fully standalone)`,
       });
+    }
+  }
+
+  return issues;
+}
+
+/**
+ * A split show has to stay recognisable as one show: seasons numbered from 1
+ * with no gaps, each depending on the one before it, and a show id that no
+ * current title has taken. The last rule is what lets an old link or an old
+ * watchlist entry naming the show be told apart from a real title.
+ */
+function checkSeasons(data: GraphData, ids: ReadonlySet<string>): ValidationIssue[] {
+  const issues: ValidationIssue[] = [];
+  const shows = new Map<string, Title[]>();
+
+  for (const title of data.titles) {
+    if ((title.show === undefined) !== (title.season === undefined)) {
+      issues.push({
+        level: "error",
+        message: `"${title.id}" must set both "show" and "season", or neither`,
+      });
+      continue;
+    }
+    if (title.show === undefined) continue;
+    const list = shows.get(title.show);
+    if (list) list.push(title);
+    else shows.set(title.show, [title]);
+  }
+
+  const must = new Set(
+    data.edges.filter((edge) => edge.type === "must").map((edge) => `${edge.from}->${edge.to}`),
+  );
+  for (const [show, seasons] of shows) {
+    if (ids.has(show)) {
+      issues.push({ level: "error", message: `show id "${show}" is also a title id` });
+    }
+    seasons.sort((a, b) => a.season! - b.season!);
+    if (seasons.some((title, index) => title.season !== index + 1)) {
+      issues.push({
+        level: "error",
+        message: `"${show}" seasons must be numbered 1 to ${seasons.length} without gaps`,
+      });
+    }
+    for (let index = 1; index < seasons.length; index += 1) {
+      const [previous, title] = [seasons[index - 1]!, seasons[index]!];
+      if (!must.has(`${previous.id}->${title.id}`)) {
+        issues.push({ level: "error", message: `"${title.id}" needs a must edge from "${previous.id}"` });
+      }
     }
   }
 

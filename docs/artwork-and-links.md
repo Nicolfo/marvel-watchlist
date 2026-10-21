@@ -71,7 +71,7 @@ Details worth knowing:
   for 1h, errors for 5 minutes. It is per-pod and lost on restart, which is
   why the first view after a rollout briefly shows generated art.
 - **Politeness.** Concurrent lookups for the same title are deduplicated and at
-  most 8 TMDB requests are in flight at once, so a cold 86-poster grid does not
+  most 8 TMDB requests are in flight at once, so a cold 103-poster grid does not
   burst through the rate limit.
 - **Prefer a v4 read access token** over a v3 API key. A v4 token is sent in an
   `Authorization` header; a v3 key can only go in the query string, which makes
@@ -117,10 +117,11 @@ offline; leaving it empty keeps the repo free of third-party URLs.
 - **Absent** → links to an IMDb *search* for the title, scoped to film or TV.
   Never a dead link.
 
-45 of the 90 titles ship with a hand-verified id. The rest use the search
+58 of the 103 titles ship with a hand-verified id. The rest use the search
 fallback until either you add one by hand or `artwork:fetch` fills it in from
 TMDB. Tests assert every stored id is well-formed and that no id is reused
-across two titles.
+across two titles, other than the seasons of one show, which share the
+show's id and link to their own season of its episode list.
 
 ## Streaming links
 
