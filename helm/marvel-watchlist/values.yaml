@@ -4,7 +4,8 @@ replicaCount: 2
 
 image:
   repository: ghcr.io/nicolfo/marvel-watchlist
-  pullPolicy: IfNotPresent
+  # Check the registry whenever a pod starts, including for rolling tags.
+  pullPolicy: Always
   # Defaults to the chart's appVersion.
   tag: ""
 
