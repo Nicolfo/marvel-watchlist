@@ -86,6 +86,17 @@ export const titleSchema = z.object({
     .regex(/^tt\d{7,9}$/, "must be an IMDb title id like tt0371746")
     .optional(),
   /**
+   * Disney+ entity id, the UUID in a title page's URL
+   * (`/browse/entity-0c520152-…`). Disney+ has no search a link can prefill,
+   * so this is the only way to land on the title itself; the id is the same in
+   * every region, and Disney+ adds the visitor's locale. A season carries its
+   * show's id. When absent the Disney+ chip falls back to a search engine.
+   */
+  disneyPlusId: z
+    .string()
+    .regex(/^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/, "must be a Disney+ entity UUID")
+    .optional(),
+  /**
    * Streaming platforms known to carry the title. Availability is regional and
    * changes constantly, so this is a hint. The UI always also offers a
    * region-aware JustWatch link as the authoritative answer.

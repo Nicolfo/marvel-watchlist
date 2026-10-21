@@ -159,6 +159,10 @@
             "type": "string",
             "pattern": "^tt\\d{7,9}$"
           },
+          "disneyPlusId": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$"
+          },
           "providers": {
             "type": "array",
             "items": {

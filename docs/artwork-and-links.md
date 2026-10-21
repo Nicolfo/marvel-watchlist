@@ -129,7 +129,11 @@ Streaming rights are **regional and rotate constantly**, so the app never claims
 a title is definitely available to you.
 
 - `providers: ["disney-plus"]` on a title renders a platform chip that opens
-  that platform's search. Treat it as a hint, not a guarantee.
+  that platform's search. Treat it as a hint, not a guarantee. Disney+ has no
+  search a link can prefill, so its chip opens the title page from
+  `disneyPlusId` (the UUID in `disneyplus.com/browse/entity-<id>`; a season
+  carries its show's id). Without one it falls back to DuckDuckGo's `!ducky`,
+  the first `site:disneyplus.com` result.
 - Every title also gets a **"Where to watch"** link to JustWatch, which resolves
   availability for the visitor's country. This is the authoritative answer.
 

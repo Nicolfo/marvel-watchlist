@@ -28,7 +28,13 @@ export const PROVIDERS: Provider[] = [
     id: "disney-plus",
     name: "Disney+",
     className: "bg-[#0c2a6b] text-[#c9dcff] border-[#1b4bb0]",
-    search: (title) => `https://www.disneyplus.com/search?q=${q(title)}`,
+    // Disney+ has no linkable search: /search?q= is a 404, and /browse/search
+    // ignores the query. Link the title page by id; without one, DuckDuckGo's
+    // !ducky jumps to the first disneyplus.com hit, which is usually that page.
+    search: (title) =>
+      title.disneyPlusId
+        ? `https://www.disneyplus.com/browse/entity-${title.disneyPlusId}`
+        : `https://duckduckgo.com/?q=!ducky+site%3Adisneyplus.com+${q(title)}`,
   },
   {
     id: "hulu",

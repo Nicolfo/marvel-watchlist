@@ -68,6 +68,29 @@ describe("streaming providers", () => {
     expect(providersFor(title("iron-man")).map((p) => p.name)).toContain("Disney+");
   });
 
+  it("links Disney+ to the title page, not its unlinkable search", () => {
+    const disney = providersFor(title("iron-man")).find((p) => p.id === "disney-plus")!;
+    expect(disney.search(title("iron-man"))).toBe(
+      "https://www.disneyplus.com/browse/entity-0c520152-b81f-4c20-9310-003debd1947e",
+    );
+    expect(disney.search(title("avengers-doomsday"))).toBe(
+      "https://duckduckgo.com/?q=!ducky+site%3Adisneyplus.com+Avengers%3A%20Doomsday",
+    );
+  });
+
+  it("gives every season of a show its show's Disney+ page, and no two shows one page", () => {
+    const owners = new Map<string, Set<string>>();
+    for (const entry of graphData.titles) {
+      if (!entry.disneyPlusId) continue;
+      const owner = owners.get(entry.disneyPlusId) ?? new Set<string>();
+      owner.add(entry.show ?? entry.id);
+      owners.set(entry.disneyPlusId, owner);
+    }
+    for (const [id, owner] of owners) expect([...owner], id).toHaveLength(1);
+    const daredevil = graphData.titles.filter((entry) => entry.show === "daredevil");
+    expect(new Set(daredevil.map((entry) => entry.disneyPlusId)).size).toBe(1);
+  });
+
   it("ignores unknown tags rather than rendering a dead chip", () => {
     expect(providersFor({ ...title("iron-man"), providers: ["nope"] })).toEqual([]);
   });

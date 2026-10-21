@@ -85,6 +85,7 @@ Daredevil's second season comes before The Defenders and its third after it:
   "show": "daredevil",               // the id the whole show used to have
   "season": 2,
   "imdbId": "tt3322312",             // the show's id; IMDb links open this season
+  "disneyPlusId": "b03f0bdc-ebd5-44df-a16a-1a180a88873a", // the show's Disney+ page
   ...
 }
 ```
