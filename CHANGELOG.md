@@ -1,5 +1,24 @@
 # Changelog
 
+## v0.1.3 - 2026-10-21
+
+Marvel Watchlist v0.1.3 makes the Disney+ links work and adds a release-order view.
+
+### Highlights
+
+- Fix the Disney+ chip, which opened a Disney+ error page. Disney+ has no search a link can prefill, so the chip now opens the title's own Disney+ page from a new `disneyPlusId` field. 99 of 103 titles have one, and seasons open their show's page. Titles without an id (Runaways and three unreleased films) fall back to the first `site:disneyplus.com` search result (dataset `2026.03.007`).
+- Add a Suggested / Release order toggle to the explorer. Release order lists every title strictly by premiere date, so X-Men: The Animated Series and X-Men (2000) lead it; Ready to watch and Next up follow the chosen order. Labels in all 14 languages.
+
+### Deployment
+
+Container image: `ghcr.io/nicolfo/marvel-watchlist:0.1.3`.
+
+The attached Helm chart is version `0.1.3` and defaults to the matching image tag. No values changes are needed. The versioned image is published by the tag-triggered CI workflow after its checks pass.
+
+Includes [PR #11](https://github.com/Nicolfo/marvel-watchlist/pull/11) and [PR #12](https://github.com/Nicolfo/marvel-watchlist/pull/12).
+
+[Full changelog](https://github.com/Nicolfo/marvel-watchlist/compare/v0.1.2...v0.1.3)
+
 ## v0.1.2 - 2026-10-21
 
 Marvel Watchlist v0.1.2 improves season-by-season watch ordering and preserves existing bookmarks and watchlists.
