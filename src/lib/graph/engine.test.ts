@@ -6,6 +6,7 @@ import {
   buildGraph,
   computeProgress,
   directPrerequisites,
+  edgeMatches,
   isReady,
   missingPrerequisites,
   prerequisitesFor,
@@ -67,6 +68,38 @@ describe("suggestedOrder", () => {
       expect(index.get(id), id).toBeGreaterThan(index.get("avengers-endgame")!);
     }
   });
+
+  it.each(["must", "should", "could"] as const)(
+    "starts Luke Cage before Iron Fist at %s strictness",
+    (level) => {
+      const ids = suggestedOrder(graph, level).map((title) => title.id);
+      expect(ids.indexOf("luke-cage")).toBeLessThan(ids.indexOf("iron-fist"));
+      // A later-season crossover must not become a prerequisite for starting
+      // Luke Cage. Release-date tie-breaking can order these entry points.
+      expect(
+        prerequisitesFor(graph, "luke-cage", new Set(), level).map((step) => step.title.id),
+      ).not.toContain("iron-fist");
+    },
+  );
+
+  it.each(["must", "should", "could"] as const)(
+    "places legacy films before the Avengers finale at %s strictness",
+    (level) => {
+      const ids = suggestedOrder(graph, level).map((title) => title.id);
+      const doomsday = ids.indexOf("avengers-doomsday");
+      expect(ids[0]).toBe("iron-man");
+      for (const title of graph.titles.filter((title) => title.phase === "Fox / Legacy")) {
+        expect(ids.indexOf(title.id), title.id).toBeLessThan(doomsday);
+        expect(ids.indexOf(title.id), title.id).toBeGreaterThan(ids.indexOf("avengers-endgame"));
+      }
+      expect(ids.indexOf("deadpool-and-wolverine")).toBeLessThan(doomsday);
+      expect(doomsday).toBeLessThan(ids.indexOf("avengers-secret-wars"));
+      // Sorting groups must continue to yield to selected story dependencies.
+      for (const edge of graphData.edges.filter((edge) => edgeMatches(edge.type, level))) {
+        expect(ids.indexOf(edge.from), `${edge.from} -> ${edge.to}`).toBeLessThan(ids.indexOf(edge.to));
+      }
+    },
+  );
 
   it("breaks ties by order group, then release date, then title", () => {
     // With no edges every title is ready at once, so the emitted order is

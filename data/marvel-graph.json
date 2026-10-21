@@ -1,8 +1,8 @@
 {
   "$schema": "./marvel-graph.schema.json",
   "schemaVersion": 1,
-  "dataVersion": "2026.03.004",
-  "updatedAt": "2026-08-26",
+  "dataVersion": "2026.03.005",
+  "updatedAt": "2026-10-21",
   "source": {
     "name": "A smarter MCU watch order (ver. 003, March 2026)",
     "author": "Rocked03",
@@ -118,8 +118,8 @@
     { "id": "spider-man-brand-new-day", "title": "Spider-Man: Brand New Day", "year": 2026, "releaseDate": "2026-07-31", "kind": "film", "phase": "Phase Six", "saga": "The Multiverse Saga", "providers": ["disney-plus"] },
     { "id": "vision-quest", "title": "VisionQuest", "year": 2026, "releaseDate": null, "kind": "series", "phase": "Phase Six", "saga": "The Multiverse Saga", "providers": ["disney-plus"] },
     { "id": "deadpool-and-wolverine", "title": "Deadpool & Wolverine", "year": 2024, "releaseDate": "2024-07-26", "kind": "film", "phase": "Phase Five", "saga": "The Multiverse Saga", "imdbId": "tt6263850", "providers": ["disney-plus"] },
-    { "id": "avengers-doomsday", "title": "Avengers: Doomsday", "year": 2026, "releaseDate": "2026-12-18", "kind": "film", "phase": "Phase Six", "saga": "The Multiverse Saga", "providers": ["disney-plus"] },
-    { "id": "avengers-secret-wars", "title": "Avengers: Secret Wars", "year": 2027, "releaseDate": "2027-12-17", "kind": "film", "phase": "Phase Six", "saga": "The Multiverse Saga", "providers": ["disney-plus"] }
+    { "id": "avengers-doomsday", "title": "Avengers: Doomsday", "year": 2026, "releaseDate": "2026-12-18", "kind": "film", "phase": "Phase Six", "saga": "The Multiverse Saga", "orderGroup": 2, "providers": ["disney-plus"] },
+    { "id": "avengers-secret-wars", "title": "Avengers: Secret Wars", "year": 2027, "releaseDate": "2027-12-17", "kind": "film", "phase": "Phase Six", "saga": "The Multiverse Saga", "orderGroup": 2, "providers": ["disney-plus"] }
   ],
   "edges": [
     { "from": "iron-man", "to": "iron-man-2", "type": "must" },
@@ -227,7 +227,6 @@
     { "from": "jessica-jones", "to": "daredevil-born-again", "type": "should", "provisional": true },
     { "from": "luke-cage", "to": "the-defenders", "type": "should" },
     { "from": "iron-fist", "to": "the-defenders", "type": "must" },
-    { "from": "iron-fist", "to": "luke-cage", "type": "should" },
     { "from": "the-punisher", "to": "punisher-special-presentation", "type": "should", "provisional": true },
     { "from": "echo", "to": "daredevil-born-again", "type": "could" },
     { "from": "daredevil-born-again", "to": "punisher-special-presentation", "type": "should", "provisional": true },

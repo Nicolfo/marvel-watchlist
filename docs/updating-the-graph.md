@@ -57,6 +57,26 @@ ready) break by `orderGroup`, then release date, then name.
 would otherwise lead the list purely by being old: the 1992 X-Men cartoon and
 the legacy Fox films are `1` for exactly this reason.
 
+The Avengers finale (Doomsday and Secret Wars) uses `2`, so the legacy films
+appear before it even when a viewer disables the weaker story dependencies.
+Sorting groups only break ties: selected dependency edges always take priority.
+Use a sorting group for presentation preferences rather than adding a story
+prerequisite that would incorrectly block the "Ready to watch" list.
+
+### Season boundaries
+
+Multi-season shows currently have one entry each. Their premiere date orders
+the start of the show; it does not mean every season belongs at that point.
+Avoid adding a dependency between entire shows for a later-season crossover.
+For example, Iron Fist must not block starting Luke Cage, which premiered first.
+
+[Issue #9](https://github.com/Nicolfo/marvel-watchlist/issues/9) tracks splitting
+these entries into seasons, beginning with the Defenders Saga and Agents of
+S.H.I.E.L.D., while preserving existing links and watched progress. Until that
+work lands, the list cannot represent their season interleaving. The Winter
+Soldier and Age of Ultron also cross over during S.H.I.E.L.D. seasons, so an
+exact viewing guide needs episode boundaries as well as separate seasons.
+
 ## Validate before committing
 
 ```bash
