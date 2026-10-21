@@ -53,7 +53,7 @@ async function main() {
   for (const [show, ids] of seasons) {
     const entries = await prisma.watchEntry.findMany({ where: { titleId: show } });
     await prisma.watchEntry.createMany({
-      data: entries.flatMap((entry) =>
+      data: entries.flatMap((entry: { userId: string; watchedAt: Date }) =>
         ids.map((titleId) => ({ userId: entry.userId, titleId, watchedAt: entry.watchedAt })),
       ),
       skipDuplicates: true,
