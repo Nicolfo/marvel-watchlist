@@ -39,6 +39,9 @@ Endgame*?" is a graph traversal rather than a guess.
   with ties broken by release date. Shows whose seasons belong at different
   points (the Defenders Saga, Agents of S.H.I.E.L.D.) are ordered season by
   season.
+- **Release order toggle**: one click switches the list to strict premiere
+  order, legacy Fox films and the 1992 X-Men cartoon included at their real
+  dates. Ready to watch and Next up still respect prerequisites.
 - **Three strictness levels**: the chart's *must / should / could* arrows are
   a user-facing setting. Both the order and the missing-prerequisite lists
   react to it, so you can take the shortest viable path or the completionist one.

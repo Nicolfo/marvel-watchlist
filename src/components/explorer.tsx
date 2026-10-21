@@ -4,7 +4,13 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { useI18n, useLocalePath } from "@/i18n/context";
 import { getGraph } from "@/lib/graph/catalog";
-import { isReleased, missingPrerequisites, nextUp, suggestedOrder } from "@/lib/graph/engine";
+import {
+  isReleased,
+  missingPrerequisites,
+  nextUp,
+  orderFor,
+  type Sequence,
+} from "@/lib/graph/engine";
 import type { Title } from "@/lib/graph/schema";
 import { useWatchlist } from "@/lib/watchlist/provider";
 import { ImdbLink, WatchLinks } from "./links";
@@ -18,6 +24,7 @@ type Grouping = "order" | "phase";
 type View = "grid" | "list";
 
 const FILTERS: Filter[] = ["all", "unwatched", "ready", "watched"];
+const SEQUENCES: Sequence[] = ["story", "release"];
 
 export function Explorer() {
   const graph = getGraph();
@@ -25,12 +32,16 @@ export function Explorer() {
   const { t, n } = useI18n();
   const [filter, setFilter] = useState<Filter>("all");
   const [grouping, setGrouping] = useState<Grouping>("order");
+  const [sequence, setSequence] = useState<Sequence>("story");
   const [view, setView] = useState<View>("grid");
   const [query, setQuery] = useState("");
   const [includeUpcoming, setIncludeUpcoming] = useState(true);
   const [showSettings, setShowSettings] = useState(false);
 
-  const order = useMemo(() => suggestedOrder(graph, strictness), [graph, strictness]);
+  const order = useMemo(
+    () => orderFor(graph, sequence, strictness),
+    [graph, sequence, strictness],
+  );
 
   const rows = useMemo<TitleCardData[]>(
     () =>
@@ -44,7 +55,10 @@ export function Explorer() {
     [graph, order, strictness, watched],
   );
 
-  const next = useMemo(() => nextUp(graph, watched, strictness), [graph, watched, strictness]);
+  const next = useMemo(
+    () => nextUp(graph, watched, strictness, sequence),
+    [graph, watched, strictness, sequence],
+  );
 
   const visible = useMemo(() => {
     const needle = query.trim().toLowerCase();
@@ -113,6 +127,11 @@ export function Explorer() {
           />
 
           <div className="ms-auto flex shrink-0 items-center gap-2">
+            {/* Story order by default; release order for readers who expect the
+                franchise as it aired, Fox films at their real dates. On a phone
+                it lives under Options, so the bar stays two rows tall. */}
+            <SequencePicker current={sequence} onSelect={setSequence} className="hidden sm:flex" />
+
             {/* Grid is the right default on a phone; the toggle is desktop-only
                 so the bar stays two rows tall. */}
             <div className="hidden items-center gap-0.5 rounded-lg border border-edge p-0.5 sm:flex">
@@ -150,7 +169,10 @@ export function Explorer() {
 
         {showSettings ? (
           <div className="mt-2.5 flex flex-col gap-4 border-t border-edge pt-3 lg:flex-row lg:items-start lg:justify-between">
-            <StrictnessPicker />
+            <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
+              <SequencePicker current={sequence} onSelect={setSequence} className="flex self-start sm:hidden" />
+              <StrictnessPicker />
+            </div>
             <div className="flex flex-wrap items-center gap-4">
               <label className="flex items-center gap-2 text-sm text-muted">
                 <input
@@ -168,7 +190,7 @@ export function Explorer() {
                   onChange={(event) => setGrouping(event.target.value as Grouping)}
                   className="rounded-lg border border-edge bg-panel px-2 py-1.5 text-sm text-text"
                 >
-                  <option value="order">{t("explorer.group.order")}</option>
+                  <option value="order">{t(`explorer.sequence.${sequence}`)}</option>
                   <option value="phase">{t("explorer.group.phase")}</option>
                 </select>
               </label>
@@ -215,6 +237,42 @@ export function Explorer() {
           edges: graph.data.edges.length,
         })}
       </p>
+    </div>
+  );
+}
+
+function SequencePicker({
+  current,
+  onSelect,
+  className,
+}: {
+  current: Sequence;
+  onSelect: (sequence: Sequence) => void;
+  className: string;
+}) {
+  const { t } = useI18n();
+  return (
+    <div
+      role="group"
+      aria-label={t("explorer.sequence.label")}
+      className={`items-center gap-0.5 rounded-lg border border-edge p-0.5 ${className}`}
+    >
+      {SEQUENCES.map((entry) => (
+        <button
+          key={entry}
+          type="button"
+          onClick={() => onSelect(entry)}
+          aria-pressed={current === entry}
+          title={t(`explorer.sequence.${entry}.hint`)}
+          className={`rounded-md px-2.5 py-1 text-sm transition-colors ${
+            current === entry
+              ? "bg-panel-2 text-text"
+              : "text-muted hover:bg-panel-2/60 hover:text-text"
+          }`}
+        >
+          {t(`explorer.sequence.${entry}`)}
+        </button>
+      ))}
     </div>
   );
 }
