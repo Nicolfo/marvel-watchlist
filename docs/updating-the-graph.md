@@ -65,17 +65,48 @@ prerequisite that would incorrectly block the "Ready to watch" list.
 
 ### Season boundaries
 
-Multi-season shows currently have one entry each. Their premiere date orders
-the start of the show; it does not mean every season belongs at that point.
-Avoid adding a dependency between entire shows for a later-season crossover.
-For example, Iron Fist must not block starting Luke Cage, which premiered first.
+A show normally has one entry, and its premiere date orders the start of the
+show; it does not mean every season belongs at that point. Avoid adding a
+dependency between entire shows for a later-season crossover. For example,
+Iron Fist must not block starting Luke Cage, which premiered first.
 
-[Issue #9](https://github.com/Nicolfo/marvel-watchlist/issues/9) tracks splitting
-these entries into seasons, beginning with the Defenders Saga and Agents of
-S.H.I.E.L.D., while preserving existing links and watched progress. Until that
-work lands, the list cannot represent their season interleaving. The Winter
-Soldier and Age of Ultron also cross over during S.H.I.E.L.D. seasons, so an
-exact viewing guide needs episode boundaries as well as separate seasons.
+When a show's seasons belong at different points in the order, split it into
+one entry per season. The Defenders Saga (Daredevil, Jessica Jones, Luke Cage,
+Iron Fist and The Punisher) and Agents of S.H.I.E.L.D. are split this way, so
+Daredevil's second season comes before The Defenders and its third after it:
+
+```jsonc
+{
+  "id": "daredevil-season-2",        // <show>-season-<n>
+  "title": "Daredevil (Season 2)",
+  "tmdbQuery": "Daredevil",          // the show's name, for TMDB and streaming searches
+  "year": 2016,
+  "releaseDate": "2016-03-18",       // this season's premiere
+  "show": "daredevil",               // the id the whole show used to have
+  "season": 2,
+  "imdbId": "tt3322312",             // the show's id; IMDb links open this season
+  ...
+}
+```
+
+The rules, all enforced by `graph:validate`:
+
+- `show` and `season` are set together; seasons run from 1 with no gaps.
+- Each season has a `must` edge from the season before it.
+- The `show` id is never reused as a title id. It is retired, not deleted:
+  `/title/daredevil` redirects to the first season, and a watchlist or import
+  that lists `daredevil` is expanded to every season (see `migrate` in
+  `src/lib/watchlist/types.ts`), so nobody loses their progress.
+- Attach each crossover edge to the season it is really about, and say so in
+  the edge's `note` when the chart only draws it between whole shows.
+- Every season needs its own summary in `data/summaries/`, covering that
+  season only, so an earlier season never gives away a later one.
+
+Seasons alone cannot reproduce a crossover that lands mid-season. The Winter
+Soldier arrives between episodes 16 and 17 of S.H.I.E.L.D.'s first season, and
+Age of Ultron between episodes 19 and 20 of its second; those seasons carry a
+`note`, shown on their page, saying where to pause for the film. At *could*
+strictness the films come first, so nothing in the later episodes is spoiled.
 
 ## Validate before committing
 

@@ -132,6 +132,15 @@
             "exclusiveMinimum": 0,
             "maximum": 9007199254740991
           },
+          "show": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          },
+          "season": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
           "runtimeMinutes": {
             "type": "integer",
             "exclusiveMinimum": 0,
@@ -141,6 +150,10 @@
             "type": "integer",
             "minimum": 0,
             "maximum": 9007199254740991
+          },
+          "tmdbQuery": {
+            "type": "string",
+            "minLength": 1
           },
           "imdbId": {
             "type": "string",

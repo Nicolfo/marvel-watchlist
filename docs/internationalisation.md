@@ -43,7 +43,7 @@ of it. The structure for that is described in
 **[docs/spoiler-summaries.md](spoiler-summaries.md)**: one file per language
 under `data/summaries/`, falling back to English **per title**, so a translator
 who does five films ships five translated films rather than having to finish all
-eighty-four before anything appears. English is the base and is complete, and every
+ninety-seven before anything appears. English is the base and is complete, and every
 one of the other thirteen languages is now a full translation of it, each
 awaiting review by a second speaker of that language.
 

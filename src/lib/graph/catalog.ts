@@ -44,3 +44,25 @@ export function phaseOrder(): string[] {
   }
   return [...seen.entries()].sort((a, b) => a[1].localeCompare(b[1])).map(([phase]) => phase);
 }
+
+/**
+ * Show ids that no longer name a title, each mapped to the seasons that
+ * replaced it, in season order. A show is split when its seasons belong at
+ * different points in the order; the old id still turns up in bookmarks,
+ * search results and exported watchlists, and this is what they resolve to.
+ */
+export const LEGACY_SHOW_IDS: ReadonlyMap<string, readonly string[]> = (() => {
+  const shows = new Map<string, { id: string; season: number }[]>();
+  for (const title of graphData.titles) {
+    if (!title.show || !title.season) continue;
+    const list = shows.get(title.show) ?? [];
+    list.push({ id: title.id, season: title.season });
+    shows.set(title.show, list);
+  }
+  return new Map(
+    [...shows].map(([show, seasons]) => [
+      show,
+      seasons.sort((a, b) => a.season - b.season).map((entry) => entry.id),
+    ]),
+  );
+})();

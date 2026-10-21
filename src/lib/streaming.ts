@@ -17,7 +17,11 @@ export interface Provider {
   search(title: Title): string;
 }
 
-const q = (title: Title) => encodeURIComponent(title.title);
+/**
+ * What to type into a catalogue's search box. A season is searched as its show:
+ * "Daredevil (Season 2)" is this site's label, not a name any platform uses.
+ */
+const q = (title: Title) => encodeURIComponent(title.show ? (title.tmdbQuery ?? title.title) : title.title);
 
 export const PROVIDERS: Provider[] = [
   {
@@ -68,7 +72,12 @@ export function whereToWatchUrl(title: Title): string {
  * lands on something useful rather than a 404.
  */
 export function imdbUrl(title: Title): string {
-  if (title.imdbId) return `https://www.imdb.com/title/${title.imdbId}/`;
+  if (title.imdbId) {
+    // IMDb files a show once; a season is a filtered view of its episode list.
+    return title.season
+      ? `https://www.imdb.com/title/${title.imdbId}/episodes/?season=${title.season}`
+      : `https://www.imdb.com/title/${title.imdbId}/`;
+  }
   const kind = title.kind === "series" || title.kind === "animation" ? "tv" : "ft";
   return `https://www.imdb.com/find/?q=${q(title)}&s=tt&ttype=${kind}`;
 }

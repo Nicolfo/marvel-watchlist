@@ -1,5 +1,6 @@
 import { artworkFor, HAS_REAL_ARTWORK, type ArtworkEntry } from "./artwork";
 import { getGraph } from "./graph/catalog";
+import { showPremiere } from "./graph/engine";
 import { DEFAULT_LOCALE, isLocale } from "@/i18n/config";
 import {
   backdropUrl,
@@ -104,8 +105,11 @@ function remember(id: string, entry: ArtworkEntry | null, ttl: number): ArtworkE
 }
 
 async function lookup(id: string, auth: TmdbAuth): Promise<ArtworkEntry | null> {
-  const title = getGraph().byId.get(id);
-  if (!title) return remember(id, null, MISS_TTL_MS);
+  const graph = getGraph();
+  const entry = graph.byId.get(id);
+  if (!entry) return remember(id, null, MISS_TTL_MS);
+  // A later season is searched as the show it belongs to.
+  const title = showPremiere(graph, entry);
 
   try {
     const search = await getJson<{ results?: TmdbResult[] }>(searchUrl(title, auth), auth);

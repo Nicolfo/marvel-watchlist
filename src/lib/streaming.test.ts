@@ -45,9 +45,21 @@ describe("imdbUrl", () => {
     }
   });
 
-  it("never reuses an IMDb id across two titles", () => {
-    const ids = graphData.titles.map((t) => t.imdbId).filter(Boolean);
-    expect(new Set(ids).size).toBe(ids.length);
+  it("never reuses an IMDb id across two titles, except the seasons of one show", () => {
+    const owners = new Map<string, Set<string>>();
+    for (const entry of graphData.titles) {
+      if (!entry.imdbId) continue;
+      const owner = owners.get(entry.imdbId) ?? new Set<string>();
+      owner.add(entry.show ?? entry.id);
+      owners.set(entry.imdbId, owner);
+    }
+    for (const [id, owner] of owners) expect([...owner], id).toHaveLength(1);
+  });
+
+  it("links a season to its own episode list", () => {
+    expect(imdbUrl(title("daredevil-season-2"))).toBe(
+      "https://www.imdb.com/title/tt3322312/episodes/?season=2",
+    );
   });
 });
 
@@ -58,6 +70,12 @@ describe("streaming providers", () => {
 
   it("ignores unknown tags rather than rendering a dead chip", () => {
     expect(providersFor({ ...title("iron-man"), providers: ["nope"] })).toEqual([]);
+  });
+
+  it("searches a season under its show's name", () => {
+    const url = whereToWatchUrl(title("agents-of-shield-season-3"));
+    expect(url).toContain(encodeURIComponent("Agents of S.H.I.E.L.D."));
+    expect(url).not.toContain("Season");
   });
 
   it("always has a region-aware fallback", () => {

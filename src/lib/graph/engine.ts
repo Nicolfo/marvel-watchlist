@@ -241,6 +241,17 @@ export function computeProgress(graph: Graph, watched: ReadonlySet<string>): Pro
   };
 }
 
+/**
+ * The title to look a show up by in an external catalogue. TMDB files a show
+ * once, under its premiere year, so a later season searched by its own year
+ * finds nothing. Every season of a split show therefore borrows the first
+ * season's name and year, and with them the show's poster.
+ */
+export function showPremiere(graph: Graph, title: Title): Title {
+  if (!title.show || title.season === 1) return title;
+  return graph.titles.find((other) => other.show === title.show && other.season === 1) ?? title;
+}
+
 export function isReleased(title: Title, now: Date = new Date()): boolean {
   if (!title.releaseDate) return false;
   return title.releaseDate <= now.toISOString().slice(0, 10);

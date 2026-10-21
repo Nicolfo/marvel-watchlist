@@ -13,6 +13,7 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { loadGraphData } from "./load-graph";
+import { buildGraph, showPremiere } from "../src/lib/graph/engine";
 import {
   backdropUrl,
   detailsUrl,
@@ -72,21 +73,25 @@ async function main() {
 
   const unmatched: string[] = [];
 
-  for (const title of targets) {
+  const graph = buildGraph(data);
+
+  for (const entry of targets) {
+    // A later season is searched as the show it belongs to.
+    const title = showPremiere(graph, entry);
     const type = mediaTypeFor(title);
     try {
       const search = await getJson<{ results: TmdbResult[] }>(searchUrl(title, auth));
       const match = pickBestMatch(title, search.results ?? []);
 
       if (!match) {
-        unmatched.push(title.id);
-        console.warn(`?  ${title.id}: no confident match`);
+        unmatched.push(entry.id);
+        console.warn(`?  ${entry.id}: no confident match`);
         continue;
       }
 
       const details = await getJson<{ imdb_id?: string }>(detailsUrl(match.id, type, auth));
 
-      items[title.id] = {
+      items[entry.id] = {
         tmdbId: match.id,
         imdbId: details.imdb_id ?? title.imdbId ?? undefined,
         posterUrl: posterUrl(match.poster_path),
@@ -94,12 +99,12 @@ async function main() {
         overview: match.overview || undefined,
       };
 
-      console.log(`ok ${title.id} -> ${resultName(match)} (${details.imdb_id ?? "no imdb id"})`);
+      console.log(`ok ${entry.id} -> ${resultName(match)} (${details.imdb_id ?? "no imdb id"})`);
       await sleep(120); // stay well inside TMDB's rate limit
     } catch (error) {
-      unmatched.push(title.id);
+      unmatched.push(entry.id);
       const message = error instanceof Error ? error.message : String(error);
-      console.warn(`!  ${title.id}: ${redact(message, auth)}`);
+      console.warn(`!  ${entry.id}: ${redact(message, auth)}`);
     }
   }
 

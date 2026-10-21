@@ -30,6 +30,32 @@ describe("dataset", () => {
   it("is acyclic", () => {
     expect(findCycles(graphData)).toEqual([]);
   });
+
+  it("rejects a split show that cannot be read as one show", () => {
+    const season = (id: string, show: string, n: number) => ({
+      ...graphData.titles[0],
+      id,
+      title: id,
+      show,
+      season: n,
+    });
+    const messages = checkIntegrity({
+      ...graphData,
+      titles: [
+        ...graphData.titles,
+        season("demo-season-1", "demo", 1),
+        season("demo-season-3", "demo", 3),
+        season("clash-season-1", "iron-man", 1),
+        { ...graphData.titles[0], id: "half", title: "Half", show: "half-show" },
+      ],
+    })
+      .filter((issue) => issue.level === "error")
+      .map((issue) => issue.message);
+    expect(messages).toContain(`"demo" seasons must be numbered 1 to 2 without gaps`);
+    expect(messages).toContain(`"demo-season-3" needs a must edge from "demo-season-1"`);
+    expect(messages).toContain(`show id "iron-man" is also a title id`);
+    expect(messages).toContain(`"half" must set both "show" and "season", or neither`);
+  });
 });
 
 describe("suggestedOrder", () => {
@@ -73,12 +99,57 @@ describe("suggestedOrder", () => {
     "starts Luke Cage before Iron Fist at %s strictness",
     (level) => {
       const ids = suggestedOrder(graph, level).map((title) => title.id);
-      expect(ids.indexOf("luke-cage")).toBeLessThan(ids.indexOf("iron-fist"));
+      expect(ids.indexOf("luke-cage-season-1")).toBeLessThan(ids.indexOf("iron-fist-season-1"));
       // A later-season crossover must not become a prerequisite for starting
       // Luke Cage. Release-date tie-breaking can order these entry points.
       expect(
-        prerequisitesFor(graph, "luke-cage", new Set(), level).map((step) => step.title.id),
-      ).not.toContain("iron-fist");
+        prerequisitesFor(graph, "luke-cage-season-1", new Set(), level).map((step) => step.title.id),
+      ).not.toContain("iron-fist-season-1");
+    },
+  );
+
+  it.each(["must", "should", "could"] as const)(
+    "interleaves the Defenders Saga by season in release order at %s strictness",
+    (level) => {
+      const ids = suggestedOrder(graph, level).map((title) => title.id);
+      const saga = graph.titles
+        .filter((title) => title.phase === "Netflix")
+        .sort((a, b) => a.releaseDate!.localeCompare(b.releaseDate!))
+        .map((title) => title.id);
+      expect(saga).toContain("the-defenders");
+      expect(saga.length).toBeGreaterThan(10);
+      const placed = ids.filter((id) => saga.includes(id));
+      expect(placed).toEqual(saga);
+      // The case that made the split necessary: one Daredevil entry could
+      // not sit on both sides of The Defenders.
+      expect(ids.indexOf("daredevil-season-2")).toBeLessThan(ids.indexOf("the-defenders"));
+      expect(ids.indexOf("the-defenders")).toBeLessThan(ids.indexOf("daredevil-season-3"));
+    },
+  );
+
+  it.each(["must", "should", "could"] as const)(
+    "keeps Agents of S.H.I.E.L.D. in season order around the films at %s strictness",
+    (level) => {
+      const ids = suggestedOrder(graph, level).map((title) => title.id);
+      const seasons = [1, 2, 3, 4, 5, 6, 7].map((n) => ids.indexOf(`agents-of-shield-season-${n}`));
+      expect(seasons.every((at) => at >= 0)).toBe(true);
+      expect([...seasons].sort((a, b) => a - b)).toEqual(seasons);
+      // Season three opens on the world Age of Ultron left behind, and season
+      // seven needs Agent Carter, so neither can drift ahead of them.
+      expect(seasons[2]).toBeGreaterThan(ids.indexOf("avengers-age-of-ultron"));
+      expect(seasons[2]).toBeGreaterThan(ids.indexOf("guardians-of-the-galaxy"));
+      if (level === "could") {
+        // The crossover films land inside seasons one and two. A completionist
+        // watches the films first rather than be spoiled by the episodes after.
+        expect(seasons[0]).toBeGreaterThan(ids.indexOf("captain-america-the-winter-soldier"));
+        expect(seasons[1]).toBeGreaterThan(ids.indexOf("avengers-age-of-ultron"));
+        expect(seasons[6]).toBeGreaterThan(ids.indexOf("agent-carter"));
+      } else {
+        // Otherwise each season sits at its premiere, ahead of the film that
+        // crosses over with it, and the note says where to pause.
+        expect(seasons[0]).toBeLessThan(ids.indexOf("captain-america-the-winter-soldier"));
+        expect(seasons[1]).toBeLessThan(ids.indexOf("avengers-age-of-ultron"));
+      }
     },
   );
 

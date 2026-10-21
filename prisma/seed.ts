@@ -42,6 +42,24 @@ async function main() {
     });
   }
 
+  // A show split into seasons is removed below, and its watch entries would go
+  // with it (they cascade). Copy each one onto every season first, the same
+  // expansion the browser watchlist applies in `migrate`.
+  const seasons = new Map<string, string[]>();
+  for (const title of data.titles) {
+    if (!title.show) continue;
+    seasons.set(title.show, [...(seasons.get(title.show) ?? []), title.id]);
+  }
+  for (const [show, ids] of seasons) {
+    const entries = await prisma.watchEntry.findMany({ where: { titleId: show } });
+    await prisma.watchEntry.createMany({
+      data: entries.flatMap((entry) =>
+        ids.map((titleId) => ({ userId: entry.userId, titleId, watchedAt: entry.watchedAt })),
+      ),
+      skipDuplicates: true,
+    });
+  }
+
   // Titles removed from the dataset should disappear rather than linger.
   const keep = data.titles.map((title) => title.id);
   await prisma.title.deleteMany({ where: { id: { notIn: keep } } });

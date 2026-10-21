@@ -35,8 +35,10 @@ Endgame*?" is a graph traversal rather than a guess.
 
 ## Features
 
-- **Suggested order**: a topological sort of 90 titles and 146 dependencies,
-  with ties broken by release date.
+- **Suggested order**: a topological sort of 103 titles and 152 dependencies,
+  with ties broken by release date. Shows whose seasons belong at different
+  points (the Defenders Saga, Agents of S.H.I.E.L.D.) are ordered season by
+  season.
 - **Three strictness levels**: the chart's *must / should / could* arrows are
   a user-facing setting. Both the order and the missing-prerequisite lists
   react to it, so you can take the shortest viable path or the completionist one.
@@ -61,11 +63,11 @@ Endgame*?" is a graph traversal rather than a guess.
   properly mirrored layout, plurals go through `Intl.PluralRules` (Russian's
   one/few/many, Arabic's dual), and the language is part of the URL so a shared
   link opens in the language it was shared in.
-- **Detailed summaries, behind a spoiler gate**: 84 of the 87 released titles
+- **Detailed summaries, behind a spoiler gate**: 97 of the 100 released titles
   have a full plot summary, ending included, so you can skip one and still
   follow what comes next. It is never shown unless you ask, and the text is not
   sent to the browser at all until you press the button; the short spoiler-free
-  synopsis stays exactly where it was. All 80 exist in all 14 languages, and
+  synopsis stays exactly where it was. All 97 exist in all 14 languages, and
   translation falls back to English per title, so a new release is readable
   everywhere the day it lands. An opt-in preference remembers if you would
   rather always see them.
@@ -106,7 +108,7 @@ blocked on somebody doing all of it.
 | | Where | Size | State |
 | --- | --- | --- | --- |
 | 1. Reviewing existing translations | `src/i18n/dictionaries/*.json` | ~185 strings each | All 14 written, none reviewed by a speaker |
-| 2. Translating plot summaries | `data/summaries/<locale>.json` | 84 titles, ~17,000 words | English complete; all 13 translations complete, unreviewed |
+| 2. Translating plot summaries | `data/summaries/<locale>.json` | 97 titles, ~18,000 words | English complete; all 13 translations complete, unreviewed |
 | 3. Adding a new language | both of the above | n/a | 14 supported |
 
 ### Fixing a word or a sentence
@@ -168,7 +170,7 @@ Both commands print it. As of the last update:
 ```
 UI strings   all 14 languages at 92-99% (the remainder are strings that are
              correctly identical to English)
-Summaries    all 14 languages at 84/87 released titles. The three missing
+Summaries    all 14 languages at 97/100 released titles. The three missing
              from English are declared pending, not forgotten
 ```
 
@@ -178,13 +180,13 @@ and none has been reviewed by a second speaker yet:
 
 | Language | Summaries | Language | Summaries |
 | --- | --- | --- | --- |
-| Español (es) | 80/80 | 简体中文 (zh-Hans) | 80/80 |
-| Português do Brasil (pt-BR) | 80/80 | 日本語 (ja) | 80/80 |
-| Français (fr) | 80/80 | 한국어 (ko) | 80/80 |
-| Deutsch (de) | 80/80 | العربية (ar) | 80/80 |
-| Italiano (it) | 80/80 | فارسی (fa) | 80/80 |
-| Türkçe (tr) | 80/80 | हिन्दी (hi) | 80/80 |
-| Русский (ru) | 80/80 | | |
+| Español (es) | 97/97 | 简体中文 (zh-Hans) | 97/97 |
+| Português do Brasil (pt-BR) | 97/97 | 日本語 (ja) | 97/97 |
+| Français (fr) | 97/97 | 한국어 (ko) | 97/97 |
+| Deutsch (de) | 97/97 | العربية (ar) | 97/97 |
+| Italiano (it) | 97/97 | فارسی (fa) | 97/97 |
+| Türkçe (tr) | 97/97 | हिन्दी (hi) | 97/97 |
+| Русский (ru) | 97/97 | | |
 
 The two titles missing from English, `wonder-man` and
 `spider-man-brand-new-day`, are deliberately unwritten rather than forgotten,
@@ -207,7 +209,7 @@ Full detail: **[docs/spoiler-summaries.md](docs/spoiler-summaries.md)**.
 Summaries live in `data/summaries/`, **one file per language**, keyed by title
 id, as original prose written for this project. Resolution falls back to English
 **per title**, so a translator who does five films ships five translated films
-rather than having to finish all eighty-four first. Add or fix one and run
+rather than having to finish all ninety-seven first. Add or fix one and run
 `npm run summaries:validate`.
 
 ### Languages
@@ -281,7 +283,7 @@ helm/marvel-watchlist/     Helm chart
 
 **Why no database, and why Postgres rather than a graph DB when one is
 eventually needed:** see **[docs/adr-001-storage.md](docs/adr-001-storage.md)**.
-Short version: 86 nodes and 139 edges is ~50 KB of JSON, which fits in the
+Short version: 103 nodes and 152 edges is ~40 KB of JSON, which fits in the
 browser, so traversals are local and instant; Neo4j would be an extra stateful
 component to answer a question a `for` loop answers in microseconds. A Cypher
 exporter is included anyway, so nothing is locked in.
