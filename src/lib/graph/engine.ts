@@ -102,6 +102,33 @@ export function suggestedOrder(graph: Graph, level: Strictness = "could"): Title
   return result;
 }
 
+/**
+ * How the list is sequenced. "story" is the suggested order above; "release"
+ * is plain premiere order, for readers who want the franchise as it aired.
+ */
+export type Sequence = "story" | "release";
+
+/**
+ * Plain release order: premiere date, then season, then title, undated last.
+ * It ignores the dependency graph and the order groups on purpose, so the 1992
+ * X-Men cartoon and the Fox films sit at their real dates rather than in a
+ * block before the finale. Prerequisites still apply to "Ready" and to
+ * "Next up"; only the sequence changes.
+ */
+export function releaseOrder(graph: Graph): Title[] {
+  const date = (title: Title) => title.releaseDate ?? "9999-99-99";
+  return [...graph.titles].sort(
+    (a, b) =>
+      date(a).localeCompare(date(b)) ||
+      (a.season ?? 0) - (b.season ?? 0) ||
+      a.title.localeCompare(b.title),
+  );
+}
+
+export function orderFor(graph: Graph, sequence: Sequence, level: Strictness): Title[] {
+  return sequence === "release" ? releaseOrder(graph) : suggestedOrder(graph, level);
+}
+
 export interface PrerequisiteStep {
   title: Title;
   /** The strongest edge type on the path that pulled this title in. */
@@ -189,8 +216,9 @@ export function readyToWatch(
   graph: Graph,
   watched: ReadonlySet<string>,
   level: Strictness = "should",
+  sequence: Sequence = "story",
 ): Title[] {
-  return suggestedOrder(graph, level).filter(
+  return orderFor(graph, sequence, level).filter(
     (title) =>
       !watched.has(title.id) &&
       (graph.incoming.get(title.id) ?? [])
@@ -199,13 +227,14 @@ export function readyToWatch(
   );
 }
 
-/** The next unwatched title in suggested order, whatever its state. */
+/** The first title you can start right now, in the chosen sequence. */
 export function nextUp(
   graph: Graph,
   watched: ReadonlySet<string>,
   level: Strictness = "should",
+  sequence: Sequence = "story",
 ): Title | null {
-  return readyToWatch(graph, watched, level)[0] ?? null;
+  return readyToWatch(graph, watched, level, sequence)[0] ?? null;
 }
 
 export interface Progress {

@@ -9,8 +9,10 @@ import {
   edgeMatches,
   isReady,
   missingPrerequisites,
+  nextUp,
   prerequisitesFor,
   readyToWatch,
+  releaseOrder,
   suggestedOrder,
   unlockedBy,
 } from "./engine";
@@ -284,6 +286,31 @@ describe("prerequisites", () => {
     expect(directPrerequisites(graph, "agatha-all-along").map((e) => e.from)).toEqual([
       "wandavision",
     ]);
+  });
+});
+
+describe("releaseOrder", () => {
+  const graph = getGraph();
+
+  it("lists every title by premiere date, ignoring order groups and dependencies", () => {
+    const order = releaseOrder(graph);
+    expect(order).toHaveLength(graph.titles.length);
+    const dates = order.map((title) => title.releaseDate ?? "9999-99-99");
+    expect([...dates].sort()).toEqual(dates);
+    // What the reader asked for: the Fox films at their real dates, not in a
+    // block before the finale.
+    const ids = order.map((title) => title.id);
+    expect(ids[0]).toBe("x-men-the-animated-series");
+    expect(ids.indexOf("x-men")).toBeLessThan(ids.indexOf("iron-man"));
+    expect(ids.indexOf("logan")).toBeLessThan(ids.indexOf("the-defenders"));
+    expect(ids.at(-1)).toBe("vision-quest"); // undated sorts last
+  });
+
+  it("drives Ready and Next up without dropping prerequisites", () => {
+    expect(nextUp(graph, new Set(), "must", "release")?.id).toBe("x-men-the-animated-series");
+    const ready = readyToWatch(graph, new Set(), "must", "release").map((title) => title.id);
+    expect(ready).toContain("x-men");
+    expect(ready).not.toContain("x2-x-men-united");
   });
 });
 
