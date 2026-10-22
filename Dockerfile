@@ -24,7 +24,14 @@ ENV NODE_ENV=production \
     PORT=3000 \
     HOSTNAME=0.0.0.0
 
-RUN addgroup -g 1001 -S nodejs \
+# Pull in Alpine security fixes newer than the base image, and drop the
+# package managers: the standalone server needs only `node`, while npm's
+# bundled dependencies (and corepack/yarn) are the bulk of the image's CVEs.
+RUN apk upgrade --no-cache \
+ && rm -rf /usr/local/lib/node_modules/npm /usr/local/lib/node_modules/corepack \
+           /usr/local/bin/npm /usr/local/bin/npx /usr/local/bin/corepack \
+           /usr/local/bin/yarn /usr/local/bin/yarnpkg /opt/yarn-* \
+ && addgroup -g 1001 -S nodejs \
  && adduser -u 1001 -S nextjs -G nodejs
 
 # `output: "standalone"` bundles only the server plus the modules it actually
