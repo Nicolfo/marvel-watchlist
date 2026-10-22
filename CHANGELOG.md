@@ -1,5 +1,22 @@
 # Changelog
 
+## v0.1.4 - 2026-10-22
+
+Marvel Watchlist v0.1.4 is a security release with no functional changes.
+
+### Highlights
+
+- Update Next.js from 16.3.1 to 16.3.8, which fixes three critical and one high advisory, and sharp to 0.35.5.
+- Slim the runtime image: it now applies Alpine package updates and no longer ships npm, npx, corepack or yarn, which the standalone server never uses. A Trivy scan of the image reports no high or critical vulnerabilities (previously 3 critical, 13 high).
+
+### Deployment
+
+Container image: `ghcr.io/nicolfo/marvel-watchlist:0.1.4`.
+
+The attached Helm chart is version `0.1.4` and defaults to the matching image tag. No values changes are needed. The versioned image is published by the tag-triggered CI workflow after its checks pass.
+
+[Full changelog](https://github.com/Nicolfo/marvel-watchlist/compare/v0.1.3...v0.1.4)
+
 ## v0.1.3 - 2026-10-21
 
 Marvel Watchlist v0.1.3 makes the Disney+ links work and adds a release-order view.
