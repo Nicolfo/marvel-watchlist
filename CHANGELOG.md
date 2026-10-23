@@ -1,5 +1,22 @@
 # Changelog
 
+## v0.1.5 - 2026-10-23
+
+Marvel Watchlist v0.1.5 gives the support button the official Buy Me a Coffee look and a place in the desktop app bar.
+
+### Highlights
+
+- The "Buy me a coffee" button now uses the brand's own style: yellow background, the cup logo and a dark label, still translated into every supported language.
+- On large screens the same button, in a compact size, sits in the app bar next to the language switcher. Phones keep it in the footer section, where the bar has no room.
+
+### Deployment
+
+Container image: `ghcr.io/nicolfo/marvel-watchlist:0.1.5`.
+
+The attached Helm chart is version `0.1.5` and defaults to the matching image tag. No values changes are needed. The versioned image is published by the tag-triggered CI workflow after its checks pass.
+
+[Full changelog](https://github.com/Nicolfo/marvel-watchlist/compare/v0.1.4...v0.1.5)
+
 ## v0.1.4 - 2026-10-22
 
 Marvel Watchlist v0.1.4 is a security release with no functional changes.
