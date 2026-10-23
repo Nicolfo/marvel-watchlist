@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { useI18n, useLocalePath } from "@/i18n/context";
 import { useWatchlist } from "@/lib/watchlist/provider";
 import { SUPPORT_URL } from "@/lib/site";
+import { BuyMeACoffeeButton } from "./buy-me-a-coffee";
 import { LanguageSwitcher } from "./language-switcher";
 import { SupportSection } from "./support-section";
 import { ProgressBar } from "./ui";
@@ -117,6 +118,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </nav>
 
           <div className="ms-auto flex shrink-0 items-center gap-2">
+            {/* Desktop only: on phones the bar has no room, and the footer
+                section still carries the same button. */}
+            {SUPPORT_URL && (
+              <div className="hidden lg:flex">
+                <BuyMeACoffeeButton href={SUPPORT_URL} size="sm" />
+              </div>
+            )}
             <LanguageSwitcher className="hidden sm:flex" />
             <ProgressPill />
           </div>

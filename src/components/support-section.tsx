@@ -1,6 +1,7 @@
 "use client";
 
 import { useI18n } from "@/i18n/context";
+import { BuyMeACoffeeButton } from "./buy-me-a-coffee";
 
 export function SupportSection({ href }: { href: string | null }) {
   const { t } = useI18n();
@@ -31,23 +32,7 @@ export function SupportSection({ href }: { href: string | null }) {
         </div>
       </div>
       {href ? (
-        <a
-          href={href}
-          target="_blank"
-          rel="noreferrer noopener"
-          className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 self-start rounded-lg border border-edge px-3 py-2 text-xs font-medium text-muted transition-colors hover:border-accent-soft hover:text-accent-soft sm:self-auto"
-        >
-          {t("support.cta")}
-          <svg viewBox="0 0 20 20" className="h-4 w-4" fill="none" aria-hidden="true">
-            <path
-              d="M11 4h5v5m0-5-8 8M8 4H4v12h12v-4"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </a>
+        <BuyMeACoffeeButton href={href} className="self-start sm:self-auto" />
       ) : (
         <div className="flex shrink-0 flex-col items-center gap-2 self-start sm:self-auto">
           <button
