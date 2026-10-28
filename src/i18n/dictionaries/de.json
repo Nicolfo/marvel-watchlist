@@ -1,6 +1,6 @@
 {
-  "meta.home.title": "Marvel Watchlist: alle Marvel-Filme und -Serien in einer empfohlenen Reihenfolge",
-  "meta.home.description": "Entdecke alle Filme und Serien der Marvel Studios in einer empfohlenen Reihenfolge und sieh genau, was du vor einem Titel noch nachholen musst.",
+  "meta.home.title": "Marvel-Reihenfolge: alle MCU-Filme und -Serien nach der Handlung geordnet",
+  "meta.home.description": "Die MCU-Reihenfolge, die der Handlung folgt: alle Filme und Serien der Marvel Studios in Reihenfolge, und was du vor einem Titel noch sehen solltest.",
   "meta.about.title": "Über",
   "meta.about.description": "Woher der Abhängigkeitsgraph der Marvel-Reihenfolge stammt, wie die empfohlene Reihenfolge berechnet wird und wie sich die Daten aktualisieren lassen.",
   "meta.watchlist.title": "Meine Liste",
@@ -44,7 +44,7 @@
   "explorer.empty": "Nichts passt zu diesen Filtern.",
   "explorer.count": "{visible} von {total} Titeln · Reihenfolge live aus {edges} Abhängigkeiten berechnet.",
   "hero.eyebrow": "Das Marvel Cinematic Universe, entwirrt",
-  "hero.title.line1": "Alle Filme und Serien,",
+  "hero.title.line1": "Alle Marvel-Filme und -Serien,",
   "hero.title.line2": "in einer Reihenfolge, die wirklich funktioniert",
   "hero.pitch": "Das ist keine flache Liste. Es ist ein Graph erzählerischer Abhängigkeiten, so sortiert, dass kein Titel vor denen erscheint, auf denen er aufbaut. Öffne einen beliebigen Titel, um genau zu sehen, was dir fehlt und wo du ihn streamen kannst.",
   "hero.progress": "Dein Fortschritt",

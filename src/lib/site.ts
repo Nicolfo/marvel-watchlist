@@ -26,7 +26,7 @@ export const REPO_URL = "https://github.com/Nicolfo/marvel-watchlist";
 export const SUPPORT_URL: string | null = "https://buymeacoffee.com/nicolfo";
 
 export const SITE_DESCRIPTION =
-  "Explore every Marvel Studios film and series in a suggested order, and see exactly what you still need to watch before any title.";
+  "The MCU watch order that follows the story: every Marvel Studios film and series in order, and exactly what to watch before any title.";
 
 export function absoluteUrl(path: string): string {
   return `${SITE_URL}${path.startsWith("/") ? path : `/${path}`}`;
