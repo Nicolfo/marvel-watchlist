@@ -2,8 +2,8 @@ apiVersion: v2
 name: marvel-watchlist
 description: Explore every Marvel film and series in a suggested order, driven by a story-dependency graph.
 type: application
-version: 0.1.5
-appVersion: "0.1.5"
+version: 0.1.6
+appVersion: "0.1.6"
 keywords:
   - marvel
   - watchlist

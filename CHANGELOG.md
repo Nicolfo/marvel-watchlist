@@ -1,5 +1,22 @@
 # Changelog
 
+## v0.1.6 - 2026-10-28
+
+Marvel Watchlist v0.1.6 rewrites the home page title, description and heading around the words people search for.
+
+### Highlights
+
+- The home page title, description and main heading now use the phrases people actually search for in each of the fourteen languages, such as "MCU watch order", "film Marvel in ordine", "orden para ver Marvel" and "Marvel-Reihenfolge".
+- The site name no longer opens the home page title. Search engines still read it from the page's site name and structured data.
+
+### Deployment
+
+Container image: `ghcr.io/nicolfo/marvel-watchlist:0.1.6`.
+
+The attached Helm chart is version `0.1.6` and defaults to the matching image tag. No values changes are needed. The versioned image is published by the tag-triggered CI workflow after its checks pass.
+
+[Full changelog](https://github.com/Nicolfo/marvel-watchlist/compare/v0.1.5...v0.1.6)
+
 ## v0.1.5 - 2026-10-23
 
 Marvel Watchlist v0.1.5 gives the support button the official Buy Me a Coffee look and a place in the desktop app bar.
